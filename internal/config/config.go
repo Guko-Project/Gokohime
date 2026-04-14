@@ -1,0 +1,356 @@
+package config
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+	"sync"
+
+	"gopkg.in/yaml.v3"
+)
+
+type Config struct {
+	Bot       BotConfig       `yaml:"bot"`
+	AI        AIConfig        `yaml:"ai"`
+	Database  DatabaseConfig  `yaml:"database"`
+	Weather   WeatherConfig   `yaml:"weather"`
+	Search    SearchConfig    `yaml:"search"`
+	Embedding EmbeddingConfig `yaml:"embedding"`
+	Banana    BananaConfig    `yaml:"banana"`
+	RandPic   RandPicConfig   `yaml:"randpic"`
+	Repeater  RepeaterConfig  `yaml:"repeater"`
+}
+
+type BotConfig struct {
+	RWSURL            string  `yaml:"rws_url"`
+	AccessToken       string  `yaml:"access_token"`
+	CommandPrefix     string  `yaml:"command_prefix"`
+	Nickname          string  `yaml:"nickname"`
+	SuperUsers        []int64 `yaml:"super_users"`
+	RingLen           uint    `yaml:"ring_len"`
+	LatencyMS         uint    `yaml:"latency_ms"`
+	MaxProcessTimeMin uint    `yaml:"max_process_time_min"`
+}
+
+type AIConfig struct {
+	Model                   string  `yaml:"model"`
+	AnthropicAPIKey         string  `yaml:"anthropic_api_key"`
+	OpenAIAPIKey            string  `yaml:"openai_api_key"`
+	OpenAIAPIBase           string  `yaml:"openai_api_base"`
+	OpenAIModel             string  `yaml:"openai_model"`
+	AutoCompact             bool    `yaml:"auto_compact"`
+	CompactThreshold        float64 `yaml:"compact_threshold"`
+	CompactPreserveCount    int     `yaml:"compact_preserve_count"`
+	ReplyProbability        float64 `yaml:"reply_probability"`
+	ProactiveGroupWhitelist []int64 `yaml:"proactive_group_whitelist"`
+}
+
+type DatabaseConfig struct {
+	URL      string `yaml:"url"`
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"password"`
+	DBName   string `yaml:"dbname"`
+	SSLMode  string `yaml:"sslmode"`
+}
+
+func (d *DatabaseConfig) DSN() string {
+	if d.URL != "" {
+		return d.URL
+	}
+	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		d.Host, d.Port, d.User, d.Password, d.DBName, d.SSLMode)
+}
+
+type WeatherConfig struct {
+	APIKey      string `yaml:"api_key"`
+	DefaultCity string `yaml:"default_city"`
+	CacheTTLMin int    `yaml:"cache_ttl_min"`
+}
+
+type SearchConfig struct {
+	APIKey  string `yaml:"api_key"`
+	APIBase string `yaml:"api_base"`
+	Model   string `yaml:"model"`
+}
+
+type EmbeddingConfig struct {
+	Model      string `yaml:"model"`
+	Dimensions int    `yaml:"dimensions"`
+}
+
+type BananaConfig struct {
+	APIKey          string `yaml:"api_key"`
+	APIBase         string `yaml:"api_base"`
+	APIMode         string `yaml:"api_mode"`
+	Model           string `yaml:"model"`
+	ProModel        string `yaml:"pro_model"`
+	TimeoutSec      int    `yaml:"timeout_sec"`
+	MaxRetries      int    `yaml:"max_retries"`
+	CooldownSeconds int    `yaml:"cooldown_seconds"`
+	ResultFormat    string `yaml:"result_format"`
+	FailureReply    string `yaml:"failure_reply"`
+	ImageSize       string `yaml:"image_size"`
+}
+
+type RandPicConfig struct {
+	CommandList    []string `yaml:"command_list"`
+	StoreDirPath   string   `yaml:"store_dir_path"`
+	DisabledGroups []string `yaml:"disabled_groups"`
+}
+
+type RepeaterConfig struct {
+	Groups           []string `yaml:"groups"`
+	MinMessageLength int      `yaml:"min_message_length"`
+	MinMessageTimes  int      `yaml:"min_message_times"`
+	MaxRepeatTime    int      `yaml:"max_repeat_time"`
+	Blacklist        []string `yaml:"blacklist"`
+}
+
+var (
+	globalConfig *Config
+	configOnce   sync.Once
+)
+
+// Load reads the config file and returns a Config.
+func Load(path string) (*Config, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("read config file: %w", err)
+	}
+
+	cfg := &Config{}
+	if err := yaml.Unmarshal(data, cfg); err != nil {
+		return nil, fmt.Errorf("parse config: %w", err)
+	}
+
+	// Override with environment variables
+	if key := os.Getenv("ANTHROPIC_API_KEY"); key != "" && cfg.AI.AnthropicAPIKey == "" {
+		cfg.AI.AnthropicAPIKey = key
+	}
+	if key := os.Getenv("OPENAI_API_KEY"); key != "" && cfg.AI.OpenAIAPIKey == "" {
+		cfg.AI.OpenAIAPIKey = key
+	}
+	if key := os.Getenv("WEATHER_API_KEY"); key != "" && cfg.Weather.APIKey == "" {
+		cfg.Weather.APIKey = key
+	}
+	if key := os.Getenv("SEARCH_API_KEY"); key != "" && cfg.Search.APIKey == "" {
+		cfg.Search.APIKey = key
+	}
+	if key := os.Getenv("BANANA_API_KEY"); key != "" && cfg.Banana.APIKey == "" {
+		cfg.Banana.APIKey = key
+	}
+	if dsn := os.Getenv("DATABASE_URL"); dsn != "" {
+		cfg.Database.URL = dsn
+	}
+	if token := os.Getenv("ONEBOT_ACCESS_TOKEN"); token != "" && cfg.Bot.AccessToken == "" {
+		cfg.Bot.AccessToken = token
+	}
+	if cfg.Bot.RWSURL == "" {
+		host := strings.TrimSpace(os.Getenv("HOST"))
+		port := strings.TrimSpace(os.Getenv("PORT"))
+		if host != "" && port != "" {
+			cfg.Bot.RWSURL = fmt.Sprintf("ws://%s:%s", host, port)
+		}
+	}
+	if len(cfg.Bot.SuperUsers) == 0 {
+		cfg.Bot.SuperUsers = append(cfg.Bot.SuperUsers, parseInt64ListEnv("SUPERUSERS")...)
+		if len(cfg.Bot.SuperUsers) == 0 {
+			cfg.Bot.SuperUsers = append(cfg.Bot.SuperUsers, parseInt64ListEnv("GLOBAL_SUPERUSER")...)
+		}
+	}
+	if len(cfg.RandPic.CommandList) == 0 {
+		cfg.RandPic.CommandList = parseStringListEnv("randpic_command_list")
+	}
+	if cfg.RandPic.StoreDirPath == "" {
+		if v := strings.TrimSpace(os.Getenv("randpic_store_dir_path")); v != "" {
+			cfg.RandPic.StoreDirPath = v
+		}
+	}
+	if len(cfg.RandPic.DisabledGroups) == 0 {
+		cfg.RandPic.DisabledGroups = parseStringListEnv("randpic_banner_group")
+	}
+	if len(cfg.Repeater.Groups) == 0 {
+		cfg.Repeater.Groups = parseStringListEnv("repeater_group")
+	}
+	if cfg.Repeater.MinMessageLength <= 0 {
+		cfg.Repeater.MinMessageLength = parseIntEnv("repeater_min_message_length")
+	}
+	if cfg.Repeater.MinMessageTimes <= 0 {
+		cfg.Repeater.MinMessageTimes = parseIntEnv("repeater_min_message_times")
+	}
+	if cfg.Repeater.MaxRepeatTime <= 0 {
+		cfg.Repeater.MaxRepeatTime = parseIntEnv("repeater_max_repeat_time")
+	}
+	if len(cfg.Repeater.Blacklist) == 0 {
+		cfg.Repeater.Blacklist = parseStringListEnv("repeater_blacklist")
+	}
+	if key := os.Getenv("SIMPLE_GPT_API_KEY"); key != "" && cfg.AI.OpenAIAPIKey == "" {
+		cfg.AI.OpenAIAPIKey = key
+	}
+	if model := os.Getenv("SIMPLE_GPT_MODEL"); model != "" && cfg.AI.OpenAIModel == "" {
+		cfg.AI.OpenAIModel = model
+	}
+	if apiBase := os.Getenv("SIMPLE_GPT_API_BASE"); apiBase != "" && cfg.AI.OpenAIAPIBase == "" {
+		cfg.AI.OpenAIAPIBase = apiBase
+	}
+	if len(cfg.AI.ProactiveGroupWhitelist) == 0 {
+		cfg.AI.ProactiveGroupWhitelist = parseInt64ListEnv("SIMPLE_GPT_PROACTIVE_GROUP_WHITELIST")
+	}
+	if key := os.Getenv("SIMPLE_GPT_WEATHER_API_KEY"); key != "" && cfg.Weather.APIKey == "" {
+		cfg.Weather.APIKey = key
+	}
+	if city := os.Getenv("SIMPLE_GPT_WEATHER_CITY"); city != "" && cfg.Weather.DefaultCity == "" {
+		cfg.Weather.DefaultCity = city
+	}
+	if key := os.Getenv("SIMPLE_GPT_SEARCH_API_KEY"); key != "" && cfg.Search.APIKey == "" {
+		cfg.Search.APIKey = key
+	}
+	if mode := os.Getenv("BANANA_API_MODE"); mode != "" && cfg.Banana.APIMode == "" {
+		cfg.Banana.APIMode = mode
+	}
+	if model := os.Getenv("BANANA_MODEL"); model != "" && cfg.Banana.Model == "" {
+		cfg.Banana.Model = model
+	}
+	if model := os.Getenv("BANANA_PRO_MODEL"); model != "" && cfg.Banana.ProModel == "" {
+		cfg.Banana.ProModel = model
+	}
+	if apiBase := os.Getenv("BANANA_API_BASE"); apiBase != "" && cfg.Banana.APIBase == "" {
+		cfg.Banana.APIBase = apiBase
+	}
+	if size := os.Getenv("BANANA_IMAGE_SIZE"); size != "" && cfg.Banana.ImageSize == "" {
+		cfg.Banana.ImageSize = size
+	}
+	if cfg.Banana.TimeoutSec <= 0 {
+		cfg.Banana.TimeoutSec = parseIntLikeEnv("BANANA_TIMEOUT")
+	}
+	if cfg.Banana.MaxRetries <= 0 {
+		cfg.Banana.MaxRetries = parseIntEnv("BANANA_MAX_RETRIES")
+	}
+	if cfg.Banana.CooldownSeconds <= 0 {
+		cfg.Banana.CooldownSeconds = parseIntEnv("BANANA_COOLDOWN_SECONDS")
+	}
+	if format := os.Getenv("BANANA_RESULT_FORMAT"); format != "" && cfg.Banana.ResultFormat == "" {
+		cfg.Banana.ResultFormat = format
+	}
+
+	if cfg.Banana.APIKey == "" {
+		cfg.Banana.APIKey = cfg.AI.OpenAIAPIKey
+	}
+	if cfg.Banana.APIBase == "" {
+		cfg.Banana.APIBase = cfg.AI.OpenAIAPIBase
+	}
+	if cfg.Banana.APIMode == "" {
+		cfg.Banana.APIMode = "openai"
+	}
+	if cfg.Banana.Model == "" {
+		cfg.Banana.Model = cfg.AI.OpenAIModel
+	}
+	if cfg.Banana.TimeoutSec <= 0 {
+		cfg.Banana.TimeoutSec = 60
+	}
+	if cfg.Banana.MaxRetries < 0 {
+		cfg.Banana.MaxRetries = 0
+	}
+	if cfg.Banana.CooldownSeconds < 0 {
+		cfg.Banana.CooldownSeconds = 0
+	}
+	if cfg.Banana.ResultFormat == "" {
+		cfg.Banana.ResultFormat = "b64_json"
+	}
+	if cfg.Banana.FailureReply == "" {
+		cfg.Banana.FailureReply = "图片生成失败了，请稍后再试。"
+	}
+	if cfg.Banana.ImageSize == "" {
+		cfg.Banana.ImageSize = "1024x1024"
+	}
+	if cfg.RandPic.StoreDirPath == "" {
+		cfg.RandPic.StoreDirPath = "data/randpic"
+	}
+	if cfg.Repeater.MinMessageLength <= 0 {
+		cfg.Repeater.MinMessageLength = 1
+	}
+	if cfg.Repeater.MinMessageTimes <= 0 {
+		cfg.Repeater.MinMessageTimes = 2
+	}
+	if cfg.Repeater.MaxRepeatTime <= 0 {
+		cfg.Repeater.MaxRepeatTime = 2
+	}
+
+	globalConfig = cfg
+	return cfg, nil
+}
+
+// Get returns the global config. Must call Load first.
+func Get() *Config {
+	return globalConfig
+}
+
+func parseStringListEnv(key string) []string {
+	raw := strings.TrimSpace(os.Getenv(key))
+	if raw == "" {
+		return nil
+	}
+
+	var values []string
+	if err := json.Unmarshal([]byte(raw), &values); err == nil {
+		return values
+	}
+
+	raw = strings.Trim(raw, "[]")
+	if raw == "" {
+		return nil
+	}
+
+	parts := strings.Split(raw, ",")
+	values = make([]string, 0, len(parts))
+	for _, part := range parts {
+		part = strings.TrimSpace(strings.Trim(part, `"'`))
+		if part != "" {
+			values = append(values, part)
+		}
+	}
+	return values
+}
+
+func parseInt64ListEnv(key string) []int64 {
+	items := parseStringListEnv(key)
+	result := make([]int64, 0, len(items))
+	for _, item := range items {
+		value, err := strconv.ParseInt(strings.TrimSpace(item), 10, 64)
+		if err == nil {
+			result = append(result, value)
+		}
+	}
+	return result
+}
+
+func parseIntEnv(key string) int {
+	raw := strings.TrimSpace(os.Getenv(key))
+	if raw == "" {
+		return 0
+	}
+	value, err := strconv.Atoi(raw)
+	if err != nil {
+		return 0
+	}
+	return value
+}
+
+func parseIntLikeEnv(key string) int {
+	raw := strings.TrimSpace(os.Getenv(key))
+	if raw == "" {
+		return 0
+	}
+	if value, err := strconv.Atoi(raw); err == nil {
+		return value
+	}
+	floatValue, err := strconv.ParseFloat(raw, 64)
+	if err != nil {
+		return 0
+	}
+	return int(floatValue)
+}

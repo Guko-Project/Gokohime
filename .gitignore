@@ -1,0 +1,43 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+gokohime
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# tmp files
+tmp/
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# ide and reference document
+.idea
+.db/
+onebot
+TODO
+/docs/resources/_gen/
+/docs/public/
+
+# todo
+/extension/template
+
+# macos
+.DS_Store
+
+# data
+/data/
+
+# AI things
+/.claude/
+
+## Config
+config.yaml
+config.local.yaml

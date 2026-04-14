@@ -1,0 +1,83 @@
+# Gokohime Bot Configuration
+
+bot:
+  # ZeroBot WebSocket 连接
+  rws_url: "ws://127.0.0.1:6700"
+  access_token: ""
+  command_prefix: "."
+  nickname: "鸽子姬"
+  super_users: []
+  ring_len: 4096
+  latency_ms: 233
+  max_process_time_min: 4
+
+ai:
+  # agentsdk-go 配置
+  model: "claude-sonnet-4-5-20250929"
+  anthropic_api_key: ""         # 留空则从环境变量 ANTHROPIC_API_KEY 读取
+  # OpenAI 兼容（可选）
+  openai_api_key: ""
+  openai_api_base: ""
+  openai_model: ""
+  # Agent 行为
+  auto_compact: true
+  compact_threshold: 0.8
+  compact_preserve_count: 10
+  # 回复控制
+  reply_probability: 0.03       # 3% 概率随机回复
+  proactive_group_whitelist: [] # 允许随机回复的群号
+
+database:
+  # PostgreSQL + pgvector
+  url: ""
+  host: "localhost"
+  port: 5432
+  user: "gokohime"
+  password: "gokohime"
+  dbname: "gokohime"
+  sslmode: "disable"
+
+weather:
+  # 高德地图 API
+  api_key: ""
+  default_city: "110000"        # 默认城市代码（北京）
+  cache_ttl_min: 15
+
+search:
+  # 豆包 API
+  api_key: ""
+  api_base: ""
+  model: ""
+
+embedding:
+  # Embedding 模型配置
+  model: "text-embedding-3-small"
+  dimensions: 512
+
+banana:
+  # 图片生成/编辑（默认复用 OpenAI 兼容配置）
+  api_key: ""
+  api_base: ""
+  api_mode: "openai"
+  model: ""
+  pro_model: ""
+  timeout_sec: 60
+  max_retries: 2
+  cooldown_seconds: 15
+  result_format: "b64_json"
+  failure_reply: "图片生成失败了，请稍后再试。"
+  image_size: "1024x1024"
+
+randpic:
+  # 随机图片插件配置
+  command_list: ["dly", "kgk"]
+  store_dir_path: "data/randpic"
+  disabled_groups: []
+
+repeater:
+  # 复读姬配置
+  groups: []                    # 可填群号字符串列表，或后续支持 all
+  min_message_length: 1
+  min_message_times: 2
+  max_repeat_time: 2
+  blacklist: []
