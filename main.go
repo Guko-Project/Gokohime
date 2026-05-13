@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"net"
+	"net/url"
 	"os"
 	"os/signal"
 	"syscall"
@@ -56,6 +58,17 @@ func main() {
 
 	if err := randpic.StartupCheck(context.Background()); err != nil {
 		log.Warnf("[main] randpic startup check failed: %v", err)
+	}
+
+	// Pre-check that the WebSocket listen address is available
+	wsAddr := cfg.Bot.RWSURL
+	if u, err := url.Parse(wsAddr); err == nil && u.Host != "" {
+		wsAddr = u.Host
+	}
+	if ln, err := net.Listen("tcp", wsAddr); err != nil {
+		log.Fatalf("[main] WebSocket listen address unavailable: %v", err)
+	} else {
+		ln.Close()
 	}
 
 	// Configure ZeroBot
