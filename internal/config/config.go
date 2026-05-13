@@ -48,7 +48,9 @@ type AIConfig struct {
 }
 
 type DatabaseConfig struct {
+	Dialect  string `yaml:"dialect"`
 	URL      string `yaml:"url"`
+	Path     string `yaml:"path"`
 	Host     string `yaml:"host"`
 	Port     int    `yaml:"port"`
 	User     string `yaml:"user"`
@@ -57,12 +59,43 @@ type DatabaseConfig struct {
 	SSLMode  string `yaml:"sslmode"`
 }
 
+func (d *DatabaseConfig) Driver() string {
+	dialect := strings.ToLower(strings.TrimSpace(d.Dialect))
+	if dialect != "" {
+		return dialect
+	}
+	if strings.TrimSpace(d.URL) != "" {
+		if looksLikePostgresDSN(d.URL) {
+			return "postgres"
+		}
+		return "sqlite"
+	}
+	if d.Host != "" || d.Port != 0 || d.User != "" || d.DBName != "" {
+		return "postgres"
+	}
+	return "sqlite"
+}
+
 func (d *DatabaseConfig) DSN() string {
-	if d.URL != "" {
+	if strings.TrimSpace(d.URL) != "" {
 		return d.URL
+	}
+	if d.Driver() == "sqlite" {
+		if strings.TrimSpace(d.Path) != "" {
+			return d.Path
+		}
+		return "data/gokohime.db"
 	}
 	return fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
 		d.Host, d.Port, d.User, d.Password, d.DBName, d.SSLMode)
+}
+
+func looksLikePostgresDSN(dsn string) bool {
+	dsn = strings.ToLower(strings.TrimSpace(dsn))
+	return strings.HasPrefix(dsn, "postgres://") ||
+		strings.HasPrefix(dsn, "postgresql://") ||
+		strings.Contains(dsn, "host=") ||
+		strings.Contains(dsn, "dbname=")
 }
 
 type WeatherConfig struct {

@@ -33,13 +33,22 @@ func Open(t testing.TB) *gorm.DB {
 		return db
 	}
 
+	if os.Getenv("GOKOHIME_TEST_CONFIG") == "" {
+		dsn := filepath.Join(t.TempDir(), "gokohime-test.db")
+		db, err := database.InitWithDialect(database.DialectSQLite, dsn)
+		if err != nil {
+			t.Fatalf("init sqlite test database failed: %v", err)
+		}
+		return db
+	}
+
 	cfgPath := filepath.Join(RepoRoot(t), "config.yaml")
 	cfg, err := config.Load(cfgPath)
 	if err != nil {
 		t.Skipf("skip integration test: load %s failed: %v", cfgPath, err)
 	}
 
-	db, err := database.Init(cfg.Database.DSN())
+	db, err := database.InitWithDialect(cfg.Database.Driver(), cfg.Database.DSN())
 	if err != nil {
 		t.Skipf("skip integration test: init database failed: %v", err)
 	}

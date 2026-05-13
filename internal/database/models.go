@@ -84,7 +84,7 @@ type PluginBinaryFile struct {
 	SHA256       string `gorm:"index;size:64"`
 	FileSize     int64
 	MimeType     string `gorm:"size:255"`
-	RawContent   []byte `gorm:"type:bytea"`
+	RawContent   []byte
 }
 
 // MigrationRun stores the result of a data migration execution.

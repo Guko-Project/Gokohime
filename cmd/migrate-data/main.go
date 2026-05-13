@@ -24,7 +24,7 @@ func main() {
 		exitf("load config: %v", err)
 	}
 
-	db, err := database.Init(cfg.Database.DSN())
+	db, err := database.InitWithDialect(cfg.Database.Driver(), cfg.Database.DSN())
 	if err != nil {
 		exitf("init database: %v", err)
 	}

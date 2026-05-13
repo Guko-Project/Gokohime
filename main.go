@@ -9,13 +9,9 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-	"github.com/stellarlinkco/agentsdk-go/pkg/middleware"
-	"github.com/stellarlinkco/agentsdk-go/pkg/tool"
 	zero "github.com/wdvxdr1123/ZeroBot"
 	"github.com/wdvxdr1123/ZeroBot/driver"
 
-	"github.com/colanns/gokohime/internal/aicore"
-	aicoreTools "github.com/colanns/gokohime/internal/aicore/tools"
 	"github.com/colanns/gokohime/internal/config"
 	"github.com/colanns/gokohime/internal/database"
 	randpic "github.com/colanns/gokohime/plugin/randpic"
@@ -32,8 +28,6 @@ import (
 	_ "github.com/colanns/gokohime/plugin/kk"
 	_ "github.com/colanns/gokohime/plugin/repeater"
 	_ "github.com/colanns/gokohime/plugin/saying"
-	_ "github.com/colanns/gokohime/plugin/simplegpt"
-	_ "github.com/colanns/gokohime/plugin/stickersaver"
 	_ "github.com/colanns/gokohime/plugin/tempban"
 )
 
@@ -54,7 +48,7 @@ func main() {
 	log.Info("[main] config loaded")
 
 	// Init database
-	db, err := database.Init(cfg.Database.DSN())
+	_, err = database.InitWithDialect(cfg.Database.Driver(), cfg.Database.DSN())
 	if err != nil {
 		log.Fatalf("[main] init database: %v", err)
 	}
@@ -63,24 +57,6 @@ func main() {
 	if err := randpic.StartupCheck(context.Background()); err != nil {
 		log.Warnf("[main] randpic startup check failed: %v", err)
 	}
-
-	// Init AI runtime
-	ctx := context.Background()
-	customTools := []tool.Tool{
-		aicoreTools.NewWeatherTool(cfg),
-		aicoreTools.NewWebSearchTool(cfg),
-		aicoreTools.NewMemoryRecallTool(db, cfg),
-		aicoreTools.NewMemoryStoreTool(db, cfg),
-		aicoreTools.NewStickerSearchTool(db),
-		aicoreTools.NewStickerAnalyzeTool(db, cfg),
-	}
-	middlewares := []middleware.Middleware{
-		aicore.NewLoggingMiddleware(),
-	}
-	if err := aicore.InitRuntime(ctx, cfg, customTools, middlewares); err != nil {
-		log.Fatalf("[main] init AI runtime: %v", err)
-	}
-	log.Info("[main] AI runtime initialized")
 
 	// Configure ZeroBot
 	zeroCfg := zero.Config{
@@ -101,7 +77,6 @@ func main() {
 	go func() {
 		<-sigCh
 		log.Info("[main] shutting down...")
-		aicore.Close()
 		os.Exit(0)
 	}()
 

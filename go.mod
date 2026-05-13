@@ -10,6 +10,7 @@ require (
 	golang.org/x/image v0.38.0
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/postgres v1.6.0
+	gorm.io/driver/sqlite v1.6.0
 	gorm.io/gorm v1.31.1
 )
 
@@ -33,6 +34,7 @@ require (
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/mattn/go-sqlite3 v1.14.22 // indirect
 	github.com/modelcontextprotocol/go-sdk v1.1.0 // indirect
 	github.com/openai/openai-go v1.12.0 // indirect
 	github.com/tidwall/gjson v1.18.0 // indirect

@@ -12,7 +12,7 @@ bot:
   max_process_time_min: 4
 
 ai:
-  # agentsdk-go 配置
+  # AI Core 当前已在 Gokohime 中关闭，保留配置用于兼容旧环境/后续独立服务迁移
   model: "claude-sonnet-4-5-20250929"
   anthropic_api_key: ""         # 留空则从环境变量 ANTHROPIC_API_KEY 读取
   # OpenAI 兼容（可选）
@@ -28,8 +28,11 @@ ai:
   proactive_group_whitelist: [] # 允许随机回复的群号
 
 database:
-  # PostgreSQL + pgvector
+  # 默认使用 SQLite，并在启动时开启 WAL
+  dialect: "sqlite" # sqlite 或 postgres
   url: ""
+  path: "data/gokohime.db"
+  # PostgreSQL 兼容配置（dialect: postgres 时使用）
   host: "localhost"
   port: 5432
   user: "gokohime"

@@ -6,11 +6,9 @@ pre-commit:
     # 1. 自动格式化
     fmt:
       glob: "*.go"
-      # {staged_files} 仅针对 git add 的文件，效率最高
-      run: go fmt {staged_files} && git add {staged_files}
+      run: gofmt -l -w {staged_files} && git add {staged_files}
 
     # 2. 静态检查
     govet:
       glob: "*.go"
-      # 检查潜在逻辑错误（如 Printf 格式错误等）
-      run: go vet {staged_files}
+      run: go vet ./...

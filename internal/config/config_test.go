@@ -114,3 +114,58 @@ repeater: {}
 		t.Fatalf("unexpected banana config: %+v", cfg.Banana)
 	}
 }
+
+func TestDatabaseConfigDefaultsToSQLite(t *testing.T) {
+	cfg := DatabaseConfig{}
+	if got := cfg.Driver(); got != "sqlite" {
+		t.Fatalf("unexpected default database driver: %q", got)
+	}
+	if got := cfg.DSN(); got != "data/gokohime.db" {
+		t.Fatalf("unexpected default sqlite dsn: %q", got)
+	}
+
+	cfg.Path = "tmp/test.db"
+	if got := cfg.DSN(); got != "tmp/test.db" {
+		t.Fatalf("unexpected sqlite path dsn: %q", got)
+	}
+}
+
+func TestDatabaseConfigSupportsPostgresCompatibility(t *testing.T) {
+	cfg := DatabaseConfig{
+		Dialect:  "postgres",
+		Host:     "localhost",
+		Port:     5432,
+		User:     "gokohime",
+		Password: "secret",
+		DBName:   "gokohime",
+		SSLMode:  "disable",
+	}
+	if got := cfg.Driver(); got != "postgres" {
+		t.Fatalf("unexpected postgres driver: %q", got)
+	}
+	want := "host=localhost port=5432 user=gokohime password=secret dbname=gokohime sslmode=disable"
+	if got := cfg.DSN(); got != want {
+		t.Fatalf("unexpected postgres dsn: %q", got)
+	}
+
+	cfg = DatabaseConfig{URL: "postgres://user:pass@localhost:5432/gokohime?sslmode=disable"}
+	if got := cfg.Driver(); got != "postgres" {
+		t.Fatalf("unexpected url-inferred postgres driver: %q", got)
+	}
+}
+
+func TestDatabaseURLOverridesLegacyPostgresFields(t *testing.T) {
+	cfg := DatabaseConfig{
+		URL:    "data/override.db",
+		Host:   "localhost",
+		Port:   5432,
+		User:   "legacy",
+		DBName: "legacy",
+	}
+	if got := cfg.Driver(); got != "sqlite" {
+		t.Fatalf("unexpected url-overridden driver: %q", got)
+	}
+	if got := cfg.DSN(); got != "data/override.db" {
+		t.Fatalf("unexpected url-overridden dsn: %q", got)
+	}
+}
