@@ -2,24 +2,24 @@
 
 基于 [ZeroBot](https://github.com/wdvxdr1123/ZeroBot) 的 QQ 群聊机器人。
 
-通过 OneBot V11 协议连接 QQ（需搭配 [NapCat](https://github.com/NapNeko/NapCatQQ) / [Lagrange](https://github.com/LagrangeDev/Lagrange.Core) 等实现端），提供娱乐、运势、随机图片、猜歌、临时禁用等群聊插件。AI Core 当前已从主程序入口关闭，相关代码暂留仓库以便后续独立服务迁移。
+通过 OneBot V11 协议连接 QQ（需搭配 [NapCat](https://github.com/NapNeko/NapCatQQ) / [Lagrange](https://github.com/LagrangeDev/Lagrange.Core) 等实现端），提供娱乐、运势、随机图片、猜歌、临时禁用等群聊插件，并提供独立 Web Admin 进程查看管理 Bot 数据。
 
 ## 架构
 
 ```
-ZeroBot (消息层) ───▶ 插件命令/消息处理 ───▶ GORM 数据层
-                                           │
-                                           ▼
-                                    SQLite + WAL（默认）
-                                    PostgreSQL（兼容保留）
+cmd/bot   ──▶ ZeroBot 插件 ─┐
+                            ├──▶ GORM ──▶ SQLite + WAL（默认）
+cmd/admin ──▶ Web Admin ────┘
+
+web/      ──▶ React + Rsbuild + shadcn/ui 风格管理界面
 ```
 
 ## 功能一览
 
 ### 当前状态
-- AI Core、`simplegpt`、`stickersaver` 当前不在主程序中注册。
 - 数据库默认使用 SQLite，并在初始化时开启 WAL。
 - PostgreSQL 初始化路径仍保留，便于后续迁回或做兼容测试。
+- Bot 和 Web Admin 是同一 Go module 下的两个可执行入口，共享同一个 SQLite 文件。
 
 ### 娱乐插件
 
@@ -45,6 +45,7 @@ ZeroBot (消息层) ───▶ 插件命令/消息处理 ───▶ GORM 数
 ## 前置要求
 
 - Go 1.22+
+- Node.js + pnpm（仅开发或构建 Web Admin 前端时需要）
 - OneBot V11 实现端（NapCat / Lagrange / LLOneBot 等）
 
 ## 快速开始
@@ -74,6 +75,12 @@ bot:
 database:
   dialect: "sqlite"
   path: "data/gokohime.db"
+
+admin:
+  listen: "127.0.0.1:8080"
+  jwt_secret: "change-me"
+  initial_username: "admin"
+  initial_password: "请改成首次登录密码"
 ```
 
 SQLite 会在启动时自动启用 `journal_mode=WAL`、`foreign_keys=ON` 和 `busy_timeout=5000`。
@@ -98,11 +105,11 @@ export WEATHER_API_KEY="你的高德地图 API Key"
 export SEARCH_API_KEY="你的豆包搜索 API Key"
 ```
 
-### 3. 编译运行
+### 3. 编译运行 Bot
 
 ```bash
-go build -o gokohime .
-./gokohime -c config.local.yaml
+go build -o bin/gokohime-bot ./cmd/bot
+./bin/gokohime-bot -c config.local.yaml
 ```
 
 如果是用于开发，可以使用 `air` 来运行，直接运行 `air` 即可。
@@ -110,10 +117,33 @@ go build -o gokohime .
 启用调试日志：
 
 ```bash
-./gokohime -c config.local.yaml -d
+./bin/gokohime-bot -c config.local.yaml -d
 ```
 
-### 4. 连接 OneBot
+### 4. 运行 Web Admin
+
+后端 API + 生产静态文件服务：
+
+```bash
+go build -o bin/gokohime-admin ./cmd/admin
+./bin/gokohime-admin -c config.local.yaml
+```
+
+前端开发服务：
+
+```bash
+pnpm --dir web install
+pnpm --dir web run dev
+```
+
+前端生产构建后由 Admin 后端托管：
+
+```bash
+pnpm --dir web run build
+./bin/gokohime-admin -c config.local.yaml
+```
+
+### 5. 连接 OneBot
 
 确保你的 OneBot 实现端（NapCat 等）设置好了与 config 中相同的链接。
 
@@ -126,16 +156,18 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=1 go build -o gokohime .
+RUN CGO_ENABLED=1 go build -o gokohime-bot ./cmd/bot
+RUN CGO_ENABLED=1 go build -o gokohime-admin ./cmd/admin
 
 FROM alpine:latest
 RUN apk add --no-cache ca-certificates tzdata
 ENV TZ=Asia/Shanghai
 WORKDIR /app
-COPY --from=builder /app/gokohime .
+COPY --from=builder /app/gokohime-bot .
+COPY --from=builder /app/gokohime-admin .
 COPY config.yaml .
 COPY .agents .agents
-ENTRYPOINT ["./gokohime"]
+ENTRYPOINT ["./gokohime-bot"]
 ```
 
 配合 `docker-compose.yml`：
@@ -165,15 +197,19 @@ docker compose logs -f bot
 
 ```
 gokohime/
-├── main.go                          # 入口
+├── cmd/
+│   ├── bot/                         # QQ Bot 入口
+│   ├── admin/                       # Web Admin 后端入口
+│   ├── migrate-data/                # 数据迁移工具
+│   └── merge-sayings/               # 语录维护工具
 ├── config.yaml                      # 默认配置
 ├── internal/
+│   ├── admin/                       # Web Admin API / Auth / 静态托管
 │   ├── config/                      # 配置加载
 │   ├── database/                    # GORM + SQLite/PostgreSQL
-│   ├── aicore/                      # 暂未注册，保留待独立服务迁移
 │   └── imageutil/                   # 图片下载压缩
+├── web/                             # React + Rsbuild 管理端前端
 ├── plugin/                          # ZeroBot 插件（init() 自注册）
-│   ├── simplegpt/                   # 暂未注册，待 AI Core 独立迁移
 │   ├── help/                        # 帮助菜单
 │   ├── repeater/                    # 复读机
 │   ├── eatwhat/                     # 吃什么
@@ -184,7 +220,6 @@ gokohime/
 │   ├── saying/                      # 语录
 │   ├── tempban/                     # 命令禁用
 │   ├── randpic/                     # 随机图片
-│   ├── stickersaver/                # 暂未注册，待 AI Core 独立迁移
 │   └── guesssong/                   # 猜歌游戏
 └── data/                            # 运行时数据
 ```
@@ -206,6 +241,7 @@ gokohime/
 | 消息框架 | [ZeroBot](https://github.com/wdvxdr1123/ZeroBot) (OneBot V11) |
 | 数据库 | SQLite + WAL（默认），PostgreSQL（兼容保留） |
 | ORM | [GORM](https://gorm.io/) |
+| Web Admin | Go net/http + React + Rsbuild + Tailwind/shadcn/ui 风格 |
 | 日志 | [logrus](https://github.com/sirupsen/logrus) |
 | 配置 | YAML + 环境变量 |
 

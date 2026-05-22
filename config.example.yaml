@@ -11,8 +11,16 @@ bot:
   latency_ms: 233
   max_process_time_min: 4
 
+admin:
+  # Web Admin 独立进程监听地址；生产环境建议放在反向代理后
+  listen: "127.0.0.1:8080"
+  jwt_secret: "change-me"        # 生产环境必须改成高强度随机字符串
+  static_dir: "web/dist"         # pnpm --dir web run build 的产物目录
+  initial_username: "admin"      # 首次启动且无管理员时创建
+  initial_password: ""           # 首次启动前通过配置或 ADMIN_INITIAL_PASSWORD 设置
+
 ai:
-  # AI Core 当前已在 Gokohime 中关闭，保留配置用于兼容旧环境/后续独立服务迁移
+  # 旧 OpenAI/Anthropic 配置兼容区；V1 Bot/Admin 不启用 AI 对话
   model: "claude-sonnet-4-5-20250929"
   anthropic_api_key: ""         # 留空则从环境变量 ANTHROPIC_API_KEY 读取
   # OpenAI 兼容（可选）

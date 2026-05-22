@@ -3,39 +3,8 @@ package database
 import (
 	"time"
 
-	"github.com/pgvector/pgvector-go"
 	"gorm.io/gorm"
 )
-
-// UserProfile stores user information for the memory system.
-type UserProfile struct {
-	gorm.Model
-	UserID  int64  `gorm:"index"`
-	GroupID int64  `gorm:"index"`
-	Name    string `gorm:"size:255"`
-	Details string `gorm:"type:text"`
-}
-
-// Memory stores semantic memories with vector embeddings.
-type Memory struct {
-	gorm.Model
-	UserID    int64           `gorm:"index"`
-	GroupID   int64           `gorm:"index"`
-	Content   string          `gorm:"type:text;not null"`
-	Embedding pgvector.Vector `gorm:"type:vector(512)"`
-	Scope     string          `gorm:"size:32;default:group"` // "group" or "global"
-}
-
-// Sticker stores sticker/emoji metadata with vector embeddings.
-type Sticker struct {
-	gorm.Model
-	FileHash  string          `gorm:"uniqueIndex;size:64"`
-	FilePath  string          `gorm:"size:512"`
-	Emotion   string          `gorm:"size:64"`  // happy, sad, angry, ...
-	Intent    string          `gorm:"size:64"`  // teasing, caring, ...
-	Scene     string          `gorm:"size:128"` // greeting, farewell, ...
-	Embedding pgvector.Vector `gorm:"type:vector(512)"`
-}
 
 // GuessGameSession tracks active song guessing games.
 type GuessGameSession struct {

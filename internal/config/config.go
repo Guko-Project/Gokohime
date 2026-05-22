@@ -13,6 +13,7 @@ import (
 
 type Config struct {
 	Bot       BotConfig       `yaml:"bot"`
+	Admin     AdminConfig     `yaml:"admin"`
 	AI        AIConfig        `yaml:"ai"`
 	Database  DatabaseConfig  `yaml:"database"`
 	Weather   WeatherConfig   `yaml:"weather"`
@@ -32,6 +33,14 @@ type BotConfig struct {
 	RingLen           uint    `yaml:"ring_len"`
 	LatencyMS         uint    `yaml:"latency_ms"`
 	MaxProcessTimeMin uint    `yaml:"max_process_time_min"`
+}
+
+type AdminConfig struct {
+	Listen          string `yaml:"listen"`
+	JWTSecret       string `yaml:"jwt_secret"`
+	StaticDir       string `yaml:"static_dir"`
+	InitialUsername string `yaml:"initial_username"`
+	InitialPassword string `yaml:"initial_password"`
 }
 
 type AIConfig struct {
@@ -182,6 +191,21 @@ func Load(path string) (*Config, error) {
 	if token := os.Getenv("ONEBOT_ACCESS_TOKEN"); token != "" && cfg.Bot.AccessToken == "" {
 		cfg.Bot.AccessToken = token
 	}
+	if listen := os.Getenv("ADMIN_LISTEN"); listen != "" && cfg.Admin.Listen == "" {
+		cfg.Admin.Listen = listen
+	}
+	if secret := os.Getenv("ADMIN_JWT_SECRET"); secret != "" && cfg.Admin.JWTSecret == "" {
+		cfg.Admin.JWTSecret = secret
+	}
+	if staticDir := os.Getenv("ADMIN_STATIC_DIR"); staticDir != "" && cfg.Admin.StaticDir == "" {
+		cfg.Admin.StaticDir = staticDir
+	}
+	if username := os.Getenv("ADMIN_INITIAL_USERNAME"); username != "" && cfg.Admin.InitialUsername == "" {
+		cfg.Admin.InitialUsername = username
+	}
+	if password := os.Getenv("ADMIN_INITIAL_PASSWORD"); password != "" && cfg.Admin.InitialPassword == "" {
+		cfg.Admin.InitialPassword = password
+	}
 	if cfg.Bot.RWSURL == "" {
 		host := strings.TrimSpace(os.Getenv("HOST"))
 		port := strings.TrimSpace(os.Getenv("PORT"))
@@ -311,6 +335,15 @@ func Load(path string) (*Config, error) {
 	}
 	if cfg.Repeater.MaxRepeatTime <= 0 {
 		cfg.Repeater.MaxRepeatTime = 2
+	}
+	if cfg.Admin.Listen == "" {
+		cfg.Admin.Listen = "127.0.0.1:8080"
+	}
+	if cfg.Admin.StaticDir == "" {
+		cfg.Admin.StaticDir = "web/dist"
+	}
+	if cfg.Admin.InitialUsername == "" {
+		cfg.Admin.InitialUsername = "admin"
 	}
 
 	globalConfig = cfg
