@@ -1,0 +1,61 @@
+# Gokohime Bot Configuration
+
+bot:
+  # ZeroBot WebSocket 连接
+  rws_url: "ws://127.0.0.1:6700"
+  access_token: ""
+  command_prefix: "."
+  nickname: "鸽子姬"
+  super_users: []
+  ring_len: 4096
+  latency_ms: 233
+  max_process_time_min: 4
+
+admin:
+  # Web Admin 独立进程监听地址；生产环境建议放在反向代理后
+  listen: "127.0.0.1:23333"
+  jwt_secret: "change-me"        # 生产环境必须改成高强度随机字符串
+  static_dir: "web/dist"         # pnpm --dir web run build 的产物目录
+  initial_username: "admin"      # 首次启动且无管理员时创建
+  initial_password: ""           # 首次启动前通过配置或 ADMIN_INITIAL_PASSWORD 设置
+
+database:
+  # 默认使用 SQLite，并在启动时开启 WAL
+  dialect: "sqlite" # sqlite 或 postgres
+  url: ""
+  path: "data/gokohime.db"
+  # PostgreSQL 兼容配置（dialect: postgres 时使用）
+  host: "localhost"
+  port: 5432
+  user: "gokohime"
+  password: "gokohime"
+  dbname: "gokohime"
+  sslmode: "disable"
+
+banana:
+  # 图片生成/编辑（默认复用 OpenAI 兼容配置）
+  api_key: ""
+  api_base: ""
+  api_mode: "openai"
+  model: ""
+  pro_model: ""
+  timeout_sec: 60
+  max_retries: 2
+  cooldown_seconds: 15
+  result_format: "b64_json"
+  failure_reply: "图片生成失败了，请稍后再试。"
+  image_size: "1024x1024"
+
+randpic:
+  # 随机图片插件配置
+  command_list: ["dly", "kgk"]
+  store_dir_path: "data/randpic"
+  disabled_groups: []
+
+repeater:
+  # 复读姬配置
+  groups: []                    # 可填群号字符串列表，或后续支持 all
+  min_message_length: 1
+  min_message_times: 2
+  max_repeat_time: 2
+  blacklist: []

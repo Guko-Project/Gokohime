@@ -1,0 +1,25 @@
+services:
+  gokohime-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    volumes:
+      - .:/app
+      - ./data:/app/data
+    working_dir: /app
+    command: air -c .air.toml
+    restart: unless-stopped
+    network_mode: host
+
+  gokohime-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    volumes:
+      - .:/app
+      - ./data:/app/data
+    working_dir: /app
+    command: air -c .air.admin.toml
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

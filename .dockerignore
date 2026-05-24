@@ -1,0 +1,23 @@
+.git
+.idea
+.claude
+tmp/
+data/
+docs/
+docker/
+deploy/
+
+# binaries
+gokohime
+*.exe
+*.dll
+*.so
+*.dylib
+
+# node
+web/node_modules
+
+# misc
+*.test
+*.out
+.DS_Store

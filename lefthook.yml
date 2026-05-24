@@ -1,0 +1,14 @@
+# lefthook.yml
+
+pre-commit:
+  parallel: true # 并行运行 fmt 和 vet，提高速度
+  commands:
+    # 1. 自动格式化
+    fmt:
+      glob: "*.go"
+      run: gofmt -l -w {staged_files} && git add {staged_files}
+
+    # 2. 静态检查
+    govet:
+      glob: "*.go"
+      run: go vet ./...
