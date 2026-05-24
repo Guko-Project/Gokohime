@@ -8,7 +8,7 @@ tmp_dir = "tmp"
 [build]
 args_bin = ["-d"]
 bin = "./tmp/gokohime-admin"
-cmd = "go build -o ./tmp/gokohime-admin ./cmd/admin"
+cmd = "go build -buildvcs=false -o ./tmp/gokohime-admin ./cmd/admin"
 delay = 1000
 entrypoint = ["./tmp/gokohime-admin"]
 exclude_dir = ["assets", "tmp", "vendor", "testdata", "web/node_modules"]

@@ -4,19 +4,25 @@ FROM node:22-alpine AS frontend
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /src/web
 COPY web/package.json web/pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+# Cache pnpm store across builds
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
 COPY web/ .
 RUN pnpm build
 
 # ── Go build stage ──
-FROM golang:1.24-bookworm AS builder
-
+FROM golang:1.26.3-bookworm AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
-RUN go mod download
+# Cache Go module downloads across builds
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
 COPY . .
 COPY --from=frontend /src/web/dist ./web/dist
-RUN CGO_ENABLED=1 go build -o /out/gokohime-admin ./cmd/admin
+# Cache Go modules and compiler output for incremental builds
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=1 go build -o /out/gokohime-admin ./cmd/admin
 
 # ── Runtime stage ──
 FROM debian:bookworm-slim
@@ -30,6 +36,6 @@ COPY --from=builder /out/gokohime-admin .
 COPY --from=frontend /src/web/dist ./web/dist
 
 VOLUME ["/app/data"]
-EXPOSE 8080
+EXPOSE 23333
 ENTRYPOINT ["./gokohime-admin"]
 CMD ["-c", "config.yaml"]

@@ -1,11 +1,15 @@
 # ── Build stage ──
-FROM golang:1.24-bookworm AS builder
-
+FROM golang:1.26.3-bookworm AS builder
 WORKDIR /src
 COPY go.mod go.sum ./
-RUN go mod download
+# Cache Go module downloads across builds
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download
 COPY . .
-RUN CGO_ENABLED=1 go build -o /out/gokohime-bot ./cmd/bot
+# Cache Go modules and compiler output for incremental builds
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    CGO_ENABLED=1 go build -o /out/gokohime-bot ./cmd/bot
 
 # ── Runtime stage ──
 FROM debian:bookworm-slim

@@ -149,48 +149,41 @@ pnpm --dir web run build
 
 ## Docker 部署
 
-```dockerfile
-FROM golang:1.22-alpine AS builder
-RUN apk add --no-cache build-base
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=1 go build -o gokohime-bot ./cmd/bot
-RUN CGO_ENABLED=1 go build -o gokohime-admin ./cmd/admin
-
-FROM alpine:latest
-RUN apk add --no-cache ca-certificates tzdata
-ENV TZ=Asia/Shanghai
-WORKDIR /app
-COPY --from=builder /app/gokohime-bot .
-COPY --from=builder /app/gokohime-admin .
-COPY config.yaml .
-COPY .agents .agents
-ENTRYPOINT ["./gokohime-bot"]
-```
-
-配合 `docker-compose.yml`：
-
-```yaml
-services:
-  bot:
-    build: .
-    environment:
-      - WEATHER_API_KEY=${WEATHER_API_KEY}
-      - SEARCH_API_KEY=${SEARCH_API_KEY}
-    volumes:
-      - ./config.local.yaml:/app/config.yaml
-      - ./data:/app/data
-    restart: unless-stopped
-```
+项目提供 Bot 和 Admin 两个独立镜像，通过 `docker-compose.yml` 编排。
 
 ```bash
-# 启动
-docker compose up -d
+# 启动（首次或代码变更后自动构建）
+docker compose up --build -d
 
 # 查看日志
-docker compose logs -f bot
+docker compose logs -f
+```
+
+### 开发模式（自动监听文件变更并重建）
+
+```bash
+docker compose watch
+```
+
+文件变更后 Docker 会自动重新构建镜像并重启容器。`data/` 和 `config.yaml` 通过 volume 挂载，不会触发重建。
+
+### 生产部署
+
+也可以单独构建镜像运行：
+
+```bash
+docker build -f Dockerfile.bot -t gokohime-bot .
+docker build -f Dockerfile.admin -t gokohime-admin .
+
+docker run -d --network host \
+  -v ./data:/app/data \
+  -v ./config.yaml:/app/config.yaml \
+  gokohime-bot
+
+docker run -d -p 23333:23333 \
+  -v ./data:/app/data \
+  -v ./config.yaml:/app/config.yaml \
+  gokohime-admin
 ```
 
 ## 项目结构
@@ -242,7 +235,7 @@ gokohime/
 | 数据库 | SQLite + WAL（默认），PostgreSQL（兼容保留） |
 | ORM | [GORM](https://gorm.io/) |
 | Web Admin | Go net/http + React + Rsbuild + Tailwind/shadcn/ui 风格 |
-| 日志 | [logrus](https://github.com/sirupsen/logrus) |
+| 日志 | [charmbracelet/log](https://github.com/charmbracelet/log) |
 | 配置 | YAML + 环境变量 |
 
 ## License
