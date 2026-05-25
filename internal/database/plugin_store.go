@@ -176,9 +176,14 @@ func SearchRandPicItem(ctx context.Context, tx *gorm.DB, category, keyword strin
 		return nil, gorm.ErrRecordNotFound
 	}
 
+	ids := make([]uint, len(matches))
+	for i := range matches {
+		ids[i] = matches[i].ID
+	}
+
 	var picked RandPicItem
 	if err := db.WithContext(ctx).
-		Where("id = ?", matches[0].ID).
+		Where("id IN ?", ids).
 		Order("RANDOM()").
 		Take(&picked).Error; err == nil {
 		return &picked, nil
