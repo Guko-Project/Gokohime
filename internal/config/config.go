@@ -38,7 +38,6 @@ type AdminConfig struct {
 	InitialPassword string `yaml:"initial_password"`
 }
 
-
 type DatabaseConfig struct {
 	Dialect  string `yaml:"dialect"`
 	URL      string `yaml:"url"`
@@ -90,19 +89,21 @@ func looksLikePostgresDSN(dsn string) bool {
 		strings.Contains(dsn, "dbname=")
 }
 
-
 type BananaConfig struct {
-	APIKey          string `yaml:"api_key"`
-	APIBase         string `yaml:"api_base"`
-	APIMode         string `yaml:"api_mode"`
-	Model           string `yaml:"model"`
-	ProModel        string `yaml:"pro_model"`
-	TimeoutSec      int    `yaml:"timeout_sec"`
-	MaxRetries      int    `yaml:"max_retries"`
-	CooldownSeconds int    `yaml:"cooldown_seconds"`
-	ResultFormat    string `yaml:"result_format"`
-	FailureReply    string `yaml:"failure_reply"`
-	ImageSize       string `yaml:"image_size"`
+	APIKey            string `yaml:"api_key"`
+	APIBase           string `yaml:"api_base"`
+	APIMode           string `yaml:"api_mode"`
+	Model             string `yaml:"model"`
+	ProModel          string `yaml:"pro_model"`
+	TimeoutSec        int    `yaml:"timeout_sec"`
+	MaxRetries        int    `yaml:"max_retries"`
+	CooldownSeconds   int    `yaml:"cooldown_seconds"`
+	ResultFormat      string `yaml:"result_format"`
+	FailureReply      string `yaml:"failure_reply"`
+	ImageSize         string `yaml:"image_size"`
+	GIModel           string `yaml:"gi_model"`
+	GISize            string `yaml:"gi_size"`
+	GIPollIntervalSec int    `yaml:"gi_poll_interval_sec"`
 }
 
 type RandPicConfig struct {

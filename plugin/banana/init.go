@@ -60,6 +60,10 @@ func init() {
 		command, _ := ctx.State["command"].(string)
 		handleBanana(ctx, command == "banana-pro")
 	})
+
+	zero.OnMessage(commandutil.ReplyableCommandRule("gi")).SetBlock(true).Handle(func(ctx *zero.Ctx) {
+		handleGI(ctx)
+	})
 }
 
 func handleBanana(ctx *zero.Ctx, pro bool) {
@@ -782,4 +786,249 @@ func imageFileName(imageURL string) string {
 		return "banana.png"
 	}
 	return fileName
+}
+
+func handleGI(ctx *zero.Ctx) {
+	cfg := config.Get()
+	if cfg == nil {
+		ctx.SendChain(message.Text("配置尚未加载完成。"))
+		return
+	}
+
+	prompt, _ := ctx.State["args"].(string)
+	prompt = strings.TrimSpace(prompt)
+	if prompt == "" {
+		ctx.SendChain(message.Text("请提供 prompt，例如 .gi 梦幻森林。"))
+		return
+	}
+	if cfg.Banana.APIKey == "" {
+		ctx.SendChain(message.Text("尚未配置 BANANA_API_KEY，无法调用 gpt-image-2。"))
+		return
+	}
+
+	if wait := acquireCooldown(ctx.Event.UserID, cfg.Banana.CooldownSeconds); wait > 0 {
+		ctx.SendChain(message.Text(fmt.Sprintf("香蕉工厂冷却中，请 %d 秒后再试。", wait)))
+		return
+	}
+
+	httpClient := &http.Client{Timeout: timeoutFor(cfg.Banana.TimeoutSec)}
+	contents, promptSummary, err := buildMessageContents(ctx, httpClient, prompt)
+	if err != nil {
+		if errors.Is(err, errImageDownload) {
+			ctx.SendChain(message.Text("参考图片无法下载，请稍后再试。"))
+			return
+		}
+		log.Warnf("[banana] build contents for .gi failed: %v", err)
+		ctx.SendChain(message.Text(cfg.Banana.FailureReply))
+		return
+	}
+
+	result, err := callGIAPI(httpClient, cfg, contents, promptSummary)
+	if err != nil {
+		log.Warnf("[banana] .gi call failed: %v", err)
+		ctx.SendChain(message.Text(cfg.Banana.FailureReply))
+		return
+	}
+
+	reply := message.Text("完成啦！\nPrompt: " + promptSummary)
+	if len(result.imageBytes) > 0 {
+		ctx.SendChain(reply, message.ImageBytes(result.imageBytes))
+		return
+	}
+	if result.imageURL != "" {
+		ctx.SendChain(reply, message.Image(result.imageURL))
+		return
+	}
+	ctx.SendChain(message.Text(cfg.Banana.FailureReply))
+}
+
+func callGIAPI(httpClient *http.Client, cfg *config.Config, contents []bananaContentPart, promptSummary string) (*bananaResult, error) {
+	model := cfg.Banana.GIModel
+	if model == "" {
+		model = "gpt-image-2"
+	}
+	size := cfg.Banana.GISize
+	if size == "" {
+		size = "auto"
+	}
+	pollInterval := cfg.Banana.GIPollIntervalSec
+	if pollInterval <= 0 {
+		pollInterval = 5
+	}
+
+	var urls []string
+	for _, item := range contents {
+		if item.Type != "image_url" || item.ImageURL == nil {
+			continue
+		}
+		if item.ImageURL.SourceURL != "" && isPublicHTTPURL(item.ImageURL.SourceURL) {
+			urls = append(urls, item.ImageURL.SourceURL)
+		}
+	}
+
+	endpoint := strings.TrimRight(cfg.Banana.APIBase, "/") + "/v1/draw/completions"
+	payload := map[string]any{
+		"model":        model,
+		"prompt":       promptSummary,
+		"size":         size,
+		"webHook":      "-1",
+		"shutProgress": true,
+	}
+	if len(urls) > 0 {
+		payload["urls"] = urls
+	}
+
+	taskID, err := submitGITask(httpClient, endpoint, cfg.Banana.APIKey, payload, cfg.Banana.MaxRetries)
+	if err != nil {
+		return nil, err
+	}
+
+	resultEndpoint := strings.TrimRight(cfg.Banana.APIBase, "/") + "/v1/draw/result"
+	timeout := timeoutFor(cfg.Banana.TimeoutSec)
+	imageURL, err := pollGIResult(httpClient, resultEndpoint, cfg.Banana.APIKey, taskID, pollInterval, timeout)
+	if err != nil {
+		return nil, err
+	}
+
+	data, _, err := downloadImage(httpClient, imageURL)
+	if err != nil {
+		return nil, err
+	}
+	return &bananaResult{imageBytes: data}, nil
+}
+
+func submitGITask(httpClient *http.Client, endpoint, apiKey string, payload map[string]any, maxRetries int) (string, error) {
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return "", err
+	}
+
+	var lastErr error
+	for attempt := 0; attempt <= maxRetries; attempt++ {
+		req, err := http.NewRequest(http.MethodPost, endpoint, bytes.NewReader(body))
+		if err != nil {
+			return "", err
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", "Bearer "+apiKey)
+
+		resp, err := httpClient.Do(req)
+		if err != nil {
+			lastErr = err
+			continue
+		}
+		raw, readErr := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if readErr != nil {
+			lastErr = readErr
+			continue
+		}
+		if resp.StatusCode >= 400 {
+			lastErr = fmt.Errorf("status %d: %s", resp.StatusCode, strings.TrimSpace(string(raw)))
+			continue
+		}
+
+		var result struct {
+			Code int `json:"code"`
+			Data struct {
+				ID string `json:"id"`
+			} `json:"data"`
+			Msg string `json:"msg"`
+		}
+		if err := json.Unmarshal(raw, &result); err != nil {
+			lastErr = err
+			continue
+		}
+		if result.Code != 0 {
+			lastErr = fmt.Errorf("gi submit failed: code=%d msg=%s", result.Code, result.Msg)
+			continue
+		}
+		if result.Data.ID == "" {
+			lastErr = fmt.Errorf("gi submit returned empty task id")
+			continue
+		}
+		return result.Data.ID, nil
+	}
+	return "", lastErr
+}
+
+func pollGIResult(httpClient *http.Client, endpoint, apiKey, taskID string, pollIntervalSec int, timeout time.Duration) (string, error) {
+	deadline := time.Now().Add(timeout)
+	payload := map[string]any{"id": taskID}
+	body, err := json.Marshal(payload)
+	if err != nil {
+		return "", err
+	}
+
+	for {
+		if time.Now().After(deadline) {
+			return "", fmt.Errorf("gi poll timeout, task_id=%s", taskID)
+		}
+
+		req, err := http.NewRequest(http.MethodPost, endpoint, bytes.NewReader(body))
+		if err != nil {
+			return "", err
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Authorization", "Bearer "+apiKey)
+
+		resp, err := httpClient.Do(req)
+		if err != nil {
+			time.Sleep(time.Duration(pollIntervalSec) * time.Second)
+			continue
+		}
+		raw, readErr := io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if readErr != nil {
+			time.Sleep(time.Duration(pollIntervalSec) * time.Second)
+			continue
+		}
+
+		var result struct {
+			Code int `json:"code"`
+			Data struct {
+				Status        string `json:"status"`
+				FailureReason string `json:"failure_reason"`
+				Error         string `json:"error"`
+				Results       []struct {
+					URL string `json:"url"`
+				} `json:"results"`
+			} `json:"data"`
+			Msg string `json:"msg"`
+		}
+		if err := json.Unmarshal(raw, &result); err != nil {
+			time.Sleep(time.Duration(pollIntervalSec) * time.Second)
+			continue
+		}
+		if result.Code == -22 {
+			return "", fmt.Errorf("gi task not found, id=%s", taskID)
+		}
+		if result.Code != 0 {
+			return "", fmt.Errorf("gi poll failed: code=%d msg=%s", result.Code, result.Msg)
+		}
+
+		status := strings.ToLower(strings.TrimSpace(result.Data.Status))
+		switch status {
+		case "succeeded":
+			if len(result.Data.Results) == 0 || result.Data.Results[0].URL == "" {
+				return "", fmt.Errorf("gi result missing image url")
+			}
+			return result.Data.Results[0].URL, nil
+		case "failed":
+			reason := result.Data.FailureReason
+			if reason == "" {
+				reason = result.Data.Error
+			}
+			return "", fmt.Errorf("gi generation failed: %s", reason)
+		}
+
+		time.Sleep(time.Duration(pollIntervalSec) * time.Second)
+	}
+}
+
+func isPublicHTTPURL(url string) bool {
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		return false
+	}
+	return !strings.Contains(url, "127.0.0.1") && !strings.Contains(url, "localhost")
 }

@@ -45,6 +45,10 @@ banana:
   result_format: "b64_json"
   failure_reply: "图片生成失败了，请稍后再试。"
   image_size: "1024x1024"
+  # .gi 命令（GPT-Image-2 异步生成）
+  gi_model: "gpt-image-2"
+  gi_size: "auto"
+  gi_poll_interval_sec: 5
 
 randpic:
   # 随机图片插件配置
