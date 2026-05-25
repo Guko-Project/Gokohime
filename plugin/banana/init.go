@@ -26,7 +26,7 @@ import (
 var (
 	cooldownMu     sync.Mutex
 	nextAvailable  = map[int64]time.Time{}
-	defaultTimeout = 60 * time.Second
+	defaultTimeout = 300 * time.Second
 
 	dataURLPattern = regexp.MustCompile(`data:image/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/=]+`)
 	httpURLPattern = regexp.MustCompile(`https?://[^\s"\\]+`)
@@ -113,7 +113,7 @@ func handleBanana(ctx *zero.Ctx, pro bool) {
 	result, err := callBananaAPI(httpClient, cfg, model, contents, promptSummary)
 	if err != nil {
 		log.Warnf("[banana] call api failed: %v", err)
-		ctx.SendChain(message.Text(cfg.Banana.FailureReply))
+		ctx.SendChain(message.Text(userFacingError(err)))
 		return
 	}
 
@@ -826,7 +826,7 @@ func handleGI(ctx *zero.Ctx) {
 	result, err := callGIAPI(httpClient, cfg, contents, promptSummary)
 	if err != nil {
 		log.Warnf("[banana] .gi call failed: %v", err)
-		ctx.SendChain(message.Text(cfg.Banana.FailureReply))
+		ctx.SendChain(message.Text(userFacingError(err)))
 		return
 	}
 
@@ -1031,4 +1031,30 @@ func isPublicHTTPURL(url string) bool {
 		return false
 	}
 	return !strings.Contains(url, "127.0.0.1") && !strings.Contains(url, "localhost")
+}
+
+func userFacingError(err error) string {
+	msg := err.Error()
+	lower := strings.ToLower(msg)
+
+	switch {
+	case strings.Contains(lower, "timeout") || strings.Contains(lower, "deadline exceeded"):
+		return "图片生成超时了，请稍后再试。"
+	case strings.Contains(lower, "content_policy") || strings.Contains(lower, "content policy") ||
+		strings.Contains(lower, "safety") || strings.Contains(lower, "blocked"):
+		return "内容不合规，请修改 prompt 后重试。"
+	case strings.Contains(lower, "status 429") || strings.Contains(lower, "rate limit") ||
+		strings.Contains(lower, "rate_limit"):
+		return "请求过于频繁，请稍后再试。"
+	case strings.Contains(lower, "status 401") || strings.Contains(lower, "status 403") ||
+		strings.Contains(lower, "unauthorized") || strings.Contains(lower, "forbidden"):
+		return "API 认证失败，请联系管理员。"
+	case strings.Contains(lower, "status 402") || strings.Contains(lower, "insufficient_quota") ||
+		strings.Contains(lower, "billing"):
+		return "API 额度不足，请联系管理员。"
+	case strings.Contains(lower, "status 5"):
+		return "上游服务异常，请稍后再试。"
+	default:
+		return "图片生成失败：" + msg
+	}
 }

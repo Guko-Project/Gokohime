@@ -229,7 +229,7 @@ func Load(path string) (*Config, error) {
 		cfg.Banana.APIMode = "openai"
 	}
 	if cfg.Banana.TimeoutSec <= 0 {
-		cfg.Banana.TimeoutSec = 60
+		cfg.Banana.TimeoutSec = 300
 	}
 	if cfg.Banana.MaxRetries < 0 {
 		cfg.Banana.MaxRetries = 0
