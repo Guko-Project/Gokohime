@@ -30,6 +30,7 @@ import (
 	_ "github.com/colanns/gokohime/plugin/kk"
 	_ "github.com/colanns/gokohime/plugin/repeater"
 	_ "github.com/colanns/gokohime/plugin/saying"
+	_ "github.com/colanns/gokohime/plugin/stickersaver"
 	_ "github.com/colanns/gokohime/plugin/tempban"
 )
 
