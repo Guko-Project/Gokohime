@@ -44,6 +44,45 @@ func TestMatchReplyableCommandPrefersLongestCommand(t *testing.T) {
 	}
 }
 
+func TestMatchReplyableCommandWithReplyAndAt(t *testing.T) {
+	match, ok := MatchReplyableCommand(message.Message{
+		message.Reply("42"),
+		message.Segment{Type: "at", Data: map[string]string{"qq": "123456"}},
+		message.Text(".add dly"),
+	}, "add")
+	if !ok {
+		t.Fatalf("expected replyable command to match with [reply, at, text]")
+	}
+	if match.Prefix != "." || match.Command != "add" || match.Args != "dly" {
+		t.Fatalf("unexpected match: %#v", match)
+	}
+}
+
+func TestMatchReplyableCommandWithReplyAtAndImage(t *testing.T) {
+	match, ok := MatchReplyableCommand(message.Message{
+		message.Reply("42"),
+		message.Segment{Type: "at", Data: map[string]string{"qq": "123456"}},
+		message.Text(".add dly"),
+		message.Image("http://example.com/img.png"),
+	}, "add")
+	if !ok {
+		t.Fatalf("expected replyable command to match with [reply, at, text, image]")
+	}
+	if match.Prefix != "." || match.Command != "add" || match.Args != "dly" {
+		t.Fatalf("unexpected match: %#v", match)
+	}
+}
+
+func TestMatchReplyableCommandNoTextSegment(t *testing.T) {
+	_, ok := MatchReplyableCommand(message.Message{
+		message.Reply("42"),
+		message.Image("http://example.com/img.png"),
+	}, "add")
+	if ok {
+		t.Fatalf("expected no match when there is no text segment")
+	}
+}
+
 func TestReplyableCommandRuleSetsState(t *testing.T) {
 	rule := ReplyableCommandRule("banana", "banana-pro")
 	ctx := &zero.Ctx{

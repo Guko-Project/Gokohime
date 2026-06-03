@@ -131,14 +131,12 @@ func appendUnique(values []string, value string) []string {
 }
 
 func firstCommandTextSegment(msg message.Message) int {
-	index := 0
-	for index < len(msg) && msg[index].Type == "reply" {
-		index++
+	for i, seg := range msg {
+		if seg.Type == "text" {
+			return i
+		}
 	}
-	if index >= len(msg) || msg[index].Type != "text" {
-		return -1
-	}
-	return index
+	return -1
 }
 
 func startsWithWhitespace(input string) bool {
