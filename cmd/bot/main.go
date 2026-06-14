@@ -19,6 +19,7 @@ import (
 	randpic "github.com/colanns/gokohime/plugin/randpic"
 
 	// Import all plugins (self-registering via init())
+	_ "github.com/colanns/gokohime/plugin/ace-step"
 	_ "github.com/colanns/gokohime/plugin/banana"
 	_ "github.com/colanns/gokohime/plugin/chp"
 	_ "github.com/colanns/gokohime/plugin/commandlog"

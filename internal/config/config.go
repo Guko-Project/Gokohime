@@ -17,6 +17,16 @@ type Config struct {
 	Banana   BananaConfig   `yaml:"banana"`
 	RandPic  RandPicConfig  `yaml:"randpic"`
 	Repeater RepeaterConfig `yaml:"repeater"`
+	AceStep  AceStepConfig  `yaml:"ace_step"`
+}
+
+type AceStepConfig struct {
+	APIKey          string `yaml:"api_key"`
+	BaseURL         string `yaml:"base_url"`
+	MaxDuration     int    `yaml:"max_duration"`
+	DefaultDuration int    `yaml:"default_duration"`
+	PollIntervalSec int    `yaml:"poll_interval_sec"`
+	PollTimeoutSec  int    `yaml:"poll_timeout_sec"`
 }
 
 type BotConfig struct {
@@ -266,6 +276,27 @@ func Load(path string) (*Config, error) {
 	}
 	if cfg.Admin.InitialUsername == "" {
 		cfg.Admin.InitialUsername = "admin"
+	}
+
+
+	// AceStep defaults + env overrides
+	if key := os.Getenv("ACE_STEP_API_KEY"); key != "" && cfg.AceStep.APIKey == "" {
+		cfg.AceStep.APIKey = key
+	}
+	if base := os.Getenv("ACE_STEP_BASE_URL"); base != "" && cfg.AceStep.BaseURL == "" {
+		cfg.AceStep.BaseURL = base
+	}
+	if cfg.AceStep.MaxDuration <= 0 {
+		cfg.AceStep.MaxDuration = 60
+	}
+	if cfg.AceStep.DefaultDuration <= 0 {
+		cfg.AceStep.DefaultDuration = 30
+	}
+	if cfg.AceStep.PollIntervalSec <= 0 {
+		cfg.AceStep.PollIntervalSec = 3
+	}
+	if cfg.AceStep.PollTimeoutSec <= 0 {
+		cfg.AceStep.PollTimeoutSec = 300
 	}
 
 	globalConfig = cfg
