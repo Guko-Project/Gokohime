@@ -17,6 +17,7 @@ type Config struct {
 	Banana   BananaConfig   `yaml:"banana"`
 	RandPic  RandPicConfig  `yaml:"randpic"`
 	Repeater RepeaterConfig `yaml:"repeater"`
+	Omoi     OmoiConfig     `yaml:"omoi"`
 	AceStep  AceStepConfig  `yaml:"ace_step"`
 }
 
@@ -27,6 +28,24 @@ type AceStepConfig struct {
 	DefaultDuration int    `yaml:"default_duration"`
 	PollIntervalSec int    `yaml:"poll_interval_sec"`
 	PollTimeoutSec  int    `yaml:"poll_timeout_sec"`
+}
+
+type OmoiConfig struct {
+	Address            string   `yaml:"address"`
+	APIKey             string   `yaml:"api_key"`
+	AgentID            string   `yaml:"agent_id"`
+	TimeoutSec         int      `yaml:"timeout_sec"`
+	MaxMessageLen      int      `yaml:"max_message_len"`
+	BufferSize         int      `yaml:"buffer_size"`
+	TriggerCount       int      `yaml:"trigger_count"`
+	TriggerIntervalSec int      `yaml:"trigger_interval_sec"`
+	TriggerProbability float64  `yaml:"trigger_probability"`
+	EnabledGroups      []int64  `yaml:"enabled_groups"`
+	SkipMarker         string   `yaml:"skip_marker"`
+	SplitMarker        string   `yaml:"split_marker"`
+	TypingDelayMs      int      `yaml:"typing_delay_ms"`
+	MaxTypingDelaySec  int      `yaml:"max_typing_delay_sec"`
+	SkipPrefixes       []string `yaml:"skip_prefixes"`
 }
 
 type BotConfig struct {
@@ -278,7 +297,6 @@ func Load(path string) (*Config, error) {
 		cfg.Admin.InitialUsername = "admin"
 	}
 
-
 	// AceStep defaults + env overrides
 	if key := os.Getenv("ACE_STEP_API_KEY"); key != "" && cfg.AceStep.APIKey == "" {
 		cfg.AceStep.APIKey = key
@@ -297,6 +315,47 @@ func Load(path string) (*Config, error) {
 	}
 	if cfg.AceStep.PollTimeoutSec <= 0 {
 		cfg.AceStep.PollTimeoutSec = 300
+	}
+
+	// Omoi defaults + env overrides
+	if addr := os.Getenv("OMOI_ADDRESS"); addr != "" && cfg.Omoi.Address == "" {
+		cfg.Omoi.Address = addr
+	}
+	if key := os.Getenv("OMOI_API_KEY"); key != "" && cfg.Omoi.APIKey == "" {
+		cfg.Omoi.APIKey = key
+	}
+	if agentID := os.Getenv("OMOI_AGENT_ID"); agentID != "" && cfg.Omoi.AgentID == "" {
+		cfg.Omoi.AgentID = agentID
+	}
+	if cfg.Omoi.TimeoutSec <= 0 {
+		cfg.Omoi.TimeoutSec = 120
+	}
+	if cfg.Omoi.MaxMessageLen <= 0 {
+		cfg.Omoi.MaxMessageLen = 2000
+	}
+	if cfg.Omoi.BufferSize <= 0 {
+		cfg.Omoi.BufferSize = 20
+	}
+	if cfg.Omoi.TriggerCount <= 0 {
+		cfg.Omoi.TriggerCount = 15
+	}
+	if cfg.Omoi.TriggerIntervalSec <= 0 {
+		cfg.Omoi.TriggerIntervalSec = 180
+	}
+	if cfg.Omoi.SkipMarker == "" {
+		cfg.Omoi.SkipMarker = "[SKIP]"
+	}
+	if cfg.Omoi.SplitMarker == "" {
+		cfg.Omoi.SplitMarker = "<<<SPLIT>>>"
+	}
+	if cfg.Omoi.TypingDelayMs <= 0 {
+		cfg.Omoi.TypingDelayMs = 60
+	}
+	if cfg.Omoi.MaxTypingDelaySec <= 0 {
+		cfg.Omoi.MaxTypingDelaySec = 4
+	}
+	if len(cfg.Omoi.SkipPrefixes) == 0 {
+		cfg.Omoi.SkipPrefixes = []string{".", "/", "#"}
 	}
 
 	globalConfig = cfg
