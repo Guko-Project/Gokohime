@@ -83,7 +83,7 @@ type MealEntry struct {
 // KTVSong stores the KTV song pool.
 type KTVSong struct {
 	gorm.Model
-	Name      string `gorm:"index;size:255;not null"`
+	Name      string `gorm:"uniqueIndex:idx_ktv_songs_name_unique;size:255;not null"`
 	Category  string `gorm:"index;size:128"`
 	BV        string `gorm:"size:1024"`
 	Issuer    string `gorm:"size:64"`

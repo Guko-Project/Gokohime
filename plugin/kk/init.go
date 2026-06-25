@@ -60,18 +60,17 @@ func init() {
 				ctx.SendChain(message.Text("歌单读取失败了，请稍后再试~"))
 				return
 			}
-			if exists {
-				ctx.SendChain(message.Text(fmt.Sprintf("《%s》已经在 KTV 曲库里了哦！", song.Name)))
-				return
-			}
-
 			song.Issuer = fmt.Sprint(ctx.Event.UserID)
 			song.EntryHash = hashKTVSong(song.Name)
-			if err := database.AddKTVSong(context.Background(), nil, song); err != nil {
+			if err := database.UpsertKTVSong(context.Background(), nil, song); err != nil {
 				ctx.SendChain(message.Text("添加歌曲失败了，请稍后再试~"))
 				return
 			}
 
+			if exists {
+				ctx.SendChain(message.Text(fmt.Sprintf("《%s》已更新 KTV 曲库信息！", song.Name)))
+				return
+			}
 			ctx.SendChain(message.Text(fmt.Sprintf("《%s》已加入 KTV 曲库！", song.Name)))
 		})
 

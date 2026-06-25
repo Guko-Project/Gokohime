@@ -423,8 +423,8 @@ func importKTVSongs(ctx context.Context, db *gorm.DB, path string, stats *Stats)
 		}
 		if err := db.WithContext(ctx).
 			Clauses(clause.OnConflict{
-				Columns:   []clause.Column{{Name: "entry_hash"}},
-				DoUpdates: clause.AssignmentColumns([]string{"name", "category", "bv", "issuer", "updated_at"}),
+				Columns:   []clause.Column{{Name: "name"}},
+				DoUpdates: clause.AssignmentColumns([]string{"category", "bv", "issuer", "entry_hash", "updated_at"}),
 			}).
 			Create(entry).Error; err != nil {
 			return err

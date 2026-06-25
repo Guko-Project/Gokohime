@@ -124,7 +124,7 @@ func KTVSongExists(ctx context.Context, tx *gorm.DB, name string) (bool, error) 
 	return count > 0, nil
 }
 
-func AddKTVSong(ctx context.Context, tx *gorm.DB, song *KTVSong) error {
+func UpsertKTVSong(ctx context.Context, tx *gorm.DB, song *KTVSong) error {
 	db := dbOrGlobal(tx)
 	if db == nil {
 		return errors.New("database not initialized")
@@ -137,7 +137,12 @@ func AddKTVSong(ctx context.Context, tx *gorm.DB, song *KTVSong) error {
 	song.Category = strings.TrimSpace(song.Category)
 	song.BV = strings.TrimSpace(song.BV)
 	song.Issuer = strings.TrimSpace(song.Issuer)
-	return db.WithContext(ctx).Create(song).Error
+	return db.WithContext(ctx).
+		Clauses(clause.OnConflict{
+			Columns:   []clause.Column{{Name: "name"}},
+			DoUpdates: clause.AssignmentColumns([]string{"category", "bv", "issuer", "entry_hash", "updated_at"}),
+		}).
+		Create(song).Error
 }
 
 func DeleteKTVSong(ctx context.Context, tx *gorm.DB, name string) error {
