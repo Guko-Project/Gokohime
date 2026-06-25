@@ -88,6 +88,32 @@ func TestPluginStoreIntegration(t *testing.T) {
 	if song.Name != "测试歌" {
 		t.Fatalf("unexpected song: %q", song.Name)
 	}
+	if err := database.AddKTVSong(ctx, tx, &database.KTVSong{
+		Name:      "追加歌",
+		Category:  "日",
+		BV:        "BV2xx411c7mD",
+		Issuer:    "tester",
+		EntryHash: mustHash("ktv", "追加歌"),
+	}); err != nil {
+		t.Fatalf("AddKTVSong failed: %v", err)
+	}
+	exists, err = database.KTVSongExists(ctx, tx, "追加歌")
+	if err != nil {
+		t.Fatalf("KTVSongExists failed: %v", err)
+	}
+	if !exists {
+		t.Fatalf("expected ktv song to exist")
+	}
+	if err := database.DeleteKTVSong(ctx, tx, "追加歌"); err != nil {
+		t.Fatalf("DeleteKTVSong failed: %v", err)
+	}
+	exists, err = database.KTVSongExists(ctx, tx, "追加歌")
+	if err != nil {
+		t.Fatalf("KTVSongExists after delete failed: %v", err)
+	}
+	if exists {
+		t.Fatalf("expected ktv song to be deleted")
+	}
 
 	keywords, _ := json.Marshal([]string{"早上好", "问候"})
 	if err := tx.Create(&database.RandPicItem{

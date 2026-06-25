@@ -20,7 +20,8 @@ const helpText = `【鸽子姬 帮助菜单】
 .jrluck / .luck - 今日运势
 .chp A B - CP名生成
 .cp A B - CP短打
-.kk - KTV随机歌
+.kk / .ktv - KTV随机歌
+.kadd / .kdel - 管理 KTV 曲库
 .saying - 查看已迁移到 randpic 的语录分类
 .save (回复表情) - 保存表情
 .cg jstart - 猜歌游戏

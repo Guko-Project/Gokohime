@@ -108,6 +108,49 @@ func RandomKTVSong(ctx context.Context, tx *gorm.DB, category string) (*KTVSong,
 	return &song, nil
 }
 
+func KTVSongExists(ctx context.Context, tx *gorm.DB, name string) (bool, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return false, errors.New("database not initialized")
+	}
+
+	var count int64
+	if err := db.WithContext(ctx).
+		Model(&KTVSong{}).
+		Where("name = ?", strings.TrimSpace(name)).
+		Count(&count).Error; err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func AddKTVSong(ctx context.Context, tx *gorm.DB, song *KTVSong) error {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return errors.New("database not initialized")
+	}
+
+	if song == nil {
+		return errors.New("ktv song is nil")
+	}
+	song.Name = strings.TrimSpace(song.Name)
+	song.Category = strings.TrimSpace(song.Category)
+	song.BV = strings.TrimSpace(song.BV)
+	song.Issuer = strings.TrimSpace(song.Issuer)
+	return db.WithContext(ctx).Create(song).Error
+}
+
+func DeleteKTVSong(ctx context.Context, tx *gorm.DB, name string) error {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return errors.New("database not initialized")
+	}
+
+	return db.WithContext(ctx).
+		Where("name = ?", strings.TrimSpace(name)).
+		Delete(&KTVSong{}).Error
+}
+
 func DistinctRandPicCategories(ctx context.Context, tx *gorm.DB) ([]string, error) {
 	db := dbOrGlobal(tx)
 	if db == nil {
