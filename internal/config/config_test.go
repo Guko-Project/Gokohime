@@ -145,3 +145,55 @@ func TestDatabaseURLOverridesLegacyPostgresFields(t *testing.T) {
 		t.Fatalf("unexpected url-overridden dsn: %q", got)
 	}
 }
+
+func TestAceStepDeepSeekConfigDefaultsAndEnv(t *testing.T) {
+	t.Setenv("ACE_STEP_DEEPSEEK_API_KEY", "ds-key")
+	t.Setenv("ACE_STEP_DEEPSEEK_BASE_URL", "https://deepseek.example/v1")
+	t.Setenv("ACE_STEP_DEEPSEEK_MODEL", "deepseek-test")
+	t.Setenv("ACE_STEP_USE_DEEPSEEK_LM", "true")
+
+	root := t.TempDir()
+	configPath := filepath.Join(root, "config.yaml")
+	if err := os.WriteFile(configPath, []byte(`
+bot: {}
+database: {}
+ace_step: {}
+`), 0o644); err != nil {
+		t.Fatalf("write config file failed: %v", err)
+	}
+
+	cfg, err := Load(configPath)
+	if err != nil {
+		t.Fatalf("Load failed: %v", err)
+	}
+
+	if cfg.AceStep.DeepSeekAPIKey != "ds-key" ||
+		cfg.AceStep.DeepSeekBaseURL != "https://deepseek.example/v1" ||
+		cfg.AceStep.DeepSeekModel != "deepseek-test" ||
+		!cfg.AceStep.UseDeepSeekLM {
+		t.Fatalf("unexpected deepseek config: %+v", cfg.AceStep)
+	}
+	if cfg.AceStep.MaxDuration != 180 {
+		t.Fatalf("ace-step max duration default = %d, want 180", cfg.AceStep.MaxDuration)
+	}
+}
+
+func TestAceStepDeepSeekModelDefault(t *testing.T) {
+	root := t.TempDir()
+	configPath := filepath.Join(root, "config.yaml")
+	if err := os.WriteFile(configPath, []byte(`
+bot: {}
+database: {}
+ace_step: {}
+`), 0o644); err != nil {
+		t.Fatalf("write config file failed: %v", err)
+	}
+
+	cfg, err := Load(configPath)
+	if err != nil {
+		t.Fatalf("Load failed: %v", err)
+	}
+	if cfg.AceStep.DeepSeekModel != "deepseek-v4-flash" {
+		t.Fatalf("deepseek model default = %q, want deepseek-v4-flash", cfg.AceStep.DeepSeekModel)
+	}
+}

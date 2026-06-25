@@ -63,3 +63,17 @@ repeater:
   min_message_times: 2
   max_repeat_time: 2
   blacklist: []
+
+ace_step:
+  # ACE-Step 1.5 音乐生成插件配置
+  api_key: ""
+  base_url: "https://colasama--ace-step-api-serve.modal.run"
+  max_duration: 180
+  default_duration: 30
+  poll_interval_sec: 3
+  poll_timeout_sec: 300
+  # 使用 DeepSeek 替代 ACE-Step 内置语言模型生成 caption/lyrics/metadata
+  use_deepseek_lm: true
+  deepseek_api_key: ""
+  deepseek_base_url: "https://api.deepseek.com/v1"
+  deepseek_model: "deepseek-v4-flash"

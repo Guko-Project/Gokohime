@@ -37,8 +37,8 @@ func ensureClient() {
 		if baseURL == "" {
 			baseURL = "https://colasama--ace-step-api-serve.modal.run"
 		}
-		client = newClient(baseURL, ac.APIKey)
-		log.Info("[ace-step] client initialized")
+		client = newClientWithConfig(baseURL, ac.APIKey, ac.UseDeepSeekLM, ac.DeepSeekAPIKey, ac.DeepSeekBaseURL, ac.DeepSeekModel)
+		log.Infof("[ace-step] client initialized: use_deepseek_lm=%v deepseek_base_url=%s deepseek_model=%s", ac.UseDeepSeekLM, ac.DeepSeekBaseURL, ac.DeepSeekModel)
 	})
 }
 
@@ -56,14 +56,25 @@ func handleAce(ctx *zero.Ctx) {
 	cfg := config.Get().AceStep
 	args := strings.TrimSpace(ctx.State["args"].(string))
 	if args == "" {
-		ctx.SendChain(message.Text("正在锐意开发中！\n用法：.ace <音乐风格描述> | <歌词> [时长秒数]\n通常不用填写秒数，ACE-Step 会自动推断合适时长。\n推荐先阅读 prompt 编写教程：https://github.com/ace-step/ACE-Step-1.5/blob/main/docs/zh/Tutorial.md\n例：.ace 日本VOCALOID摇滚 | 我不想上班\n我真的不想上班"))
+		ctx.SendChain(message.Text("正在锐意开发中！\n用法：\n.ace <想要制作的音乐风格和内容，如果要带歌词请明确指示需要歌词和演唱语言风格等描述> [时长秒数]\n.ace <音乐风格描述> | <歌词> [时长秒数]\n如果不填写秒数，ACE-Step 会自动推断合适时长。\n推荐先阅读 prompt 编写教程：https://github.com/ace-step/ACE-Step-1.5/blob/main/docs/zh/Tutorial.md\n例：.ace 日本VOCALOID摇滚 | 我不想上班，我真的不想上班 30"))
 		return
 	}
 
 	input := parseGenerationInput(args, cfg.DefaultDuration, cfg.MaxDuration)
 
 	ctx.SendChain(message.Text("ヽ(ﾟ∀ﾟ)ﾒ(ﾟ∀ﾟ)ﾉ 收到！马上为你谱写一首美丽的乐曲——"))
-	if input.Lyrics != "" {
+	if client.useDeepSeekLM {
+		log.Infof("[ace-step] formatting with DeepSeek: prompt=%s lyrics_len=%d explicit_duration=%v", input.Prompt, len(input.Lyrics), input.DurationSet)
+		formatted, err := client.formatWithDeepSeek(input)
+		if err != nil {
+			log.Warnf("[ace-step] deepseek format failed: %v", err)
+			ctx.SendChain(message.Text("❌ DeepSeek 歌曲参数生成失败：" + err.Error()))
+			return
+		}
+		applyDeepSeekFormatResult(&input, formatted)
+		input.Duration = resolveDuration(input, formatted, cfg.DefaultDuration)
+		log.Infof("[ace-step] deepseek formatted: duration=%.1f language=%s instrumental=%v lyrics_len=%d", input.Duration, input.VocalLanguage, formatted.Instrumental, len(input.Lyrics))
+	} else if input.Lyrics != "" {
 		log.Infof("[ace-step] formatting explicit lyrics: prompt=%s lyrics_len=%d", input.Prompt, len(input.Lyrics))
 		formatted, err := client.formatInput(input.Prompt, input.Lyrics, input.VocalLanguage)
 		if err != nil {
@@ -74,20 +85,24 @@ func handleAce(ctx *zero.Ctx) {
 		applySampleData(&input, formatted, !input.DurationSet)
 		log.Infof("[ace-step] lyrics formatted: duration=%.1f language=%s lyrics_len=%d", input.Duration, input.VocalLanguage, len(input.Lyrics))
 	} else {
-		input.SampleMode = true
-		input.SampleQuery = buildSampleQuery(input.Prompt)
-		if !input.DurationSet {
-			input.Duration = 0
+		formatted, err := client.createSample(buildSampleQuery(input.Prompt))
+		if err != nil {
+			log.Warnf("[ace-step] create sample failed: %v", err)
+			ctx.SendChain(message.Text("❌ 歌曲参数生成失败：" + err.Error()))
+			return
 		}
-		log.Infof("[ace-step] using simple sample mode: query=%s", input.SampleQuery)
+		applySampleData(&input, formatted, !input.DurationSet)
+		log.Infof("[ace-step] sample formatted: duration=%.1f language=%s lyrics_len=%d", input.Duration, input.VocalLanguage, len(input.Lyrics))
 	}
-	if input.Lyrics == "" && !input.SampleMode {
+	input.SampleMode = false
+	input.SampleQuery = ""
+	if input.Lyrics == "" {
 		input.Lyrics = "[Instrumental]"
 	}
-	if input.VocalLanguage == "" && !input.SampleMode {
+	if input.VocalLanguage == "" {
 		input.VocalLanguage = "unknown"
 	}
-	if input.Duration == 0 && !input.SampleMode {
+	if input.Duration <= 0 {
 		input.Duration = float64(cfg.DefaultDuration)
 	}
 
@@ -117,17 +132,25 @@ func handleAce(ctx *zero.Ctx) {
 		return
 	}
 
-	// Download to temp file
-	tmpPath := fmt.Sprintf("/tmp/ace_step_%s.mp3", taskID)
-	if err := client.downloadAudio(audioURL, tmpPath); err != nil {
+	// Download to persistent local file under the docker-mounted data directory.
+	audioDir := "/app/data/ace-step/audio"
+	if err := os.MkdirAll(audioDir, 0o755); err != nil {
+		log.Warnf("[ace-step] create audio dir failed: %v", err)
+		ctx.SendChain(message.Text("❌ 创建音频保存目录失败：" + err.Error()))
+		return
+	}
+	requester := sanitizeFilenamePart(getRequesterName(ctx))
+	timestamp := time.Now().Format("20060102_150405")
+	localPath := fmt.Sprintf("%s/%s_%s.mp3", audioDir, requester, timestamp)
+	if err := client.downloadAudio(audioURL, localPath); err != nil {
 		log.Warnf("[ace-step] download failed: %v", err)
 		ctx.SendChain(message.Text("❌ 下载音频失败：" + err.Error()))
 		return
 	}
-	defer os.Remove(tmpPath)
+	log.Infof("[ace-step] audio saved: %s", localPath)
 
-	log.Infof("[ace-step] sending record: %s", tmpPath)
-	segment, err := recordSegmentFromFile(tmpPath)
+	log.Infof("[ace-step] sending record: %s", localPath)
+	segment, err := recordSegmentFromFile(localPath)
 	if err != nil {
 		log.Warnf("[ace-step] build record failed: %v", err)
 		ctx.SendChain(message.Text("❌ 音频发送失败：" + err.Error()))
@@ -219,6 +242,49 @@ func recordSegmentFromFile(path string) (message.Segment, error) {
 		return message.Segment{}, fmt.Errorf("read audio file: %w", err)
 	}
 	return message.Record("base64://" + base64.StdEncoding.EncodeToString(data)), nil
+}
+
+func getRequesterName(ctx *zero.Ctx) string {
+	if ctx != nil && ctx.Event != nil && ctx.Event.Sender != nil {
+		if card := strings.TrimSpace(ctx.Event.Sender.Card); card != "" {
+			return card
+		}
+		if nick := strings.TrimSpace(ctx.Event.Sender.NickName); nick != "" {
+			return nick
+		}
+	}
+	if ctx != nil && ctx.Event != nil && ctx.Event.UserID != 0 {
+		return strconv.FormatInt(ctx.Event.UserID, 10)
+	}
+	return "unknown"
+}
+
+func sanitizeFilenamePart(s string) string {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return "unknown"
+	}
+
+	var b strings.Builder
+	for _, r := range s {
+		switch r {
+		case '/', '\\', ':', '*', '?', '"', '<', '>', '|':
+			b.WriteRune('_')
+		case '\n', '\r', '\t':
+			b.WriteRune('_')
+		default:
+			b.WriteRune(r)
+		}
+	}
+
+	cleaned := strings.Trim(b.String(), " ._")
+	if cleaned == "" {
+		return "unknown"
+	}
+	if len([]rune(cleaned)) > 40 {
+		cleaned = string([]rune(cleaned)[:40])
+	}
+	return cleaned
 }
 
 // parseArgs extracts prompt and duration from the command args.

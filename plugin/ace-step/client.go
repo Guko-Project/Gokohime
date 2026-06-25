@@ -17,9 +17,13 @@ import (
 )
 
 type aceClient struct {
-	baseURL    string
-	apiKey     string
-	httpClient *http.Client
+	baseURL         string
+	apiKey          string
+	httpClient      *http.Client
+	useDeepSeekLM   bool
+	deepSeekAPIKey  string
+	deepSeekBaseURL string
+	deepSeekModel   string
 }
 
 const (
@@ -29,7 +33,7 @@ const (
 
 type releaseTaskReq struct {
 	Prompt         string  `json:"prompt"`
-	SampleMode     bool    `json:"sample_mode,omitempty"`
+	SampleMode     bool    `json:"sample_mode"`
 	SampleQuery    string  `json:"sample_query,omitempty"`
 	Lyrics         string  `json:"lyrics,omitempty"`
 	VocalLanguage  string  `json:"vocal_language,omitempty"`
@@ -39,6 +43,10 @@ type releaseTaskReq struct {
 	TimeSignature  string  `json:"time_signature,omitempty"`
 	AudioDuration  float64 `json:"audio_duration,omitempty"`
 	Thinking       bool    `json:"thinking"`
+	UseFormat      bool    `json:"use_format"`
+	UseCOTCaption  bool    `json:"use_cot_caption"`
+	UseCOTLanguage bool    `json:"use_cot_language"`
+	UseCOTMetas    bool    `json:"use_cot_metas"`
 	InferenceSteps int     `json:"inference_steps"`
 	AudioFormat    string  `json:"audio_format"`
 	BatchSize      int     `json:"batch_size"`
@@ -116,6 +124,15 @@ func newClient(baseURL, apiKey string) *aceClient {
 	}
 }
 
+func newClientWithConfig(baseURL, apiKey string, useDeepSeekLM bool, deepSeekAPIKey, deepSeekBaseURL, deepSeekModel string) *aceClient {
+	c := newClient(baseURL, apiKey)
+	c.useDeepSeekLM = useDeepSeekLM
+	c.deepSeekAPIKey = deepSeekAPIKey
+	c.deepSeekBaseURL = strings.TrimRight(deepSeekBaseURL, "/")
+	c.deepSeekModel = deepSeekModel
+	return c
+}
+
 func (c *aceClient) doRequest(method, path string, body io.Reader) (*http.Response, error) {
 	url := c.baseURL + path
 	req, err := http.NewRequest(method, url, body)
@@ -163,6 +180,7 @@ func (c *aceClient) doLMRequest(method, path string, data []byte) (*http.Respons
 func (c *aceClient) createSample(query string) (*sampleData, error) {
 	payload := createSampleReq{SampleQuery: query}
 	data, _ := json.Marshal(payload)
+	log.Infof("[ace-step] create_sample API payload: %s", compactJSONForLog(data))
 
 	resp, err := c.doLMRequest("POST", "/v1/create_sample", data)
 	if err != nil {
@@ -201,6 +219,7 @@ func (c *aceClient) formatInput(prompt, lyrics, vocalLanguage string) (*sampleDa
 		VocalLanguage: vocalLanguage,
 	}
 	data, _ := json.Marshal(payload)
+	log.Infof("[ace-step] format_input API payload: %s", compactJSONForLog(data))
 
 	resp, err := c.doLMRequest("POST", "/format_input", data)
 	if err != nil {
@@ -236,6 +255,7 @@ func (c *aceClient) formatInput(prompt, lyrics, vocalLanguage string) (*sampleDa
 func (c *aceClient) submitTask(input generationInput) (string, error) {
 	payload := releaseTaskPayload(input)
 	data, _ := json.Marshal(payload)
+	log.Infof("[ace-step] release_task API payload: %s", compactJSONForLog(data))
 
 	resp, err := c.doRequest("POST", "/release_task", strings.NewReader(string(data)))
 	if err != nil {
@@ -286,7 +306,11 @@ func releaseTaskPayload(input generationInput) releaseTaskReq {
 		KeyScale:       input.Keyscale,
 		TimeSignature:  input.TimeSignature,
 		AudioDuration:  input.Duration,
-		Thinking:       true,
+		Thinking:       false,
+		UseFormat:      false,
+		UseCOTCaption:  false,
+		UseCOTLanguage: false,
+		UseCOTMetas:    false,
 		InferenceSteps: 10,
 		AudioFormat:    "mp3",
 		BatchSize:      1,
@@ -298,6 +322,36 @@ func isInstrumentalLyrics(lyrics string) bool {
 	return normalized == "" || normalized == "[instrumental]"
 }
 
+func compactJSONForLog(data []byte) string {
+	var out any
+	if err := json.Unmarshal(data, &out); err != nil {
+		return string(data)
+	}
+	formatted, err := json.Marshal(out)
+	if err != nil {
+		return string(data)
+	}
+	return string(formatted)
+}
+
+func resolveDuration(input generationInput, formatted *deepSeekFormatResult, defaultDuration int) float64 {
+	duration := input.Duration
+	if !input.DurationSet {
+		if formatted != nil && formatted.Duration > 0 {
+			duration = formatted.Duration
+		} else if duration <= 0 {
+			duration = float64(defaultDuration)
+		}
+	}
+	if duration <= 0 {
+		duration = float64(defaultDuration)
+	}
+	if duration > 180 {
+		return 180
+	}
+	return duration
+}
+
 // pollResult polls until task is completed or failed. Returns audio file path on success.
 func (c *aceClient) pollResult(taskID string, pollInterval, timeout time.Duration) (string, error) {
 	deadline := time.Now().Add(timeout)
@@ -306,6 +360,7 @@ func (c *aceClient) pollResult(taskID string, pollInterval, timeout time.Duratio
 		// Build request body: task_id_list is a JSON-stringified array
 		listJSON, _ := json.Marshal([]string{taskID})
 		reqBody := fmt.Sprintf(`{"task_id_list": %s}`, strconv.Quote(string(listJSON)))
+		log.Infof("[ace-step] query_result API payload: %s", reqBody)
 
 		resp, err := c.doRequest("POST", "/query_result", strings.NewReader(reqBody))
 		if err != nil {

@@ -94,9 +94,10 @@ func TestApplySampleDataUsesFormattedFields(t *testing.T) {
 
 func TestSampleModeReleasePayloadDoesNotForceInstrumental(t *testing.T) {
 	input := generationInput{
-		Prompt:      "生成一段中文VOCALOID歌曲，需要有歌词",
-		SampleMode:  true,
-		SampleQuery: "生成一段中文VOCALOID歌曲，需要有歌词\nGenerate sung vocals with complete lyrics. Do not make this instrumental.",
+		Prompt:        "生成一段中文VOCALOID歌曲，需要有歌词",
+		Lyrics:        "[Verse]\n我不想上班",
+		VocalLanguage: "zh",
+		Duration:      120,
 	}
 	payload := releaseTaskPayload(input)
 	data, err := json.Marshal(payload)
@@ -104,10 +105,74 @@ func TestSampleModeReleasePayloadDoesNotForceInstrumental(t *testing.T) {
 		t.Fatalf("marshal payload: %v", err)
 	}
 	body := string(data)
-	if !strings.Contains(body, `"sample_mode":true`) || !strings.Contains(body, `"sample_query"`) {
-		t.Fatalf("payload missing sample mode fields: %s", body)
+	if !strings.Contains(body, `"sample_mode":false`) {
+		t.Fatalf("payload should explicitly disable sample mode: %s", body)
 	}
-	if strings.Contains(body, `"lyrics"`) || strings.Contains(body, `"instrumental"`) {
-		t.Fatalf("sample mode payload should not force lyrics/instrumental: %s", body)
+	if strings.Contains(body, `"sample_query"`) {
+		t.Fatalf("payload should not include sample query: %s", body)
+	}
+	if !strings.Contains(body, `"thinking":false`) {
+		t.Fatalf("payload should disable thinking: %s", body)
+	}
+	for _, field := range []string{`"use_format":false`, `"use_cot_caption":false`, `"use_cot_language":false`, `"use_cot_metas":false`} {
+		if !strings.Contains(body, field) {
+			t.Fatalf("payload should disable ACE-Step built-in LM/COT field %s: %s", field, body)
+		}
+	}
+	if !strings.Contains(body, `"audio_duration":120`) {
+		t.Fatalf("payload should include audio_duration: %s", body)
+	}
+}
+
+func TestResolveDurationPriorityAndCap(t *testing.T) {
+	formatted := &deepSeekFormatResult{Duration: 90}
+	input := generationInput{Duration: 240, DurationSet: true}
+	if got := resolveDuration(input, formatted, 30); got != 180 {
+		t.Fatalf("explicit duration should win and cap to 180, got %v", got)
+	}
+
+	input = generationInput{}
+	if got := resolveDuration(input, formatted, 30); got != 90 {
+		t.Fatalf("deepseek duration should be used when explicit duration absent, got %v", got)
+	}
+
+	formatted.Duration = 240
+	if got := resolveDuration(input, formatted, 30); got != 180 {
+		t.Fatalf("deepseek duration should cap to 180, got %v", got)
+	}
+}
+
+func TestBuildDeepSeekUserContentOmitsExplicitDurationValue(t *testing.T) {
+	input := generationInput{Prompt: "日本VOCALOID摇滚", Lyrics: "我不想上班", VocalLanguage: "zh", Duration: 240, DurationSet: true}
+	content, err := buildDeepSeekUserContent(input)
+	if err != nil {
+		t.Fatalf("build content: %v", err)
+	}
+	if strings.Contains(content, "240") {
+		t.Fatalf("deepseek user content should not include explicit duration value: %s", content)
+	}
+	if !strings.Contains(content, `"has_explicit_duration":true`) {
+		t.Fatalf("deepseek user content should include explicit duration hint: %s", content)
+	}
+}
+
+func TestParseDeepSeekFormatResultValidatesSchema(t *testing.T) {
+	valid := `{"caption":"Japanese VOCALOID rock, energetic guitars","lyrics":"[Verse]\n我不想上班","bpm":176,"key_scale":"D major","time_signature":"4/4","vocal_language":"zh","instrumental":false,"duration":120}`
+	parsed, err := parseDeepSeekFormatResult(valid)
+	if err != nil {
+		t.Fatalf("valid result rejected: %v", err)
+	}
+	if parsed.Caption == "" || parsed.Duration != 120 {
+		t.Fatalf("unexpected parsed result: %+v", parsed)
+	}
+
+	invalid := `{"lyrics":"[Verse]\n我不想上班","instrumental":false,"duration":120}`
+	if _, err := parseDeepSeekFormatResult(invalid); err == nil {
+		t.Fatalf("missing caption should be rejected")
+	}
+
+	invalid = `{"caption":"x","lyrics":"[Verse]","bpm":400,"time_signature":"4/4","vocal_language":"zh","instrumental":false}`
+	if _, err := parseDeepSeekFormatResult(invalid); err == nil {
+		t.Fatalf("out of range bpm should be rejected")
 	}
 }

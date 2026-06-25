@@ -28,6 +28,10 @@ type AceStepConfig struct {
 	DefaultDuration int    `yaml:"default_duration"`
 	PollIntervalSec int    `yaml:"poll_interval_sec"`
 	PollTimeoutSec  int    `yaml:"poll_timeout_sec"`
+	UseDeepSeekLM   bool   `yaml:"use_deepseek_lm"`
+	DeepSeekAPIKey  string `yaml:"deepseek_api_key"`
+	DeepSeekBaseURL string `yaml:"deepseek_base_url"`
+	DeepSeekModel   string `yaml:"deepseek_model"`
 }
 
 type OmoiConfig struct {
@@ -304,11 +308,29 @@ func Load(path string) (*Config, error) {
 	if base := os.Getenv("ACE_STEP_BASE_URL"); base != "" && cfg.AceStep.BaseURL == "" {
 		cfg.AceStep.BaseURL = base
 	}
+	if key := os.Getenv("ACE_STEP_DEEPSEEK_API_KEY"); key != "" && cfg.AceStep.DeepSeekAPIKey == "" {
+		cfg.AceStep.DeepSeekAPIKey = key
+	}
+	if base := os.Getenv("ACE_STEP_DEEPSEEK_BASE_URL"); base != "" && cfg.AceStep.DeepSeekBaseURL == "" {
+		cfg.AceStep.DeepSeekBaseURL = base
+	}
+	if model := os.Getenv("ACE_STEP_DEEPSEEK_MODEL"); model != "" && cfg.AceStep.DeepSeekModel == "" {
+		cfg.AceStep.DeepSeekModel = model
+	}
+	if use := os.Getenv("ACE_STEP_USE_DEEPSEEK_LM"); use != "" {
+		cfg.AceStep.UseDeepSeekLM = parseBoolEnvValue(use)
+	}
 	if cfg.AceStep.MaxDuration <= 0 {
-		cfg.AceStep.MaxDuration = 60
+		cfg.AceStep.MaxDuration = 180
 	}
 	if cfg.AceStep.DefaultDuration <= 0 {
 		cfg.AceStep.DefaultDuration = 30
+	}
+	if cfg.AceStep.DeepSeekBaseURL == "" {
+		cfg.AceStep.DeepSeekBaseURL = "https://api.deepseek.com/v1"
+	}
+	if cfg.AceStep.DeepSeekModel == "" {
+		cfg.AceStep.DeepSeekModel = "deepseek-v4-flash"
 	}
 	if cfg.AceStep.PollIntervalSec <= 0 {
 		cfg.AceStep.PollIntervalSec = 3
@@ -431,4 +453,9 @@ func parseIntLikeEnv(key string) int {
 		return 0
 	}
 	return int(floatValue)
+}
+
+func parseBoolEnvValue(raw string) bool {
+	raw = strings.ToLower(strings.TrimSpace(raw))
+	return raw == "1" || raw == "true" || raw == "yes" || raw == "y" || raw == "on"
 }
