@@ -13,6 +13,7 @@ func botDataTables() []BotDataTable {
 		{Name: "cp_stories", Label: "CP 故事", Description: "CP 短打故事模板"},
 		{Name: "meal_entries", Label: "吃什么", Description: "餐食/零食候选项"},
 		{Name: "ktv_songs", Label: "KTV 歌曲", Description: "KTV 随机推荐曲库"},
+		{Name: "kk_songlist_songs", Label: "KK 歌单", Description: "按分类导入的随机歌单歌曲"},
 		{Name: "guess_song_catalogs", Label: "猜歌曲库", Description: "猜歌歌曲 ID 与元数据"},
 		{Name: "rand_pic_items", Label: "随机图片", Description: "随机图片分类与文件索引"},
 		{Name: "plugin_kvs", Label: "插件 KV", Description: "插件轻量状态与配置"},

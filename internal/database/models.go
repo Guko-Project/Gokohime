@@ -90,6 +90,21 @@ type KTVSong struct {
 	EntryHash string `gorm:"uniqueIndex;size:64"`
 }
 
+// KKSonglistSong stores playlist-backed random songs grouped by unique category.
+type KKSonglistSong struct {
+	gorm.Model
+	Category  string `gorm:"index;size:128;not null"`
+	Name      string `gorm:"index;size:512;not null"`
+	Issuer    string `gorm:"index;size:64"`
+	SourceURL string `gorm:"size:2048"`
+}
+
+// KKSonglistCategorySummary describes a user's playlist category summary.
+type KKSonglistCategorySummary struct {
+	Category string
+	Count    int64
+}
+
 // DailyLuckTemplate stores the fortune text/image templates.
 type DailyLuckTemplate struct {
 	gorm.Model

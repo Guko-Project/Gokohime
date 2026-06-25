@@ -156,6 +156,129 @@ func DeleteKTVSong(ctx context.Context, tx *gorm.DB, name string) error {
 		Delete(&KTVSong{}).Error
 }
 
+func RandomKKSonglistSong(ctx context.Context, tx *gorm.DB, category string) (*KKSonglistSong, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return nil, errors.New("database not initialized")
+	}
+
+	q := db.WithContext(ctx).Model(&KKSonglistSong{})
+	if category = strings.TrimSpace(category); category != "" {
+		q = q.Where("category = ?", category)
+	}
+
+	var song KKSonglistSong
+	if err := q.Order("RANDOM()").Limit(1).Take(&song).Error; err != nil {
+		return nil, err
+	}
+	return &song, nil
+}
+
+func KKSonglistCategoryOwner(ctx context.Context, tx *gorm.DB, category string) (string, bool, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return "", false, errors.New("database not initialized")
+	}
+
+	var song KKSonglistSong
+	if err := db.WithContext(ctx).
+		Where("category = ?", strings.TrimSpace(category)).
+		Order("id ASC").
+		Limit(1).
+		Take(&song).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return "", false, nil
+		}
+		return "", false, err
+	}
+	return song.Issuer, true, nil
+}
+
+func ReplaceKKSonglistCategory(ctx context.Context, tx *gorm.DB, category, issuer, sourceURL string, songs []string) error {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return errors.New("database not initialized")
+	}
+
+	category = strings.TrimSpace(category)
+	issuer = strings.TrimSpace(issuer)
+	sourceURL = strings.TrimSpace(sourceURL)
+	if category == "" {
+		return errors.New("kk songlist category is empty")
+	}
+
+	entries := make([]KKSonglistSong, 0, len(songs))
+	for _, song := range songs {
+		name := strings.TrimSpace(song)
+		if name == "" {
+			continue
+		}
+		entries = append(entries, KKSonglistSong{
+			Category:  category,
+			Name:      name,
+			Issuer:    issuer,
+			SourceURL: sourceURL,
+		})
+	}
+	if len(entries) == 0 {
+		return errors.New("kk songlist has no songs")
+	}
+
+	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err := tx.Where("category = ?", category).Delete(&KKSonglistSong{}).Error; err != nil {
+			return err
+		}
+		return tx.Create(&entries).Error
+	})
+}
+
+func DeleteKKSonglistCategory(ctx context.Context, tx *gorm.DB, category string) (int64, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return 0, errors.New("database not initialized")
+	}
+
+	result := db.WithContext(ctx).
+		Where("category = ?", strings.TrimSpace(category)).
+		Delete(&KKSonglistSong{})
+	return result.RowsAffected, result.Error
+}
+
+func DeleteKKSonglistSong(ctx context.Context, tx *gorm.DB, category, name string) (int64, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return 0, errors.New("database not initialized")
+	}
+
+	result := db.WithContext(ctx).
+		Where("category = ? AND name = ?", strings.TrimSpace(category), strings.TrimSpace(name)).
+		Delete(&KKSonglistSong{})
+	return result.RowsAffected, result.Error
+}
+
+func ListKKSonglistCategoriesByIssuer(ctx context.Context, tx *gorm.DB, issuer string, limit int) ([]KKSonglistCategorySummary, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return nil, errors.New("database not initialized")
+	}
+	if limit <= 0 {
+		limit = 10
+	}
+
+	var summaries []KKSonglistCategorySummary
+	if err := db.WithContext(ctx).
+		Model(&KKSonglistSong{}).
+		Select("category, COUNT(*) AS count").
+		Where("issuer = ?", strings.TrimSpace(issuer)).
+		Group("category").
+		Order("MAX(updated_at) DESC").
+		Limit(limit).
+		Scan(&summaries).Error; err != nil {
+		return nil, err
+	}
+	return summaries, nil
+}
+
 func DistinctRandPicCategories(ctx context.Context, tx *gorm.DB) ([]string, error) {
 	db := dbOrGlobal(tx)
 	if db == nil {

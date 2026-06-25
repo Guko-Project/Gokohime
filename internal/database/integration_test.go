@@ -22,6 +22,7 @@ func TestPluginStoreIntegration(t *testing.T) {
 		&database.CPStory{},
 		&database.MealEntry{},
 		&database.KTVSong{},
+		&database.KKSonglistSong{},
 		&database.RandPicItem{},
 		&database.DailyLuckTemplate{},
 		&database.GuessSongCatalog{},
@@ -131,6 +132,52 @@ func TestPluginStoreIntegration(t *testing.T) {
 		t.Fatalf("expected ktv song to be deleted")
 	}
 
+	if err := database.ReplaceKKSonglistCategory(ctx, tx, "十年精选", "10001", "https://example.com/list", []string{"Saika", "Saika", "雪影"}); err != nil {
+		t.Fatalf("ReplaceKKSonglistCategory failed: %v", err)
+	}
+	kkSong, err := database.RandomKKSonglistSong(ctx, tx, "十年精选")
+	if err != nil {
+		t.Fatalf("RandomKKSonglistSong category failed: %v", err)
+	}
+	if kkSong.Category != "十年精选" || kkSong.Issuer != "10001" {
+		t.Fatalf("unexpected kk song: %+v", kkSong)
+	}
+	kkSong, err = database.RandomKKSonglistSong(ctx, tx, "")
+	if err != nil {
+		t.Fatalf("RandomKKSonglistSong all failed: %v", err)
+	}
+	if kkSong.Category != "十年精选" {
+		t.Fatalf("unexpected random kk category: %q", kkSong.Category)
+	}
+	owner, ok, err := database.KKSonglistCategoryOwner(ctx, tx, "十年精选")
+	if err != nil {
+		t.Fatalf("KKSonglistCategoryOwner failed: %v", err)
+	}
+	if !ok || owner != "10001" {
+		t.Fatalf("unexpected kk owner: owner=%q ok=%v", owner, ok)
+	}
+	summaries, err := database.ListKKSonglistCategoriesByIssuer(ctx, tx, "10001", 10)
+	if err != nil {
+		t.Fatalf("ListKKSonglistCategoriesByIssuer failed: %v", err)
+	}
+	if len(summaries) != 1 || summaries[0].Category != "十年精选" || summaries[0].Count != 3 {
+		t.Fatalf("unexpected kk summaries: %#v", summaries)
+	}
+	deleted, err := database.DeleteKKSonglistSong(ctx, tx, "十年精选", "Saika")
+	if err != nil {
+		t.Fatalf("DeleteKKSonglistSong failed: %v", err)
+	}
+	if deleted != 2 {
+		t.Fatalf("expected duplicate kk songs to be deleted, got %d", deleted)
+	}
+	deleted, err = database.DeleteKKSonglistCategory(ctx, tx, "十年精选")
+	if err != nil {
+		t.Fatalf("DeleteKKSonglistCategory failed: %v", err)
+	}
+	if deleted != 1 {
+		t.Fatalf("expected remaining kk category song to be deleted, got %d", deleted)
+	}
+
 	keywords, _ := json.Marshal([]string{"早上好", "问候"})
 	if err := tx.Create(&database.RandPicItem{
 		Category:     "fu",
@@ -171,7 +218,7 @@ func TestPluginStoreIntegration(t *testing.T) {
 	if item.Category != "fu" {
 		t.Fatalf("unexpected search result category: %q", item.Category)
 	}
-	ok, err := database.RandPicCategoryExists(ctx, tx, "fu")
+	ok, err = database.RandPicCategoryExists(ctx, tx, "fu")
 	if err != nil {
 		t.Fatalf("RandPicCategoryExists failed: %v", err)
 	}

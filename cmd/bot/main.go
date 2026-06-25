@@ -29,6 +29,7 @@ import (
 	_ "github.com/colanns/gokohime/plugin/help"
 	_ "github.com/colanns/gokohime/plugin/jrluck"
 	_ "github.com/colanns/gokohime/plugin/kk"
+	_ "github.com/colanns/gokohime/plugin/kks"
 	_ "github.com/colanns/gokohime/plugin/omoi"
 	_ "github.com/colanns/gokohime/plugin/repeater"
 	_ "github.com/colanns/gokohime/plugin/saying"

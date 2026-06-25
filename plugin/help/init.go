@@ -22,6 +22,7 @@ const helpText = `【鸽子姬 帮助菜单】
 .cp A B - CP短打
 .kk / .ktv - KTV随机歌
 .kadd / .kdel - 管理 KTV 曲库
+.kks / .kksadd / .kksdel - KK 歌单随机歌
 .saying - 查看已迁移到 randpic 的语录分类
 .save (回复表情) - 保存表情
 .cg jstart - 猜歌游戏

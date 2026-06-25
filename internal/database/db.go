@@ -118,6 +118,7 @@ func coreModels() []any {
 		&CPStory{},
 		&MealEntry{},
 		&KTVSong{},
+		&KKSonglistSong{},
 		&DailyLuckTemplate{},
 		&GuessSongCatalog{},
 		&RandPicItem{},
