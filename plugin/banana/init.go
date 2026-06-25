@@ -890,11 +890,7 @@ func callGIAPI(httpClient *http.Client, cfg *config.Config, contents []bananaCon
 		return nil, err
 	}
 
-	data, _, err := downloadImage(httpClient, imageURL)
-	if err != nil {
-		return nil, err
-	}
-	return &bananaResult{imageBytes: data}, nil
+	return &bananaResult{imageURL: imageURL}, nil
 }
 
 func submitGITask(httpClient *http.Client, endpoint, apiKey string, payload map[string]any, maxRetries int) (string, error) {
