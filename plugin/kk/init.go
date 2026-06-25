@@ -28,7 +28,7 @@ const usageText = `【KTV 曲库】
 .kdel 群青`
 
 func init() {
-	zero.OnCommandGroup([]string{"kk", "ktv", "点歌"}).
+	zero.OnCommandGroup([]string{"kk", "ktv", "点歌"}, exactKTVCommandRule("kk", "ktv", "点歌")).
 		SetBlock(true).Handle(func(ctx *zero.Ctx) {
 		args, _ := ctx.State["args"].(string)
 		category := strings.TrimSpace(args)
@@ -49,7 +49,7 @@ func init() {
 		ctx.SendChain(message.Text(fmt.Sprintf("来唱《%s》!", song.Name)))
 	})
 
-	zero.OnCommandGroup([]string{"kadd"}).
+	zero.OnCommandGroup([]string{"kadd"}, exactKTVCommandRule("kadd")).
 		SetBlock(true).
 		Handle(func(ctx *zero.Ctx) {
 			song, err := parseKTVAddArgs(extractArgs(ctx))
@@ -77,7 +77,7 @@ func init() {
 			ctx.SendChain(message.Text(fmt.Sprintf("《%s》已加入 KTV 曲库！", song.Name)))
 		})
 
-	zero.OnCommandGroup([]string{"kdel"}).
+	zero.OnCommandGroup([]string{"kdel"}, exactKTVCommandRule("kdel")).
 		SetBlock(true).
 		Handle(func(ctx *zero.Ctx) {
 			name := strings.TrimSpace(extractArgs(ctx))
@@ -103,6 +103,28 @@ func init() {
 
 			ctx.SendChain(message.Text(fmt.Sprintf("《%s》已从 KTV 曲库删除。", name)))
 		})
+}
+
+func exactKTVCommandRule(commands ...string) zero.Rule {
+	return func(ctx *zero.Ctx) bool {
+		if len(ctx.Event.Message) == 0 || ctx.Event.Message[0].Type != "text" {
+			return false
+		}
+		return isExactKTVCommandText(ctx.Event.Message[0].Data["text"], zero.BotConfig.CommandPrefix, commands...)
+	}
+}
+
+func isExactKTVCommandText(text, prefix string, commands ...string) bool {
+	if !strings.HasPrefix(text, prefix) {
+		return false
+	}
+	cmdMessage := strings.TrimPrefix(text, prefix)
+	for _, command := range commands {
+		if cmdMessage == command || strings.HasPrefix(cmdMessage, command+" ") {
+			return true
+		}
+	}
+	return false
 }
 
 func parseKTVAddArgs(args string) (*database.KTVSong, error) {

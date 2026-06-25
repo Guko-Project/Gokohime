@@ -53,3 +53,18 @@ func TestHashKTVSong(t *testing.T) {
 		t.Fatalf("expected hash to normalize surrounding spaces")
 	}
 }
+
+func TestExactKTVCommandTextDoesNotMatchKKSCommands(t *testing.T) {
+	if isExactKTVCommandText(".kksadd 日推 https://example.com", ".", "kk") {
+		t.Fatalf("expected .kksadd not to match .kk")
+	}
+	if isExactKTVCommandText(".kks 日推", ".", "kk") {
+		t.Fatalf("expected .kks not to match .kk")
+	}
+	if !isExactKTVCommandText(".kk 日推", ".", "kk") {
+		t.Fatalf("expected .kk with args to match")
+	}
+	if !isExactKTVCommandText(".kk", ".", "kk") {
+		t.Fatalf("expected exact .kk to match")
+	}
+}
