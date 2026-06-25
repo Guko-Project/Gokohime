@@ -16,12 +16,15 @@ import (
 
 const usageText = `【KTV 曲库】
 .ktv [分类] - 随机推荐歌曲
-.kadd 歌名 [分类] [BV/链接] - 添加歌曲
+.kadd 歌名 分类 [BV/链接] - 添加歌曲
 .kdel 歌名 - 删除歌曲
 
 例：
 .kadd 群青 日 BV1xx411c7mD
-.kadd 群青 | 日 | https://www.bilibili.com/video/BV1xx411c7mD
+.kadd Little Wish 粥批
+.kadd Little Wish | 粥批 | https://www.bilibili.com/video/BV1xx411c7mD
+
+提示：歌名含空格时，默认最后一段是分类；需要避免歧义可用 | 分隔。
 .kdel 群青`
 
 func init() {
@@ -122,14 +125,21 @@ func parseKTVAddArgs(args string) (*database.KTVSong, error) {
 		}
 	} else {
 		fields := strings.Fields(args)
-		if len(fields) > 0 {
+		if len(fields) == 1 {
 			name = fields[0]
-		}
-		if len(fields) > 1 {
-			category = fields[1]
-		}
-		if len(fields) > 2 {
-			bv = strings.Join(fields[2:], " ")
+		} else if len(fields) > 1 {
+			last := fields[len(fields)-1]
+			if isKTVVideoRef(last) {
+				bv = last
+				fields = fields[:len(fields)-1]
+			}
+
+			if len(fields) == 1 {
+				name = fields[0]
+			} else if len(fields) > 1 {
+				category = fields[len(fields)-1]
+				name = strings.Join(fields[:len(fields)-1], " ")
+			}
 		}
 	}
 
@@ -138,6 +148,14 @@ func parseKTVAddArgs(args string) (*database.KTVSong, error) {
 		return nil, errors.New("ktv song name is empty")
 	}
 	return &database.KTVSong{Name: name, Category: category, BV: bv}, nil
+}
+
+func isKTVVideoRef(value string) bool {
+	value = strings.TrimSpace(value)
+	lower := strings.ToLower(value)
+	return strings.HasPrefix(value, "BV") ||
+		strings.Contains(lower, "bilibili.com/video/") ||
+		strings.Contains(lower, "b23.tv/")
 }
 
 func extractArgs(ctx *zero.Ctx) string {
