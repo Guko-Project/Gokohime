@@ -33,13 +33,16 @@ func BuildGroupMentionPrompt(groupName string, history []BufferedMessage, trigge
 	}
 	sb.WriteString("---\n\n")
 	sb.WriteString("⬇️ 需要回复的消息：\n")
+	if strings.TrimSpace(trigger.Text) == "" {
+		trigger.Text = "（对方只 @ 了你，没有附加文字。请结合上下文自然地回应一声，不要保持沉默。）"
+	}
 	sb.WriteString(fmt.Sprintf("[%s(%d)]: %s\n", trigger.Nickname, trigger.UserID, trigger.Text))
 
 	return sb.String()
 }
 
 // BuildGroupActivePrompt builds the prompt for active (unsolicited) triggers.
-func BuildGroupActivePrompt(groupName string, history []BufferedMessage) string {
+func BuildGroupActivePrompt(groupName string, history []BufferedMessage, skipMarker string) string {
 	var sb strings.Builder
 
 	sb.WriteString(fmt.Sprintf("以下是群「%s」的最近聊天记录：\n", groupName))
@@ -49,7 +52,7 @@ func BuildGroupActivePrompt(groupName string, history []BufferedMessage) string 
 			msg.Time.Format(timeFormat), msg.Nickname, msg.UserID, msg.Text))
 	}
 	sb.WriteString("---\n\n")
-	sb.WriteString("你在旁边听到了这些对话，如果觉得有话想说可以自然地加入聊天，如果觉得没什么好说的就回复 [SKIP]。\n")
+	sb.WriteString(fmt.Sprintf("你在旁边听到了这些对话，如果觉得有话想说可以自然地加入聊天，如果觉得没什么好说的就回复 %s。\n", skipMarker))
 
 	return sb.String()
 }

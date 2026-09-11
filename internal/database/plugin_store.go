@@ -521,7 +521,10 @@ func SetPluginKV(ctx context.Context, tx *gorm.DB, namespace, key, value string)
 		Key:       key,
 		Value:     value,
 	}
-	return db.WithContext(ctx).Save(kv).Error
+	return db.WithContext(ctx).Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "namespace"}, {Name: "key"}},
+		DoUpdates: clause.AssignmentColumns([]string{"value", "updated_at"}),
+	}).Create(kv).Error
 }
 
 func MustFormatHash(parts ...string) string {

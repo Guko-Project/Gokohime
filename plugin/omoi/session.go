@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/colanns/gokohime/internal/database"
 	log "github.com/colanns/gokohime/internal/log"
@@ -63,4 +64,24 @@ func resetGroupSession(ctx context.Context, groupID int64) error {
 func resetPrivateSession(ctx context.Context, userID int64) error {
 	key := "session:private:" + strconv.FormatInt(userID, 10)
 	return resetSession(ctx, key)
+}
+
+// sendGroupMessage shares session recovery between mentions and active chat.
+func sendGroupMessage(ctx context.Context, groupID int64, groupName, prompt string, refs ...MediaReference) (string, error) {
+	sessionID, err := getGroupSession(ctx, groupID, groupName)
+	if err != nil {
+		return "", err
+	}
+	reply, err := client.SendMessage(ctx, sessionID, prompt, refs...)
+	if err == nil || !strings.Contains(err.Error(), "404") {
+		return reply, err
+	}
+	if err := resetGroupSession(ctx, groupID); err != nil {
+		return "", err
+	}
+	sessionID, err = getGroupSession(ctx, groupID, groupName)
+	if err != nil {
+		return "", err
+	}
+	return client.SendMessage(ctx, sessionID, prompt, refs...)
 }

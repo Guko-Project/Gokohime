@@ -21,3 +21,8 @@ web/node_modules
 *.test
 *.out
 .DS_Store
+
+# Runtime data and credentials are mounted at deployment.
+config.yaml
+.env
+.env.*

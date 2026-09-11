@@ -1,6 +1,8 @@
 package omoi
 
 import (
+	"math/rand"
+	"slices"
 	"sync"
 	"time"
 
@@ -12,6 +14,7 @@ type BufferedMessage struct {
 	UserID   int64
 	Nickname string
 	Text     string
+	Media    []MediaReference
 	Time     time.Time
 }
 
@@ -32,7 +35,7 @@ func getBuffer(groupID int64) *GroupBuffer {
 }
 
 // Push adds a message to the group buffer and returns whether a trigger should fire.
-func (b *GroupBuffer) Push(msg BufferedMessage) bool {
+func (b *GroupBuffer) Push(msg BufferedMessage, groupID int64) bool {
 	cfg := config.Get().Omoi
 
 	b.mu.Lock()
@@ -45,6 +48,11 @@ func (b *GroupBuffer) Push(msg BufferedMessage) bool {
 	}
 	b.count++
 
+	// Decide and reserve the trigger under the same lock so concurrent messages cannot fire twice.
+	if len(cfg.EnabledGroups) > 0 && !slices.Contains(cfg.EnabledGroups, groupID) {
+		return false
+	}
+
 	// Check trigger conditions
 	if cfg.TriggerProbability <= 0 {
 		return false
@@ -56,15 +64,12 @@ func (b *GroupBuffer) Push(msg BufferedMessage) bool {
 		return false
 	}
 
-	return true
-}
-
-// MarkTriggered resets the trigger counters after a successful trigger.
-func (b *GroupBuffer) MarkTriggered() {
-	b.mu.Lock()
-	defer b.mu.Unlock()
+	if rand.Float64() >= cfg.TriggerProbability {
+		return false
+	}
 	b.count = 0
 	b.lastSent = time.Now()
+	return true
 }
 
 // Snapshot returns a copy of the current buffered messages.

@@ -82,11 +82,20 @@ func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, e
 
 // SendMessage sends a message to an Omoi session and returns the full assistant reply.
 // It consumes the SSE stream, concatenating delta events.
-func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string) (string, error) {
+func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, refs ...MediaReference) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, 180*time.Second)
+	defer cancel()
 	text = withReplyFormat(text, config.Get().Omoi)
+	content := []ContentBlock{{Type: "text", Text: text}}
+	attachments, err := c.prepareAttachments(ctx, refs)
+	if err != nil {
+		return "", err
+	}
+	content = append(content, attachments...)
+	log.Infof("[omoi] trace=%s stage=chat_send attachments=%d blocks=%d", traceID(ctx), len(refs), len(content))
 	body := map[string]any{
 		"session_id": sessionID,
-		"content":    []map[string]string{{"type": "text", "text": text}},
+		"content":    content,
 	}
 	data, err := json.Marshal(body)
 	if err != nil {
@@ -101,6 +110,7 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string) (s
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-API-Key", c.apiKey)
+	req.Header.Set("X-Request-ID", traceID(ctx))
 
 	resp, err := streamClient.Do(req)
 	if err != nil {
@@ -120,6 +130,7 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string) (s
 // consumeSSE reads SSE events from the response body and accumulates the assistant reply.
 func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 	scanner := bufio.NewScanner(r)
+	scanner.Buffer(make([]byte, 4096), 1<<20)
 	var reply strings.Builder
 	var currentEvent string
 
@@ -170,6 +181,5 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 		return reply.String(), fmt.Errorf("read SSE: %w", err)
 	}
 
-	// Stream ended without a done event
-	return reply.String(), nil
+	return reply.String(), fmt.Errorf("omoi stream ended before done")
 }
