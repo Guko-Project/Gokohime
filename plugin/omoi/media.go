@@ -148,7 +148,8 @@ func safeMediaURL(raw string) (*url.URL, error) {
 		return nil, fmt.Errorf("media_url_invalid")
 	}
 	h := strings.ToLower(u.Hostname())
-	allowed := false
+	// Current QQ NT attachments use qq.com.cn; keep this exception host-specific.
+	allowed := h == "multimedia.nt.qq.com.cn"
 	for _, domain := range []string{"qq.com", "qpic.cn", "gtimg.cn", "gtimg.com"} {
 		if h == domain || strings.HasSuffix(h, "."+domain) {
 			allowed = true

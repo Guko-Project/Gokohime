@@ -20,7 +20,7 @@ func TestMediaExtractionAndURLBoundary(t *testing.T) {
 	if len(refs) != 2 || refs[0].Kind != "image" || refs[1].Kind != "video" {
 		t.Fatalf("lost media: %+v", refs)
 	}
-	for _, url := range []string{"file:///etc/passwd", "http://127.0.0.1/a", "https://qpic.cn.evil.example/a", "https://user:pass@gchat.qpic.cn/a", "https://gchat.qpic.cn:8080/a"} {
+	for _, url := range []string{"file:///etc/passwd", "http://127.0.0.1/a", "https://qpic.cn.evil.example/a", "https://user:pass@gchat.qpic.cn/a", "https://gchat.qpic.cn:8080/a", "https://multimedia.nt.qq.com.cn.evil.example/a", "https://other.qq.com.cn/a", "https://evil.multimedia.nt.qq.com.cn/a"} {
 		if _, err := safeMediaURL(url); err == nil {
 			t.Fatalf("accepted %s", url)
 		}
@@ -32,6 +32,9 @@ func TestMediaExtractionAndURLBoundary(t *testing.T) {
 	}
 	if _, err := safeMediaURL(refs[0].URL); err != nil {
 		t.Fatal(err)
+	}
+	if _, err := safeMediaURL("https://multimedia.nt.qq.com.cn/download?appid=1407&fileid=fixture&rkey=test"); err != nil {
+		t.Fatalf("rejected QQ NT media host: %v", err)
 	}
 }
 
