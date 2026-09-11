@@ -113,11 +113,16 @@ func luckImagePath(luckIndex int) string {
 	return filepath.Join(jrrpPicDir, fmt.Sprintf("%d.jpg", luckIndex))
 }
 
+var luckTimezone = time.FixedZone("UTC+8", 8*60*60)
+
 func todayInt() int64 {
-	t := time.Now()
-	s := fmt.Sprintf("%04d%02d%02d", t.Year(), int(t.Month()), t.Day())
-	v, _ := strconv.ParseInt(s, 10, 64)
-	return v
+	return luckDateInt(time.Now())
+}
+
+func luckDateInt(t time.Time) int64 {
+	// Daily luck resets at midnight UTC+8, regardless of the host timezone.
+	year, month, day := t.In(luckTimezone).Date()
+	return int64(year*10000 + int(month)*100 + day)
 }
 
 func firstLine(text string) string {
