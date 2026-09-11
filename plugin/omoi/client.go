@@ -83,6 +83,7 @@ func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, e
 // SendMessage sends a message to an Omoi session and returns the full assistant reply.
 // It consumes the SSE stream, concatenating delta events.
 func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string) (string, error) {
+	text = withReplyFormat(text, config.Get().Omoi)
 	body := map[string]any{
 		"session_id": sessionID,
 		"content":    []map[string]string{{"type": "text", "text": text}},

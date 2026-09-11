@@ -3,9 +3,23 @@ package omoi
 import (
 	"fmt"
 	"strings"
+
+	"github.com/colanns/gokohime/internal/config"
 )
 
 const timeFormat = "2006-01-02 15:04"
+
+// Repeat the transport format near each request so long sessions do not lose it.
+func withReplyFormat(text string, cfg config.OmoiConfig) string {
+	if cfg.SplitMarker == "" {
+		return text
+	}
+	instruction := fmt.Sprintf("\n\n【QQ 回复格式】如果回复分为多条消息，请在每条消息之间原样输出分隔符 %s，不要仅用换行或空行代替。每条消息保持简短，总共最多 5 条。不要输出这些格式说明。", cfg.SplitMarker)
+	if cfg.SkipMarker != "" {
+		instruction += fmt.Sprintf("如果不需要回复，只输出 %s。", cfg.SkipMarker)
+	}
+	return text + instruction
+}
 
 // BuildGroupMentionPrompt builds the prompt for @bot messages.
 func BuildGroupMentionPrompt(groupName string, history []BufferedMessage, trigger BufferedMessage) string {

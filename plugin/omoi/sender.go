@@ -2,6 +2,7 @@ package omoi
 
 import (
 	"math/rand"
+	"regexp"
 	"strings"
 	"time"
 	"unicode/utf8"
@@ -11,18 +12,30 @@ import (
 	"github.com/wdvxdr1123/ZeroBot/message"
 )
 
-// SendSplitReply handles SKIP detection, splitting by marker, and delayed sending.
+var replyParagraphBreak = regexp.MustCompile(`\n[\t ]*\n`)
+
+// SendSplitReply sends one QQ message per reply part, with typing delays.
 func SendSplitReply(ctx *zero.Ctx, reply string) {
-	cfg := config.Get().Omoi
+	sendSplitReply(reply, config.Get().Omoi, func(text string) {
+		ctx.Send(message.Text(text))
+	}, time.Sleep)
+}
+
+func sendSplitReply(reply string, cfg config.OmoiConfig, send func(string), sleep func(time.Duration)) {
 
 	// Check for SKIP
 	trimmed := strings.TrimSpace(reply)
-	if trimmed == cfg.SkipMarker || strings.Contains(trimmed, cfg.SkipMarker) {
+	if cfg.SkipMarker != "" && strings.Contains(trimmed, cfg.SkipMarker) {
 		return
 	}
 
-	// Split by marker
-	parts := strings.Split(reply, cfg.SplitMarker)
+	// Explicit markers take priority. Some models return blank paragraphs instead.
+	var parts []string
+	if cfg.SplitMarker != "" && strings.Contains(reply, cfg.SplitMarker) {
+		parts = strings.Split(reply, cfg.SplitMarker)
+	} else {
+		parts = replyParagraphBreak.Split(strings.ReplaceAll(reply, "\r\n", "\n"), -1)
+	}
 
 	sent := 0
 	for _, part := range parts {
@@ -34,16 +47,16 @@ func SendSplitReply(ctx *zero.Ctx, reply string) {
 		// Delay between segments (not before first)
 		if sent > 0 {
 			delay := calcTypingDelay(part, cfg)
-			time.Sleep(delay)
+			sleep(delay)
 		}
 
 		// Split further if over max length
 		segments := splitLongText(part, cfg.MaxMessageLen)
 		for j, seg := range segments {
 			if j > 0 {
-				time.Sleep(500 * time.Millisecond)
+				sleep(500 * time.Millisecond)
 			}
-			ctx.Send(message.Text(seg))
+			send(seg)
 		}
 		sent++
 	}
