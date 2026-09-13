@@ -83,11 +83,13 @@ func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, e
 // SendMessage sends a message to an Omoi session and returns the full assistant reply.
 // It consumes the SSE stream, concatenating delta events.
 func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, refs ...MediaReference) (string, error) {
-	ctx, cancel := context.WithTimeout(ctx, 180*time.Second)
+	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	text = withReplyFormat(text, config.Get().Omoi)
 	content := []ContentBlock{{Type: "text", Text: text}}
-	attachments, err := c.prepareAttachments(ctx, refs)
+	mediaCtx, mediaCancel := context.WithTimeout(ctx, 180*time.Second)
+	attachments, err := c.prepareAttachments(mediaCtx, refs)
+	mediaCancel()
 	if err != nil {
 		return "", err
 	}
@@ -102,7 +104,10 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 		return "", fmt.Errorf("marshal: %w", err)
 	}
 
-	// Use a separate client without global timeout for streaming.
+	// Queue wait has no total timeout; the backend bounds execution. An idle
+	// watchdog still detects a broken connection, and server pings keep it alive.
+	idle := time.AfterFunc(90*time.Second, cancel)
+	defer idle.Stop()
 	streamClient := &http.Client{}
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.baseURL+"/chat/messages", bytes.NewReader(data))
 	if err != nil {
@@ -124,7 +129,7 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	}
 
 	// Parse SSE stream
-	return c.consumeSSE(resp.Body)
+	return c.consumeSSE(&streamActivityReader{Reader: resp.Body, idle: idle, timeout: 90 * time.Second})
 }
 
 // consumeSSE reads SSE events from the response body and accumulates the assistant reply.
@@ -182,4 +187,19 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 	}
 
 	return reply.String(), fmt.Errorf("omoi stream ended before done")
+}
+
+// Heartbeats and response bytes both count as activity while queued or running.
+type streamActivityReader struct {
+	io.Reader
+	idle    *time.Timer
+	timeout time.Duration
+}
+
+func (r *streamActivityReader) Read(p []byte) (int, error) {
+	n, err := r.Reader.Read(p)
+	if n > 0 {
+		r.idle.Reset(r.timeout)
+	}
+	return n, err
 }
