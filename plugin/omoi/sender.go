@@ -1,9 +1,11 @@
 package omoi
 
 import (
+	"fmt"
 	"math/rand"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 
@@ -14,11 +16,33 @@ import (
 
 var replyParagraphBreak = regexp.MustCompile(`\n[\t ]*\n`)
 
+var replyLocks sync.Map
+
+func withReplyLock(key string, send func()) {
+	value, _ := replyLocks.LoadOrStore(key, &sync.Mutex{})
+	lock := value.(*sync.Mutex)
+	lock.Lock()
+	defer lock.Unlock()
+	send()
+}
+
 // SendSplitReply sends one QQ message per reply part, with typing delays.
 func SendSplitReply(ctx *zero.Ctx, reply string) {
-	sendSplitReply(reply, config.Get().Omoi, func(text string) {
-		ctx.Send(message.Text(text))
-	}, time.Sleep)
+	key := fmt.Sprintf("%d:group:%d", ctx.Event.SelfID, ctx.Event.GroupID)
+	if ctx.Event.GroupID == 0 {
+		key = fmt.Sprintf("%d:private:%d", ctx.Event.SelfID, ctx.Event.UserID)
+	}
+	withReplyLock(key, func() {
+		first := true
+		sendSplitReply(reply, config.Get().Omoi, func(text string) {
+			if first && ctx.Event.GroupID != 0 && ctx.Event.IsToMe && ctx.Event.MessageID != nil {
+				ctx.Send(message.Message{message.Reply(ctx.Event.MessageID), message.Text(text)})
+			} else {
+				ctx.Send(message.Text(text))
+			}
+			first = false
+		}, time.Sleep)
+	})
 }
 
 func sendSplitReply(reply string, cfg config.OmoiConfig, send func(string), sleep func(time.Duration)) {

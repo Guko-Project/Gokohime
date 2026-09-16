@@ -171,8 +171,13 @@ func (c *OmoiClient) deliver(ctx context.Context, bot *zero.Ctx, d scheduledDeli
 		_ = c.receipt(ctx, d, "unknown")
 		return
 	}
-	// Ensure the old mapping still points to this session after a chat reset.
-	session, err := database.GetPluginKV(ctx, nil, kvNamespace, "session:"+target[0]+":"+target[1])
+	// Both pre-memory and source-bound conversations can have existing tasks.
+	// Reset clears both mappings and revokes their delivery bindings.
+	sessionKey := "session:" + target[0] + ":" + target[1]
+	session, err := database.GetPluginKV(ctx, nil, kvNamespace, sessionKey)
+	if err != nil || session != d.SessionID {
+		session, err = database.GetPluginKV(ctx, nil, kvNamespace, sessionKey+":memory:"+c.agentID+":"+strings.TrimPrefix(d.Instance, "qq:"))
+	}
 	if err != nil || session != d.SessionID {
 		_ = c.receipt(ctx, d, "skipped")
 		return
@@ -211,7 +216,10 @@ func (c *OmoiClient) deliver(ctx context.Context, bot *zero.Ctx, d scheduledDeli
 			return
 		}
 	}
-	state := deliverParts(progress.Parts, progress, save, check, send, sleep)
+	var state string
+	withReplyLock(strings.TrimPrefix(d.Instance, "qq:")+":"+d.Target, func() {
+		state = deliverParts(progress.Parts, progress, save, check, send, sleep)
+	})
 	if err := c.receipt(ctx, d, state); err != nil {
 		log.Warnf("[omoi] scheduled delivery acknowledgment failed: id=%s state=%s", d.ID, state)
 	}

@@ -11,11 +11,24 @@ import (
 
 // BufferedMessage holds one message in the ring buffer.
 type BufferedMessage struct {
-	UserID   int64
-	Nickname string
-	Text     string
-	Media    []MediaReference
-	Time     time.Time
+	MessageID    string
+	ReplyToID    string
+	OriginalText string
+	UserID       int64
+	Nickname     string
+	Text         string
+	Media        []MediaReference
+	Time         time.Time
+}
+
+// Append records mentions too: their blocking handler prevents the observer from running.
+func (b *GroupBuffer) Append(msg BufferedMessage) {
+	b.mu.Lock()
+	defer b.mu.Unlock()
+	b.messages = append(b.messages, msg)
+	if max := config.Get().Omoi.BufferSize; max > 0 && len(b.messages) > max {
+		b.messages = b.messages[len(b.messages)-max:]
+	}
 }
 
 // GroupBuffer is a per-group ring buffer with trigger state.

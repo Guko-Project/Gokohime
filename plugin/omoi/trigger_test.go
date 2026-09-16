@@ -139,6 +139,8 @@ func TestMentionAndActiveHandlers(t *testing.T) {
 	var prompts []string
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		switch req.URL.Path {
+		case "/agents/test":
+			fmt.Fprint(w, `{"memory_config":{"enabled":false}}`)
 		case "/sessions/fresh-session/delivery", "/sessions/stale-session/delivery":
 			fmt.Fprint(w, `{"ok":true}`)
 		case "/sessions":

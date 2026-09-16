@@ -5,12 +5,27 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/colanns/gokohime/internal/database"
 	log "github.com/colanns/gokohime/internal/log"
 )
 
 const kvNamespace = "omoi"
+
+var sessionLocks sync.Map
+
+func sessionLock(key string) *sync.Mutex {
+	lock, _ := sessionLocks.LoadOrStore(key, &sync.Mutex{})
+	return lock.(*sync.Mutex)
+}
+
+func sessionKey(ctx context.Context, key string) string {
+	if memory, ok := memoryFrom(ctx); ok && client != nil {
+		return key + ":memory:" + client.agentID + ":" + memory.Source.ConnectorID
+	}
+	return key
+}
 
 // getGroupSession returns the Omoi session ID for a group, creating one if needed.
 func getGroupSession(ctx context.Context, groupID int64, groupName string) (string, error) {
@@ -26,12 +41,20 @@ func getPrivateSession(ctx context.Context, userID int64, nickname string) (stri
 
 // getOrCreateSession looks up a session from KV, creating one if absent.
 func getOrCreateSession(ctx context.Context, key, title string) (string, error) {
+	return getOrCreateSessionAfterFailure(ctx, key, title, "")
+}
+
+func getOrCreateSessionAfterFailure(ctx context.Context, key, title, failedID string) (string, error) {
 	if client == nil {
 		return "", fmt.Errorf("omoi client not initialized")
 	}
+	key = sessionKey(ctx, key)
+	lock := sessionLock(key)
+	lock.Lock()
+	defer lock.Unlock()
 
 	sessionID, err := database.GetPluginKV(ctx, nil, kvNamespace, key)
-	if err == nil && sessionID != "" {
+	if err == nil && sessionID != "" && sessionID != failedID {
 		return sessionID, nil
 	}
 
@@ -42,7 +65,7 @@ func getOrCreateSession(ctx context.Context, key, title string) (string, error) 
 	}
 
 	if err := database.SetPluginKV(ctx, nil, kvNamespace, key, sessionID); err != nil {
-		log.Warnf("[omoi] failed to persist session to KV: %v", err)
+		return "", fmt.Errorf("persist session: %w", err)
 	}
 
 	log.Infof("[omoi] created session %s for %s", sessionID, key)
@@ -51,6 +74,28 @@ func getOrCreateSession(ctx context.Context, key, title string) (string, error) 
 
 // resetSession deletes a session mapping from KV so the next call creates a fresh one.
 func resetSession(ctx context.Context, key string) error {
+	keys := []string{key}
+	connector := ""
+	if memory, ok := memoryFrom(ctx); ok {
+		connector = memory.Source.ConnectorID
+	} else if channel, ok := ctx.Value(channelKey{}).(channelContext); ok {
+		connector = strings.TrimPrefix(channel.Instance, "qq:")
+	}
+	if client != nil && connector != "" {
+		keys = append(keys, key+":memory:"+client.agentID+":"+connector)
+	}
+	for _, key := range keys {
+		if err := resetSessionKey(ctx, key); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func resetSessionKey(ctx context.Context, key string) error {
+	lock := sessionLock(key)
+	lock.Lock()
+	defer lock.Unlock()
 	if client != nil {
 		session, err := database.GetPluginKV(ctx, nil, kvNamespace, key)
 		if err == nil && session != "" {
@@ -85,10 +130,7 @@ func sendGroupMessage(ctx context.Context, groupID int64, groupName, prompt stri
 	if err == nil || !strings.Contains(err.Error(), "404") {
 		return reply, err
 	}
-	if err := resetGroupSession(ctx, groupID); err != nil {
-		return "", err
-	}
-	sessionID, err = getGroupSession(ctx, groupID, groupName)
+	sessionID, err = getOrCreateSessionAfterFailure(ctx, "session:group:"+strconv.FormatInt(groupID, 10), "群:"+groupName, sessionID)
 	if err != nil {
 		return "", err
 	}

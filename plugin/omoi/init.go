@@ -100,17 +100,15 @@ func handleGroupMention(ctx *zero.Ctx) {
 	history := buf.Snapshot()
 	attachments := selectMedia(refs, history)
 
-	trigger := BufferedMessage{
-		UserID:   ctx.Event.UserID,
-		Nickname: nickname,
-		Text:     describeMedia(text, refs),
-		Media:    refs,
-		Time:     time.Now(),
-	}
+	trigger := originalMessage(ctx, text)
+	trigger.Nickname = nickname
+	trigger.Text = describeMedia(text, refs)
+	trigger.Media = refs
+	buf.Append(trigger)
 
 	prompt := BuildGroupMentionPrompt(groupName, history, trigger)
 
-	bgCtx := channelRequest(requestContext(), ctx.Event, false)
+	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, append(history, trigger))
 	reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
 	if err != nil {
 		log.Warnf("[omoi] send message failed: %v", err)
@@ -141,7 +139,7 @@ func handlePrivateChat(ctx *zero.Ctx) {
 	attachments := refs
 	prompt := BuildPrivatePrompt(nickname, ctx.Event.UserID, describeMedia(text, refs))
 
-	bgCtx := channelRequest(requestContext(), ctx.Event, false)
+	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, []BufferedMessage{originalMessage(ctx, text)})
 	sessionID, err := getPrivateSession(bgCtx, ctx.Event.UserID, nickname)
 	if err != nil {
 		log.Warnf("[omoi] get private session failed: %v", err)
@@ -151,8 +149,7 @@ func handlePrivateChat(ctx *zero.Ctx) {
 	reply, err := client.SendMessage(bgCtx, sessionID, prompt, attachments...)
 	if err != nil {
 		if strings.Contains(err.Error(), "404") {
-			_ = resetPrivateSession(bgCtx, ctx.Event.UserID)
-			sessionID, err = getPrivateSession(bgCtx, ctx.Event.UserID, nickname)
+			sessionID, err = getOrCreateSessionAfterFailure(bgCtx, "session:private:"+strconv.FormatInt(ctx.Event.UserID, 10), "私聊:"+nickname, sessionID)
 			if err != nil {
 				log.Warnf("[omoi] recreate private session failed: %v", err)
 				return
@@ -194,15 +191,14 @@ func handleGroupObserve(ctx *zero.Ctx) {
 	nickname := getNickname(ctx)
 	buf := getBuffer(ctx.Event.GroupID)
 
-	msg := BufferedMessage{
-		UserID:   ctx.Event.UserID,
-		Nickname: nickname,
-		Text:     describeMedia(text, refs),
-		Media:    refs,
-		Time:     time.Now(),
-	}
+	msg := originalMessage(ctx, text)
+	msg.Nickname = nickname
+	msg.Text = describeMedia(text, refs)
+	msg.Media = refs
 
-	if !buf.Push(msg, ctx.Event.GroupID) {
+	trigger := buf.Push(msg, ctx.Event.GroupID)
+	captureObservedMemory(ctx, msg)
+	if !trigger {
 		return
 	}
 	history := buf.Snapshot()
@@ -213,7 +209,7 @@ func handleGroupObserve(ctx *zero.Ctx) {
 		groupName := getGroupName(ctx)
 		prompt := BuildGroupActivePrompt(groupName, history, config.Get().Omoi.SkipMarker)
 
-		bgCtx := channelRequest(requestContext(), ctx.Event, true)
+		bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, history)
 		reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
 		if err != nil {
 			log.Warnf("[omoi] active trigger send failed: %v", err)
@@ -240,7 +236,7 @@ func handleReset(ctx *zero.Ctx) {
 		}
 	}
 
-	bgCtx := channelRequest(requestContext(), ctx.Event, false)
+	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, nil)
 	var err error
 
 	if ctx.Event.GroupID != 0 {

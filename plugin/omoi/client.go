@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/colanns/gokohime/internal/config"
@@ -17,10 +18,13 @@ import (
 
 // OmoiClient wraps Omoi HTTP/SSE API calls.
 type OmoiClient struct {
-	baseURL    string
-	apiKey     string
-	agentID    string
-	httpClient *http.Client
+	baseURL       string
+	apiKey        string
+	agentID       string
+	httpClient    *http.Client
+	memoryMu      sync.Mutex
+	memoryCheckAt time.Time
+	memoryActive  bool
 }
 
 var client *OmoiClient
@@ -44,9 +48,12 @@ func initClient() {
 
 // CreateSession creates a new Omoi session and returns its ID.
 func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, error) {
-	body := map[string]string{
+	body := map[string]any{
 		"agent_id": c.agentID,
 		"title":    title,
+	}
+	if memory, ok := memoryFrom(ctx); ok {
+		body["source_context"] = memory.Source
 	}
 	data, err := json.Marshal(body)
 	if err != nil {
@@ -104,6 +111,9 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	}
 	if channel, ok := ctx.Value(channelKey{}).(channelContext); ok {
 		body["channel_context"] = channel
+	}
+	if memory, ok := memoryFrom(ctx); ok && len(memory.Events) > 0 {
+		body["memory_events"] = memory.Events
 	}
 	data, err := json.Marshal(body)
 	if err != nil {
