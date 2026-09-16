@@ -51,6 +51,15 @@ func getOrCreateSession(ctx context.Context, key, title string) (string, error) 
 
 // resetSession deletes a session mapping from KV so the next call creates a fresh one.
 func resetSession(ctx context.Context, key string) error {
+	if client != nil {
+		session, err := database.GetPluginKV(ctx, nil, kvNamespace, key)
+		if err == nil && session != "" {
+			err = client.deliveryAPI(ctx, "DELETE", "/sessions/"+session+"/delivery", nil, nil)
+			if err != nil && !strings.Contains(err.Error(), "404") {
+				return err
+			}
+		}
+	}
 	return database.SetPluginKV(ctx, nil, kvNamespace, key, "")
 }
 

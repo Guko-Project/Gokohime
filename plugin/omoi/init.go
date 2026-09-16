@@ -110,7 +110,7 @@ func handleGroupMention(ctx *zero.Ctx) {
 
 	prompt := BuildGroupMentionPrompt(groupName, history, trigger)
 
-	bgCtx := requestContext()
+	bgCtx := channelRequest(requestContext(), ctx.Event, false)
 	reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
 	if err != nil {
 		log.Warnf("[omoi] send message failed: %v", err)
@@ -141,7 +141,7 @@ func handlePrivateChat(ctx *zero.Ctx) {
 	attachments := refs
 	prompt := BuildPrivatePrompt(nickname, ctx.Event.UserID, describeMedia(text, refs))
 
-	bgCtx := requestContext()
+	bgCtx := channelRequest(requestContext(), ctx.Event, false)
 	sessionID, err := getPrivateSession(bgCtx, ctx.Event.UserID, nickname)
 	if err != nil {
 		log.Warnf("[omoi] get private session failed: %v", err)
@@ -213,7 +213,7 @@ func handleGroupObserve(ctx *zero.Ctx) {
 		groupName := getGroupName(ctx)
 		prompt := BuildGroupActivePrompt(groupName, history, config.Get().Omoi.SkipMarker)
 
-		bgCtx := requestContext()
+		bgCtx := channelRequest(requestContext(), ctx.Event, true)
 		reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
 		if err != nil {
 			log.Warnf("[omoi] active trigger send failed: %v", err)
@@ -226,7 +226,21 @@ func handleGroupObserve(ctx *zero.Ctx) {
 }
 
 func handleReset(ctx *zero.Ctx) {
-	bgCtx := requestContext()
+	ensureClient()
+	if ctx.Event.GroupID != 0 {
+		permitted := ctx.Event.Sender != nil && (ctx.Event.Sender.Role == "owner" || ctx.Event.Sender.Role == "admin")
+		for _, id := range config.Get().Bot.SuperUsers {
+			if id == ctx.Event.UserID {
+				permitted = true
+			}
+		}
+		if !permitted {
+			ctx.Send("群会话重置会取消全部定时任务，请由群主或管理员操作。自己的任务可以通过对话取消。")
+			return
+		}
+	}
+
+	bgCtx := channelRequest(requestContext(), ctx.Event, false)
 	var err error
 
 	if ctx.Event.GroupID != 0 {

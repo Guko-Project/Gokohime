@@ -85,6 +85,9 @@ func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, e
 func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, refs ...MediaReference) (string, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
+	if err := c.bindChannel(ctx, sessionID); err != nil {
+		return "", err
+	}
 	text = withReplyFormat(text, config.Get().Omoi)
 	content := []ContentBlock{{Type: "text", Text: text}}
 	mediaCtx, mediaCancel := context.WithTimeout(ctx, 180*time.Second)
@@ -98,6 +101,9 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	body := map[string]any{
 		"session_id": sessionID,
 		"content":    content,
+	}
+	if channel, ok := ctx.Value(channelKey{}).(channelContext); ok {
+		body["channel_context"] = channel
 	}
 	data, err := json.Marshal(body)
 	if err != nil {
