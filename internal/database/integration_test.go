@@ -107,14 +107,14 @@ func TestPluginStoreIntegration(t *testing.T) {
 	}
 	if err := database.UpsertKTVSong(ctx, tx, &database.KTVSong{
 		Name:      "追加歌",
-		Category:  "中",
+		Category:  "更新验收",
 		BV:        "BV3xx411c7mD",
 		Issuer:    "updater",
 		EntryHash: mustHash("ktv", "追加歌"),
 	}); err != nil {
 		t.Fatalf("UpsertKTVSong update failed: %v", err)
 	}
-	updated, err := database.RandomKTVSong(ctx, tx, "中")
+	updated, err := database.RandomKTVSong(ctx, tx, "更新验收")
 	if err != nil {
 		t.Fatalf("RandomKTVSong after update failed: %v", err)
 	}
