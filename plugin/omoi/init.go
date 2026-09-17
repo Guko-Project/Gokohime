@@ -86,8 +86,8 @@ func handleGroupMention(ctx *zero.Ctx) {
 		return
 	}
 	refs := extractMedia(ctx, true)
-	text := strings.TrimSpace(ctx.ExtractPlainText())
-	if shouldSkip(text) {
+	text := messageText(ctx)
+	if shouldSkip(ctx.ExtractPlainText()) {
 		log.Infof("[omoi] skipped: text=%q", text)
 		return
 	}
@@ -130,8 +130,8 @@ func handlePrivateChat(ctx *zero.Ctx) {
 		return
 	}
 	refs := extractMedia(ctx, true)
-	text := strings.TrimSpace(ctx.ExtractPlainText())
-	if (text == "" && len(refs) == 0) || shouldSkip(text) {
+	text := messageText(ctx)
+	if (text == "" && len(refs) == 0) || shouldSkip(ctx.ExtractPlainText()) {
 		return
 	}
 
@@ -183,8 +183,8 @@ func handleGroupObserve(ctx *zero.Ctx) {
 	}
 
 	refs := extractMedia(ctx, false)
-	text := strings.TrimSpace(ctx.ExtractPlainText())
-	if (text == "" && len(refs) == 0) || shouldSkip(text) {
+	text := messageText(ctx)
+	if (text == "" && len(refs) == 0) || shouldSkip(ctx.ExtractPlainText()) {
 		return
 	}
 
