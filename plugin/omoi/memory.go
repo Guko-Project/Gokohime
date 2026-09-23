@@ -166,12 +166,12 @@ func captureObservedMemory(qq *zero.Ctx, msg BufferedMessage) {
 	if len(m.Events) == 0 {
 		return
 	}
-	id, err := getGroupSession(ctx, qq.Event.GroupID, strconv.FormatInt(qq.Event.GroupID, 10))
+	id, _, err := getGroupSession(ctx, qq.Event.GroupID, strconv.FormatInt(qq.Event.GroupID, 10))
 	if err == nil {
 		err = client.IngestMemory(ctx, id, m.Events)
 	}
 	if err != nil && strings.Contains(err.Error(), "HTTP 404") {
-		id, err = getOrCreateSessionAfterFailure(ctx, "session:group:"+strconv.FormatInt(qq.Event.GroupID, 10), "群:"+strconv.FormatInt(qq.Event.GroupID, 10), id)
+		id, _, err = getOrCreateSessionAfterFailure(ctx, "session:group:"+strconv.FormatInt(qq.Event.GroupID, 10), "群:"+strconv.FormatInt(qq.Event.GroupID, 10), id)
 		if err == nil {
 			err = client.IngestMemory(ctx, id, m.Events)
 		}

@@ -95,7 +95,6 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	if err := c.bindChannel(ctx, sessionID); err != nil {
 		return "", err
 	}
-	text = withReplyFormat(text, config.Get().Omoi)
 	content := []ContentBlock{{Type: "text", Text: text}}
 	mediaCtx, mediaCancel := context.WithTimeout(ctx, 180*time.Second)
 	attachments, err := c.prepareAttachments(mediaCtx, refs)

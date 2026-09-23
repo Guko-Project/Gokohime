@@ -106,7 +106,7 @@ func TestMemoryObservationDoesNotNeedAReplyAndSessionCreationIsAtomic(t *testing
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			id, err := getGroupSession(ctx, 123, "test")
+			id, _, err := getGroupSession(ctx, 123, "test")
 			if err != nil || id != "bound-session-123" {
 				t.Errorf("session: %s %v", id, err)
 			}

@@ -16,8 +16,8 @@ import (
 func init() {
 	rand.Seed(time.Now().UnixNano())
 
-	// @bot group chat — always reply (unless command prefix)
-	zero.OnMessage(zero.OnlyToMe, zero.OnlyGroup).
+	// @bot or nickname anywhere in group text — reply unless command prefix.
+	zero.OnMessage(zero.OnlyGroup, isGroupMention).
 		SetBlock(true).SetPriority(50).Handle(handleGroupMention)
 
 	// Private chat — always reply (unless command prefix)
@@ -30,6 +30,18 @@ func init() {
 
 	// .chat-reset command
 	zero.OnCommand("chat-reset").SetBlock(true).Handle(handleReset)
+}
+
+// isGroupMention extends ZeroBot's prefix-only nickname matching to the full text.
+func isGroupMention(ctx *zero.Ctx) bool {
+	if ctx.Event.UserID != 0 && ctx.Event.UserID == ctx.Event.SelfID {
+		return false
+	}
+	if zero.OnlyToMe(ctx) {
+		return true
+	}
+	cfg := config.Get()
+	return cfg != nil && cfg.Bot.Nickname != "" && strings.Contains(ctx.ExtractPlainText(), cfg.Bot.Nickname)
 }
 
 var clientOnce sync.Once
@@ -95,21 +107,15 @@ func handleGroupMention(ctx *zero.Ctx) {
 	groupName := getGroupName(ctx)
 	nickname := getNickname(ctx)
 
-	// Get buffer snapshot for context
 	buf := getBuffer(ctx.Event.GroupID)
-	history := buf.Snapshot()
-	attachments := selectMedia(refs, history)
-
 	trigger := originalMessage(ctx, text)
 	trigger.Nickname = nickname
 	trigger.Text = describeMedia(text, refs)
 	trigger.Media = refs
-	buf.Append(trigger)
+	trigger.seq = buf.Append(trigger)
 
-	prompt := BuildGroupMentionPrompt(groupName, history, trigger)
-
-	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, append(history, trigger))
-	reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
+	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, buf.Snapshot())
+	reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, &trigger, refs...)
 	if err != nil {
 		log.Warnf("[omoi] send message failed: %v", err)
 		reportFailure(ctx, bgCtx, err)
@@ -149,7 +155,7 @@ func handlePrivateChat(ctx *zero.Ctx) {
 	reply, err := client.SendMessage(bgCtx, sessionID, prompt, attachments...)
 	if err != nil {
 		if strings.Contains(err.Error(), "404") {
-			sessionID, err = getOrCreateSessionAfterFailure(bgCtx, "session:private:"+strconv.FormatInt(ctx.Event.UserID, 10), "私聊:"+nickname, sessionID)
+			sessionID, _, err = getOrCreateSessionAfterFailure(bgCtx, "session:private:"+strconv.FormatInt(ctx.Event.UserID, 10), "私聊:"+nickname, sessionID)
 			if err != nil {
 				log.Warnf("[omoi] recreate private session failed: %v", err)
 				return
@@ -201,16 +207,13 @@ func handleGroupObserve(ctx *zero.Ctx) {
 	if !trigger {
 		return
 	}
-	history := buf.Snapshot()
-	attachments := selectMedia(nil, history)
 
 	// Async trigger
 	go func() {
 		groupName := getGroupName(ctx)
-		prompt := BuildGroupActivePrompt(groupName, history, config.Get().Omoi.SkipMarker)
 
-		bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, history)
-		reply, err := sendGroupMessage(bgCtx, ctx.Event.GroupID, groupName, prompt, attachments...)
+		bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, buf.Snapshot())
+		reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, nil)
 		if err != nil {
 			log.Warnf("[omoi] active trigger send failed: %v", err)
 			reportFailure(ctx, bgCtx, err)

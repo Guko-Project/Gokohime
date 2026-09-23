@@ -57,6 +57,44 @@ func BuildGroupActivePrompt(groupName string, history []BufferedMessage, skipMar
 	return sb.String()
 }
 
+// BuildGroupDeltaPrompt carries only the messages the session has not seen yet;
+// the Omoi session history already holds everything sent before.
+func BuildGroupDeltaPrompt(groupName string, delta []BufferedMessage, omitted int, trigger *BufferedMessage, skipMarker string) string {
+	var sb strings.Builder
+
+	sb.WriteString(fmt.Sprintf("群「%s」的新消息：\n", groupName))
+	sb.WriteString("---\n")
+	if omitted > 0 {
+		sb.WriteString(fmt.Sprintf("（中间省略 %d 条更早消息）\n", omitted))
+	}
+	wrote := false
+	for _, msg := range delta {
+		if trigger != nil && msg.seq == trigger.seq {
+			continue
+		}
+		sb.WriteString(fmt.Sprintf("[%s] %s(%d): %s\n",
+			msg.Time.Format(timeFormat), msg.Nickname, msg.UserID, msg.Text))
+		wrote = true
+	}
+	if !wrote && omitted == 0 {
+		sb.WriteString("（暂无其他新消息）\n")
+	}
+	sb.WriteString("---\n\n")
+
+	if trigger != nil {
+		text := trigger.Text
+		if strings.TrimSpace(text) == "" {
+			text = "（对方只 @ 了你，没有附加文字。请结合上下文自然地回应一声，不要保持沉默。）"
+		}
+		sb.WriteString("⬇️ 需要回复的消息：\n")
+		sb.WriteString(fmt.Sprintf("[%s(%d)]: %s\n", trigger.Nickname, trigger.UserID, text))
+	} else {
+		sb.WriteString(fmt.Sprintf("你在旁边听到了这些对话，如果觉得有话想说可以自然地加入聊天，如果觉得没什么好说的就回复 %s。\n", skipMarker))
+	}
+
+	return sb.String()
+}
+
 // BuildPrivatePrompt builds the prompt for private chat messages.
 func BuildPrivatePrompt(nickname string, userID int64, text string) string {
 	return fmt.Sprintf("[%s(%d)]: %s\n", nickname, userID, text)

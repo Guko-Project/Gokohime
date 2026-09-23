@@ -241,3 +241,165 @@ func TestMentionAndActiveHandlers(t *testing.T) {
 		t.Fatalf("unexpected prompts: %q", prompts)
 	}
 }
+
+func TestDeltaPromptsSendEachGroupMessageOnce(t *testing.T) {
+	cfg := testConfig(t)
+	cfg.Omoi.TriggerProbability = 0
+	db, err := database.Init(filepath.Join(t.TempDir(), "delta.db"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	sqlDB, _ := db.DB()
+	t.Cleanup(func() { _ = sqlDB.Close() })
+
+	var mu sync.Mutex
+	var prompts []string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		switch req.URL.Path {
+		case "/sessions":
+			fmt.Fprint(w, `{"id":"s1"}`)
+		case "/sessions/s1/delivery":
+			fmt.Fprint(w, `{}`)
+		case "/chat/messages":
+			var body struct {
+				Content []struct {
+					Text string `json:"text"`
+				} `json:"content"`
+			}
+			if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
+				t.Error(err)
+			}
+			mu.Lock()
+			prompts = append(prompts, body.Content[0].Text)
+			mu.Unlock()
+			w.Header().Set("Content-Type", "text/event-stream")
+			fmt.Fprint(w, "event: delta\ndata: {\"content\":\"收到\"}\n\nevent: done\ndata: {}\n\n")
+		default:
+			t.Errorf("unexpected Omoi path %s", req.URL.Path)
+			w.WriteHeader(404)
+		}
+	}))
+	defer server.Close()
+	oldClient := client
+	t.Cleanup(func() { client = oldClient })
+	client = &OmoiClient{baseURL: server.URL, agentID: "test", httpClient: server.Client()}
+
+	b := &GroupBuffer{}
+	now := time.Now()
+	msg := func(id, text string) BufferedMessage {
+		return BufferedMessage{MessageID: id, UserID: 10, Nickname: "n", OriginalText: text, Text: text, Time: now}
+	}
+	b.Push(msg("1", "第一条"), 123)
+	b.Push(msg("2", "第二条"), 123)
+	trigger := msg("3", "@bot 问题")
+	trigger.seq = b.Append(trigger)
+
+	if _, err := sendGroupMessage(context.Background(), b, 123, "测试群", &trigger); err != nil {
+		t.Fatal(err)
+	}
+	// A fresh session gets the whole buffer as a seed.
+	mu.Lock()
+	if len(prompts) != 1 || !strings.Contains(prompts[0], "最近聊天记录") ||
+		!strings.Contains(prompts[0], "第一条") || !strings.Contains(prompts[0], "需要回复") {
+		t.Fatalf("bad seed prompt: %v", prompts)
+	}
+	mu.Unlock()
+
+	b.Push(msg("4", "第四条"), 123)
+	trigger2 := msg("5", "又问")
+	trigger2.seq = b.Append(trigger2)
+	if _, err := sendGroupMessage(context.Background(), b, 123, "测试群", &trigger2); err != nil {
+		t.Fatal(err)
+	}
+	mu.Lock()
+	defer mu.Unlock()
+	if len(prompts) != 2 || !strings.Contains(prompts[1], "的新消息") ||
+		!strings.Contains(prompts[1], "第四条") || strings.Contains(prompts[1], "第一条") {
+		t.Fatalf("delta prompt resent old messages: %q", prompts[1])
+	}
+	// The trigger itself is annotated once, not duplicated in the transcript.
+	if strings.Count(prompts[1], "又问") != 1 {
+		t.Fatalf("trigger duplicated in delta prompt: %q", prompts[1])
+	}
+}
+
+func TestPendingCursorTracksGapsAndResends(t *testing.T) {
+	cfg := testConfig(t)
+	cfg.Omoi.BufferSize = 3
+	cfg.Omoi.TriggerProbability = 0
+	b := &GroupBuffer{}
+	msg := func(text string) BufferedMessage { return BufferedMessage{Text: text, Time: time.Now()} }
+	for i := 0; i < 3; i++ {
+		b.Push(msg("m"), 1)
+	}
+	b.markSent(1)
+	msgs, omitted := b.pending(false)
+	if len(msgs) != 2 || omitted != 0 {
+		t.Fatalf("pending after markSent: %d msgs, %d omitted", len(msgs), omitted)
+	}
+	// Unsent seqs evicted by the ring window produce a gap note.
+	b.sentSeq = 1
+	b.Push(msg("x"), 1)
+	b.Push(msg("y"), 1)
+	b.Push(msg("z"), 1)
+	msgs, omitted = b.pending(false)
+	if len(msgs) != 3 || omitted != 2 {
+		t.Fatalf("expected 3 msgs with 2 omitted, got %d msgs %d omitted", len(msgs), omitted)
+	}
+	// Seed ignores the cursor and returns everything retained.
+	if seed, _ := b.pending(true); len(seed) != 3 {
+		t.Fatalf("seed pending = %d, want 3", len(seed))
+	}
+}
+
+func TestGroupNicknameTrigger(t *testing.T) {
+	cfg := testConfig(t)
+	cfg.Bot.Nickname = "鸽子姬"
+	for _, tc := range []struct {
+		name, text       string
+		toMe, self, want bool
+	}{
+		{"prefix", "鸽子姬你好", false, false, true},
+		{"middle", "今天鸽子姬想吃什么？", false, false, true},
+		{"suffix", "你怎么看，鸽子姬", false, false, true},
+		{"newline", "今天吃什么？\n问问鸽子姬", false, false, true},
+		{"ordinary", "今天吃什么？", false, false, false},
+		{"partial nickname", "鸽子你好", false, false, false},
+		{"bare at", "", true, false, true},
+		{"at with text", "你好", true, false, true},
+		{"own reply", "我是鸽子姬", false, true, false},
+		{"own at", "", true, true, false},
+		{"command", ".help 鸽子姬", false, false, false},
+		{"slash command", " /鸽子姬", false, false, false},
+		{"hash command", "#鸽子姬", false, false, false},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			ctx := &zero.Ctx{Event: &zero.Event{
+				SelfID: 999, UserID: 10, GroupID: 123, IsToMe: tc.toMe,
+				Message: message.Message{message.Text(tc.text)},
+			}}
+			if tc.self {
+				ctx.Event.UserID = ctx.Event.SelfID
+			}
+			if got := isGroupMention(ctx) && !shouldSkip(ctx.ExtractPlainText()); got != tc.want {
+				t.Fatalf("trigger=%v, want %v", got, tc.want)
+			}
+		})
+	}
+	ctx := &zero.Ctx{Event: &zero.Event{UserID: 10, SelfID: 999,
+		Message: message.Message{message.Image("https://example.com/鸽子姬.png")},
+	}}
+	if isGroupMention(ctx) {
+		t.Fatal("attachment metadata must not trigger")
+	}
+	ctx.Event.Message = message.Message{message.Text("你好")}
+	cfg.Bot.Nickname = ""
+	if isGroupMention(ctx) {
+		t.Fatal("empty nickname must not match every message")
+	}
+	cfg.Bot.Nickname = "小鸽"
+	ctx.Event.Message = message.Message{message.Text("你怎么看，小鸽")}
+	if !isGroupMention(ctx) {
+		t.Fatal("must use configured nickname")
+	}
+}

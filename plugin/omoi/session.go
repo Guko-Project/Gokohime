@@ -7,6 +7,7 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/colanns/gokohime/internal/config"
 	"github.com/colanns/gokohime/internal/database"
 	log "github.com/colanns/gokohime/internal/log"
 )
@@ -28,7 +29,8 @@ func sessionKey(ctx context.Context, key string) string {
 }
 
 // getGroupSession returns the Omoi session ID for a group, creating one if needed.
-func getGroupSession(ctx context.Context, groupID int64, groupName string) (string, error) {
+// created reports whether a fresh session was just created and needs seeding.
+func getGroupSession(ctx context.Context, groupID int64, groupName string) (sessionID string, created bool, err error) {
 	key := "session:group:" + strconv.FormatInt(groupID, 10)
 	return getOrCreateSession(ctx, key, "群:"+groupName)
 }
@@ -36,17 +38,18 @@ func getGroupSession(ctx context.Context, groupID int64, groupName string) (stri
 // getPrivateSession returns the Omoi session ID for a private chat, creating one if needed.
 func getPrivateSession(ctx context.Context, userID int64, nickname string) (string, error) {
 	key := "session:private:" + strconv.FormatInt(userID, 10)
-	return getOrCreateSession(ctx, key, "私聊:"+nickname)
+	sessionID, _, err := getOrCreateSession(ctx, key, "私聊:"+nickname)
+	return sessionID, err
 }
 
 // getOrCreateSession looks up a session from KV, creating one if absent.
-func getOrCreateSession(ctx context.Context, key, title string) (string, error) {
+func getOrCreateSession(ctx context.Context, key, title string) (string, bool, error) {
 	return getOrCreateSessionAfterFailure(ctx, key, title, "")
 }
 
-func getOrCreateSessionAfterFailure(ctx context.Context, key, title, failedID string) (string, error) {
+func getOrCreateSessionAfterFailure(ctx context.Context, key, title, failedID string) (string, bool, error) {
 	if client == nil {
-		return "", fmt.Errorf("omoi client not initialized")
+		return "", false, fmt.Errorf("omoi client not initialized")
 	}
 	key = sessionKey(ctx, key)
 	lock := sessionLock(key)
@@ -55,21 +58,21 @@ func getOrCreateSessionAfterFailure(ctx context.Context, key, title, failedID st
 
 	sessionID, err := database.GetPluginKV(ctx, nil, kvNamespace, key)
 	if err == nil && sessionID != "" && sessionID != failedID {
-		return sessionID, nil
+		return sessionID, false, nil
 	}
 
 	// Create new session
 	sessionID, err = client.CreateSession(ctx, title)
 	if err != nil {
-		return "", fmt.Errorf("create session: %w", err)
+		return "", false, fmt.Errorf("create session: %w", err)
 	}
 
 	if err := database.SetPluginKV(ctx, nil, kvNamespace, key, sessionID); err != nil {
-		return "", fmt.Errorf("persist session: %w", err)
+		return "", false, fmt.Errorf("persist session: %w", err)
 	}
 
 	log.Infof("[omoi] created session %s for %s", sessionID, key)
-	return sessionID, nil
+	return sessionID, true, nil
 }
 
 // resetSession deletes a session mapping from KV so the next call creates a fresh one.
@@ -120,19 +123,55 @@ func resetPrivateSession(ctx context.Context, userID int64) error {
 	return resetSession(ctx, key)
 }
 
-// sendGroupMessage shares session recovery between mentions and active chat.
-func sendGroupMessage(ctx context.Context, groupID int64, groupName, prompt string, refs ...MediaReference) (string, error) {
-	sessionID, err := getGroupSession(ctx, groupID, groupName)
+// sendGroupMessage delivers each buffered group message to the session exactly
+// once. A fresh session receives the whole buffer as a seed; later requests
+// carry only messages the session has not seen. sendMu keeps the
+// pending→send→markSent sequence atomic against concurrent triggers.
+func sendGroupMessage(ctx context.Context, buf *GroupBuffer, groupID int64, groupName string, trigger *BufferedMessage, refs ...MediaReference) (string, error) {
+	buf.sendMu.Lock()
+	defer buf.sendMu.Unlock()
+
+	key := "session:group:" + strconv.FormatInt(groupID, 10)
+	sessionID, created, err := getOrCreateSession(ctx, key, "群:"+groupName)
 	if err != nil {
 		return "", err
 	}
-	reply, err := client.SendMessage(ctx, sessionID, prompt, refs...)
+	reply, err := sendGroupPrompt(ctx, buf, sessionID, groupName, trigger, created, refs)
 	if err == nil || !strings.Contains(err.Error(), "404") {
 		return reply, err
 	}
-	sessionID, err = getOrCreateSessionAfterFailure(ctx, "session:group:"+strconv.FormatInt(groupID, 10), "群:"+groupName, sessionID)
+	sessionID, _, err = getOrCreateSessionAfterFailure(ctx, key, "群:"+groupName, sessionID)
 	if err != nil {
 		return "", err
 	}
-	return client.SendMessage(ctx, sessionID, prompt, refs...)
+	return sendGroupPrompt(ctx, buf, sessionID, groupName, trigger, true, refs)
+}
+
+func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName string, trigger *BufferedMessage, seed bool, refs []MediaReference) (string, error) {
+	msgs, omitted := buf.pending(seed)
+	if len(msgs) == 0 {
+		return "", fmt.Errorf("no new group messages to send")
+	}
+	var prompt string
+	if seed {
+		if trigger != nil {
+			var history []BufferedMessage
+			for _, m := range msgs {
+				if m.seq != trigger.seq {
+					history = append(history, m)
+				}
+			}
+			prompt = BuildGroupMentionPrompt(groupName, history, *trigger)
+		} else {
+			prompt = BuildGroupActivePrompt(groupName, msgs, config.Get().Omoi.SkipMarker)
+		}
+	} else {
+		prompt = BuildGroupDeltaPrompt(groupName, msgs, omitted, trigger, config.Get().Omoi.SkipMarker)
+	}
+	reply, err := client.SendMessage(ctx, sessionID, prompt, selectMedia(refs, msgs)...)
+	if err != nil {
+		return "", err
+	}
+	buf.markSent(msgs[len(msgs)-1].seq)
+	return reply, nil
 }
