@@ -9,6 +9,25 @@ type DataTableProps = {
   onSelectTable: (name: string) => void;
 };
 
+const SkeletonRows = ({ columns }: { columns: number }) => (
+  <>
+    {[0, 1, 2, 3, 4].map((row) => (
+      <tr className="skel-row" key={row}>
+        {Array.from({ length: columns }, (_, i) => `cell-${i}`).map(
+          (cell, i) => (
+            <td key={cell}>
+              <span
+                className="skel"
+                style={{ width: `${55 + ((row * 17 + i * 29) % 40)}%` }}
+              />
+            </td>
+          ),
+        )}
+      </tr>
+    ))}
+  </>
+);
+
 export const DataTable = ({
   tables,
   selectedTable,
@@ -20,6 +39,7 @@ export const DataTable = ({
     [tables, selectedTable],
   );
   const columns = rows ? visibleColumns(rows.rows) : [];
+  const loading = rows === null;
 
   return (
     <section className="card" id="bot-data">
@@ -32,6 +52,7 @@ export const DataTable = ({
           </p>
         </div>
         <select
+          aria-label="选择数据表"
           value={selectedTable}
           onChange={(event) => onSelectTable(event.target.value)}
         >
@@ -42,23 +63,29 @@ export const DataTable = ({
           ))}
         </select>
       </div>
-      <div className="table-wrap">
+      <div className="table-wrap" aria-busy={loading}>
         <table>
           <thead>
             <tr>
-              {columns.map((column) => (
+              {(loading ? ['列'] : columns).map((column) => (
                 <th key={column}>{column}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {rows?.rows.map((row) => (
-              <tr key={`${selectedTable}-${formatValue(row.id)}`}>
-                {columns.map((column) => (
-                  <td key={column}>{formatValue(row[column])}</td>
-                ))}
-              </tr>
-            ))}
+            {loading ? (
+              <SkeletonRows columns={1} />
+            ) : (
+              rows.rows.map((row) => (
+                <tr key={`${selectedTable}-${formatValue(row.id)}`}>
+                  {columns.map((column) => (
+                    <td key={column} title={formatValue(row[column])}>
+                      {formatValue(row[column])}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
         {rows?.rows.length === 0 ? <p className="empty">暂无数据</p> : null}

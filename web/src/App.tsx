@@ -64,6 +64,7 @@ const App = () => {
       return;
     }
     const loadRows = async () => {
+      setRows(null);
       try {
         const data = await request<RowsResponse>(
           `/api/bot-data/tables/${selectedTable}?limit=50`,
@@ -121,6 +122,7 @@ const App = () => {
         <StatsGrid
           tables={tables}
           stats={stats}
+          selectedTable={selectedTable}
           onSelectTable={setSelectedTable}
         />
         <DataTable
