@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.bot
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - ./data:/app/data
       - ./config.yaml:/app/config.yaml
@@ -22,6 +24,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.admin
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - ./data:/app/data
       - ./config.yaml:/app/config.yaml
