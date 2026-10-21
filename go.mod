@@ -2,6 +2,8 @@ module github.com/colanns/gokohime
 
 go 1.26.1
 
+toolchain go1.27.3
+
 require (
 	github.com/charmbracelet/log v1.0.0
 	github.com/sirupsen/logrus v1.9.4
