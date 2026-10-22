@@ -31,6 +31,7 @@ func testConfig(t *testing.T) *config.Config {
 	if err != nil {
 		t.Fatal(err)
 	}
+	policies.Range(func(k, _ any) bool { policies.Delete(k); return true })
 	return cfg
 }
 
@@ -174,6 +175,8 @@ func TestMentionAndActiveHandlers(t *testing.T) {
 			data, _ := json.Marshal(map[string]string{"content": reply})
 			w.Header().Set("Content-Type", "text/event-stream")
 			fmt.Fprintf(w, "event: delta\ndata: %s\n\nevent: done\ndata: {}\n\n", data)
+		case "/proactive/policy":
+			w.WriteHeader(404) // legacy config.yaml trigger
 		default:
 			t.Errorf("unexpected Omoi path %s", req.URL.Path)
 			w.WriteHeader(404)
@@ -274,6 +277,8 @@ func TestDeltaPromptsSendEachGroupMessageOnce(t *testing.T) {
 			mu.Unlock()
 			w.Header().Set("Content-Type", "text/event-stream")
 			fmt.Fprint(w, "event: delta\ndata: {\"content\":\"收到\"}\n\nevent: done\ndata: {}\n\n")
+		case "/proactive/policy":
+			w.WriteHeader(404) // legacy config.yaml trigger
 		default:
 			t.Errorf("unexpected Omoi path %s", req.URL.Path)
 			w.WriteHeader(404)

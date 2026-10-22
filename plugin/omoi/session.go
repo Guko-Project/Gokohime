@@ -168,6 +168,13 @@ func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName
 	} else {
 		prompt = BuildGroupDeltaPrompt(groupName, msgs, omitted, trigger, config.Get().Omoi.SkipMarker)
 	}
+	if trigger == nil {
+		// Omoi's judges see only the new chatter, without the instructions.
+		if ch, ok := ctx.Value(channelKey{}).(channelContext); ok {
+			ch.JudgeText = judgeText(msgs)
+			ctx = context.WithValue(ctx, channelKey{}, ch)
+		}
+	}
 	reply, err := client.SendMessage(ctx, sessionID, prompt, selectMedia(refs, msgs)...)
 	if err != nil {
 		return "", err

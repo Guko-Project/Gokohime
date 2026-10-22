@@ -24,6 +24,7 @@ type channelKey struct{}
 type channelContext struct {
 	ActorID   string `json:"actor_id"`
 	Proactive bool   `json:"proactive"`
+	JudgeText string `json:"judge_text,omitempty"`
 	Instance  string `json:"-"`
 	Target    string `json:"-"`
 }

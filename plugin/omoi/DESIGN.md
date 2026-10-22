@@ -453,3 +453,11 @@ omoi:
 - 即时对话、群历史和记忆事件均保留 OneBot `at` 消息段，按原位置显示为 `@群名片(QQ号)`，无名片时使用昵称；查询失败仍保留 `@QQ号`。`at all` 显示为 `@全体成员`。
 - 同一消息中的重复目标只查一次名片，查询总预算 2 秒；不查询私聊中的群名片。仅用于触发的 @机器人仍省略，保留单独 @ 的应答行为。
 - 命令前缀继续按纯文本判断，避免 @ 前缀绕过过滤。只有 @ 他人的消息也能进入历史和记忆。测试使用模拟 OneBot/Omoi API，不向真实 QQ 群发送测试消息。
+
+## 2026-10-23 主动发言改由 Omoi 策略控制
+
+- 主动发言的配置统一放在 Omoi（Agent 的 `proactive_config`，以及按 `instance + target` 的逐群覆盖）。插件通过 `GET /proactive/policy?agent_id=&instance=qq:<self>&target=group:<id>` 读取生效策略，每群缓存 1 分钟；群还没有会话时也能读取。
+- 插件只决定「什么时候问」：累计 `min_messages` 条新消息（未配置视为 1），再等群里安静 `quiet_seconds` 秒（未配置则立即）。冷却、每小时上限，以及概率和判断模型组成的触发链路都由 Omoi 执行；链路未通过时 Omoi 直接返回 `[SKIP]`，不调用主模型。
+- 主动请求在 `channel_context.judge_text` 里附上不含提示语的新消息（`昵称：内容`），供 Omoi 的判断模型使用。
+- Omoi 未配置策略（`configured=false`）或接口不可用时，回退到 `config.yaml` 的 `trigger_*` 与 `enabled_groups` 旧逻辑。
+- `.active [on|off|reset]`：查看本群策略；群主、管理员或超级用户可以开关本群的覆盖（`PUT /proactive/policy` 只修改传入的字段）。

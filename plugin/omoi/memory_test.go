@@ -81,6 +81,8 @@ func TestMemoryObservationDoesNotNeedAReplyAndSessionCreationIsAtomic(t *testing
 				t.Errorf("bad evidence: %+v", body)
 			}
 			w.WriteHeader(202)
+		case "/proactive/policy":
+			w.WriteHeader(404) // an Omoi without proactive policies
 		default:
 			t.Errorf("unexpected reply call %s", r.URL.Path)
 			w.WriteHeader(500)

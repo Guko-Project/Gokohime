@@ -30,6 +30,9 @@ func init() {
 
 	// .chat-reset command
 	zero.OnCommand("chat-reset").SetBlock(true).Handle(handleReset)
+
+	// .active [on|off|reset] — this group's unsolicited replies (Omoi policy)
+	zero.OnCommand("active", zero.OnlyGroup).SetBlock(true).Handle(handleActive)
 }
 
 // isGroupMention extends ZeroBot's prefix-only nickname matching to the full text.
@@ -202,26 +205,38 @@ func handleGroupObserve(ctx *zero.Ctx) {
 	msg.Text = describeMedia(text, refs)
 	msg.Media = refs
 
-	trigger := buf.Push(msg, ctx.Event.GroupID)
+	// Omoi's policy decides when to ask and runs the trigger chain itself;
+	// without one, the legacy config.yaml probability applies.
+	var trigger, claimed bool
+	if policy := groupPolicy(requestContext(), ctx.Event); policy != nil && policy.Configured {
+		trigger = buf.observe(msg, policy, func() { activeTurn(ctx, buf, true) })
+		claimed = trigger
+	} else {
+		trigger = buf.Push(msg, ctx.Event.GroupID)
+	}
 	captureObservedMemory(ctx, msg)
-	if !trigger {
+	if trigger {
+		go activeTurn(ctx, buf, claimed)
+	}
+}
+
+// activeTurn sends the new group messages as an unsolicited turn. claimed
+// turns hold the buffer reservation made by an Omoi policy.
+func activeTurn(ctx *zero.Ctx, buf *GroupBuffer, claimed bool) {
+	if claimed {
+		defer buf.release()
+		// Cooldowns change once the agent has spoken.
+		defer forgetPolicy(ctx.Event.GroupID)
+	}
+	groupName := getGroupName(ctx)
+	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, buf.Snapshot())
+	reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, nil)
+	if err != nil {
+		log.Warnf("[omoi] active trigger send failed: %v", err)
+		reportFailure(ctx, bgCtx, err)
 		return
 	}
-
-	// Async trigger
-	go func() {
-		groupName := getGroupName(ctx)
-
-		bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, buf.Snapshot())
-		reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, nil)
-		if err != nil {
-			log.Warnf("[omoi] active trigger send failed: %v", err)
-			reportFailure(ctx, bgCtx, err)
-			return
-		}
-
-		SendSplitReply(ctx, reply)
-	}()
+	SendSplitReply(ctx, reply)
 }
 
 func handleReset(ctx *zero.Ctx) {

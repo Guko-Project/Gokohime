@@ -27,6 +27,10 @@ type BufferedMessage struct {
 func (b *GroupBuffer) Append(msg BufferedMessage) uint64 {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	return b.appendLocked(msg)
+}
+
+func (b *GroupBuffer) appendLocked(msg BufferedMessage) uint64 {
 	b.nextSeq++
 	msg.seq = b.nextSeq
 	b.messages = append(b.messages, msg)
@@ -40,11 +44,13 @@ func (b *GroupBuffer) Append(msg BufferedMessage) uint64 {
 type GroupBuffer struct {
 	mu       sync.Mutex
 	messages []BufferedMessage
-	nextSeq  uint64       // last assigned seq
-	sentSeq  uint64       // highest seq durably delivered to the Omoi session
-	sendMu   sync.Mutex   // serializes pending+send+markSent so deltas never overlap
-	count    int          // messages since last trigger
-	lastSent time.Time    // last active trigger time
+	nextSeq  uint64      // last assigned seq
+	sentSeq  uint64      // highest seq durably delivered to the Omoi session
+	sendMu   sync.Mutex  // serializes pending+send+markSent so deltas never overlap
+	count    int         // messages since last trigger
+	lastSent time.Time   // last active trigger time
+	timer    *time.Timer // debounce timer of an Omoi policy
+	firing   bool        // an unsolicited turn is running
 }
 
 // pending returns the messages not yet delivered to the session. Seed mode
@@ -82,20 +88,15 @@ func getBuffer(groupID int64) *GroupBuffer {
 	return val.(*GroupBuffer)
 }
 
-// Push adds a message to the group buffer and returns whether a trigger should fire.
+// Push adds a message to the group buffer and returns whether the legacy
+// config.yaml trigger should fire. It applies when Omoi has no policy.
 func (b *GroupBuffer) Push(msg BufferedMessage, groupID int64) bool {
 	cfg := config.Get().Omoi
 
 	b.mu.Lock()
 	defer b.mu.Unlock()
 
-	// Add to ring buffer
-	b.nextSeq++
-	msg.seq = b.nextSeq
-	b.messages = append(b.messages, msg)
-	if len(b.messages) > cfg.BufferSize {
-		b.messages = b.messages[len(b.messages)-cfg.BufferSize:]
-	}
+	b.appendLocked(msg)
 	b.count++
 
 	// Decide and reserve the trigger under the same lock so concurrent messages cannot fire twice.

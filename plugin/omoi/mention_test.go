@@ -118,6 +118,8 @@ func TestMentionsReachOmoiAndMemory(t *testing.T) {
 			captured = append(captured, body.MemoryEvents...)
 			w.Header().Set("Content-Type", "text/event-stream")
 			fmt.Fprint(w, "event: delta\ndata: {\"content\":\"收到\"}\n\nevent: done\ndata: {}\n\n")
+		case r.URL.Path == "/proactive/policy":
+			w.WriteHeader(404) // an Omoi without proactive policies
 		default:
 			t.Errorf("unexpected API %s", r.URL.Path)
 			w.WriteHeader(500)
