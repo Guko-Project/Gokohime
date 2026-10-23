@@ -1,6 +1,7 @@
 package omoi
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -119,6 +120,11 @@ func handleGroupMention(ctx *zero.Ctx) {
 
 	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, false), ctx, buf.Snapshot())
 	reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, &trigger, refs...)
+	if errors.Is(err, errNothingToSend) {
+		// A request already in flight carried this mention and answers it.
+		log.Infof("[omoi] mention already sent with a concurrent request")
+		return
+	}
 	if err != nil {
 		log.Warnf("[omoi] send message failed: %v", err)
 		reportFailure(ctx, bgCtx, err)
@@ -232,8 +238,10 @@ func activeTurn(ctx *zero.Ctx, buf *GroupBuffer, claimed bool) {
 	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, buf.Snapshot())
 	reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, nil)
 	if err != nil {
-		log.Warnf("[omoi] active trigger send failed: %v", err)
-		reportFailure(ctx, bgCtx, err)
+		// Nobody asked for this turn, so a failure stays out of the group.
+		if !errors.Is(err, errNothingToSend) {
+			log.Warnf("[omoi] active trigger send failed: trace=%s error=%v", traceID(bgCtx), err)
+		}
 		return
 	}
 	SendSplitReply(ctx, reply)

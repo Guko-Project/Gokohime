@@ -2,6 +2,7 @@ package omoi
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -123,6 +124,10 @@ func resetPrivateSession(ctx context.Context, userID int64) error {
 	return resetSession(ctx, key)
 }
 
+// errNothingToSend means a concurrent request already delivered every
+// buffered message, so this one has nothing left to answer.
+var errNothingToSend = errors.New("no new group messages to send")
+
 // sendGroupMessage delivers each buffered group message to the session exactly
 // once. A fresh session receives the whole buffer as a seed; later requests
 // carry only messages the session has not seen. sendMu keeps the
@@ -150,7 +155,7 @@ func sendGroupMessage(ctx context.Context, buf *GroupBuffer, groupID int64, grou
 func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName string, trigger *BufferedMessage, seed bool, refs []MediaReference) (string, error) {
 	msgs, omitted := buf.pending(seed)
 	if len(msgs) == 0 {
-		return "", fmt.Errorf("no new group messages to send")
+		return "", errNothingToSend
 	}
 	var prompt string
 	if seed {
