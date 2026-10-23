@@ -44,13 +44,17 @@ func (b *GroupBuffer) appendLocked(msg BufferedMessage) uint64 {
 type GroupBuffer struct {
 	mu       sync.Mutex
 	messages []BufferedMessage
-	nextSeq  uint64      // last assigned seq
-	sentSeq  uint64      // highest seq durably delivered to the Omoi session
-	sendMu   sync.Mutex  // serializes pending+send+markSent so deltas never overlap
-	count    int         // messages since last trigger
-	lastSent time.Time   // last active trigger time
-	timer    *time.Timer // debounce timer of an Omoi policy
-	firing   bool        // an unsolicited turn is running
+	nextSeq  uint64     // last assigned seq
+	sentSeq  uint64     // highest seq durably delivered to the Omoi session
+	sendMu   sync.Mutex // serializes pending+send+markSent so deltas never overlap
+	count    int        // messages since last trigger (legacy config.yaml trigger)
+	lastSent time.Time  // last active trigger time
+	firing   bool       // an unsolicited turn is running
+	// Per Omoi trigger: messages since it last asked, whether one matched
+	// its keywords, and its debounce timer.
+	counts  map[string]int
+	matched map[string]bool
+	timers  map[string]*time.Timer
 }
 
 // pending returns the messages not yet delivered to the session. Seed mode

@@ -25,6 +25,7 @@ type channelContext struct {
 	ActorID   string `json:"actor_id"`
 	Proactive bool   `json:"proactive"`
 	JudgeText string `json:"judge_text,omitempty"`
+	TriggerID string `json:"trigger_id,omitempty"`
 	Instance  string `json:"-"`
 	Target    string `json:"-"`
 }
@@ -37,6 +38,16 @@ func channelRequest(ctx context.Context, event *zero.Event, proactive bool) cont
 	}
 	return context.WithValue(ctx, channelKey{}, channelContext{ActorID: strconv.FormatInt(event.UserID, 10), Proactive: proactive, Instance: "qq:" + strconv.FormatInt(event.SelfID, 10), Target: kind + ":" + strconv.FormatInt(id, 10)})
 }
+
+// withTrigger names the Omoi reply trigger an unsolicited turn asks for.
+func withTrigger(ctx context.Context, id string) context.Context {
+	if ch, ok := ctx.Value(channelKey{}).(channelContext); ok && id != "" {
+		ch.TriggerID = id
+		return context.WithValue(ctx, channelKey{}, ch)
+	}
+	return ctx
+}
+
 func (c *OmoiClient) deliveryAPI(ctx context.Context, method, path string, body, out any) error {
 	raw, err := json.Marshal(body)
 	if err != nil {

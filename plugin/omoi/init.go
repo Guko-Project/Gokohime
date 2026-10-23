@@ -214,28 +214,30 @@ func handleGroupObserve(ctx *zero.Ctx) {
 	// Omoi's policy decides when to ask and runs the trigger chain itself;
 	// without one, the legacy config.yaml probability applies.
 	var trigger, claimed bool
+	var triggerID string
 	if policy := groupPolicy(requestContext(), ctx.Event); policy != nil && policy.Configured {
-		trigger = buf.observe(msg, policy, func() { activeTurn(ctx, buf, true) })
+		triggerID, trigger = buf.observe(msg, policy, func(id string) { activeTurn(ctx, buf, true, id) })
 		claimed = trigger
 	} else {
 		trigger = buf.Push(msg, ctx.Event.GroupID)
 	}
 	captureObservedMemory(ctx, msg)
 	if trigger {
-		go activeTurn(ctx, buf, claimed)
+		go activeTurn(ctx, buf, claimed, triggerID)
 	}
 }
 
-// activeTurn sends the new group messages as an unsolicited turn. claimed
-// turns hold the buffer reservation made by an Omoi policy.
-func activeTurn(ctx *zero.Ctx, buf *GroupBuffer, claimed bool) {
+// activeTurn sends the new group messages as an unsolicited turn of an Omoi
+// trigger ("" without one). claimed turns hold the buffer reservation made
+// by an Omoi policy.
+func activeTurn(ctx *zero.Ctx, buf *GroupBuffer, claimed bool, triggerID string) {
 	if claimed {
 		defer buf.release()
 		// Cooldowns change once the agent has spoken.
 		defer forgetPolicy(ctx.Event.GroupID)
 	}
 	groupName := getGroupName(ctx)
-	bgCtx := withMemory(channelRequest(requestContext(), ctx.Event, true), ctx, buf.Snapshot())
+	bgCtx := withMemory(withTrigger(channelRequest(requestContext(), ctx.Event, true), triggerID), ctx, buf.Snapshot())
 	reply, err := sendGroupMessage(bgCtx, buf, ctx.Event.GroupID, groupName, nil)
 	if err != nil {
 		// Nobody asked for this turn, so a failure stays out of the group.

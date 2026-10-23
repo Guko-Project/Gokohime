@@ -185,5 +185,9 @@ func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName
 		return "", err
 	}
 	buf.markSent(msgs[len(msgs)-1].seq)
+	if trigger != nil {
+		// The agent answered a mention, so every trigger starts counting again.
+		buf.resetTriggers()
+	}
 	return reply, nil
 }
