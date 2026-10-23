@@ -130,12 +130,7 @@ func handleGroupMention(ctx *zero.Ctx) {
 		reportFailure(ctx, bgCtx, err)
 		return
 	}
-	// A bare mention is a request for acknowledgement, even if the model stays silent.
-	cfg := config.Get().Omoi
-	if text == "" && len(refs) == 0 && (strings.TrimSpace(reply) == "" || (cfg.SkipMarker != "" && strings.Contains(reply, cfg.SkipMarker))) {
-		reply = "我在，怎么啦？"
-	}
-
+	// A [SKIP] answer stays silent, even for a bare mention.
 	SendSplitReply(ctx, reply)
 }
 

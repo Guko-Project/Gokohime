@@ -194,11 +194,8 @@ func TestMentionAndActiveHandlers(t *testing.T) {
 	handleGroupMention(ctx)
 	select {
 	case sent := <-caller.sent:
-		if !strings.Contains(sent, "我在，怎么啦") {
-			t.Fatalf("bare mention did not acknowledge model SKIP: %s", sent)
-		}
+		t.Fatalf("bare mention answered despite model SKIP: %s", sent)
 	default:
-		t.Fatal("bare mention sent no QQ message")
 	}
 	if requestCount.Load() != 1 {
 		t.Fatal("bare mention did not reach Omoi")
