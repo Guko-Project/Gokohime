@@ -6,6 +6,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"unicode"
+	"unicode/utf8"
 
 	"github.com/colanns/gokohime/internal/config"
 	zero "github.com/wdvxdr1123/ZeroBot"
@@ -26,13 +28,29 @@ func init() {
 	zero.OnCommand("啃").SetPriority(1).SetBlock(true).Handle(func(ctx *zero.Ctx) {})
 	zero.OnKeywordGroup(silentBlockedKeywords).SetPriority(1).SetBlock(true).Handle(func(ctx *zero.Ctx) {})
 
-	zero.OnCommand("ban", zero.OnlyGroup, zero.AdminPermission).
+	zero.OnCommand("ban", exactCommandRule("ban"), zero.OnlyGroup, zero.AdminPermission).
 		SetBlock(true).
 		Handle(handleBanCommand)
 
-	zero.OnCommand("unban", zero.OnlyGroup, zero.AdminPermission).
+	zero.OnCommand("unban", exactCommandRule("unban"), zero.OnlyGroup, zero.AdminPermission).
 		SetBlock(true).
 		Handle(handleUnbanCommand)
+}
+
+// exactCommandRule adds a command boundary to ZeroBot's prefix-only matching.
+func exactCommandRule(command string) zero.Rule {
+	return func(ctx *zero.Ctx) bool {
+		if ctx == nil || ctx.Event == nil || len(ctx.Event.Message) == 0 || ctx.Event.Message[0].Type != "text" {
+			return false
+		}
+		text := ctx.Event.Message[0].Data["text"]
+		rest, ok := strings.CutPrefix(text, zero.BotConfig.CommandPrefix+command)
+		if !ok || rest == "" {
+			return ok
+		}
+		r, _ := utf8.DecodeRuneInString(rest)
+		return unicode.IsSpace(r)
+	}
 }
 
 func handleBanCommand(ctx *zero.Ctx) {
