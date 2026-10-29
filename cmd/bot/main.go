@@ -25,7 +25,7 @@ import (
 	_ "github.com/colanns/gokohime/plugin/commandlog"
 	_ "github.com/colanns/gokohime/plugin/cp"
 	_ "github.com/colanns/gokohime/plugin/eatwhat"
-	_ "github.com/colanns/gokohime/plugin/guesssong"
+	"github.com/colanns/gokohime/plugin/guesssong"
 	_ "github.com/colanns/gokohime/plugin/help"
 	_ "github.com/colanns/gokohime/plugin/jrluck"
 	_ "github.com/colanns/gokohime/plugin/kk"
@@ -57,6 +57,10 @@ func main() {
 		log.Fatalf("[main] init database: %v", err)
 	}
 	log.Info("[main] database initialized")
+	if err := guesssong.StartupCheck(context.Background()); err != nil {
+		log.Warnf("[main] guesssong startup check failed: %v", err)
+	}
+	guesssong.StartCacheMaintenance(context.Background())
 
 	if err := randpic.StartupCheck(context.Background()); err != nil {
 		log.Warnf("[main] randpic startup check failed: %v", err)

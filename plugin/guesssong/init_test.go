@@ -1,6 +1,8 @@
 package guesssong
 
 import (
+	"context"
+	"fmt"
 	"testing"
 
 	zero "github.com/wdvxdr1123/ZeroBot"
@@ -25,16 +27,16 @@ func TestGuessSessionIdentity(t *testing.T) {
 }
 
 func TestPrepareSongFailureText(t *testing.T) {
-	cases := map[string]string{
-		"ffmpeg not found: exec":        "准备题目失败，请先安装 ffmpeg 后再试。",
-		"ffmpeg: exit status 1":         "准备题目失败，ffmpeg 切片失败，请检查音频文件和 ffmpeg 是否可用。",
-		"download audio status 404":     "准备题目失败，歌曲资源暂时不可用，请稍后再试。",
-		"song 1 not found":              "准备题目失败，歌曲资源暂时不可用，请稍后再试。",
-		"some network timeout happened": "准备题目失败，请确认网络可用且系统已安装 ffmpeg。",
+	cases := map[error]string{
+		errAudioTools:            "准备题目失败，请先安装 ffmpeg 和 ffprobe 后再试。",
+		errSongDownload:          "下载歌曲失败惹！可以联系 Colanns 看看怎么回事——",
+		errSongUnavailable:       "下载歌曲失败惹！可以联系 Colanns 看看怎么回事——",
+		errRateLimited:           "下载歌曲失败惹！可以联系 Colanns 看看怎么回事——",
+		context.DeadlineExceeded: "下载歌曲失败惹！可以联系 Colanns 看看怎么回事——",
 	}
 
 	for input, want := range cases {
-		if got := prepareSongFailureText(assertErr(input)); got != want {
+		if got := prepareSongFailureText(fmt.Errorf("wrapped: %w", input)); got != want {
 			t.Fatalf("prepareSongFailureText(%q) = %q, want %q", input, got, want)
 		}
 	}
@@ -55,12 +57,13 @@ func TestChooseSliceOffsets(t *testing.T) {
 	}
 }
 
-func assertErr(msg string) error {
-	return testErr(msg)
-}
-
-type testErr string
-
-func (e testErr) Error() string {
-	return string(e)
+func TestSliceOffsetsStayWithinAudio(t *testing.T) {
+	for seconds := 12; seconds < 1000; seconds++ {
+		for i := 0; i < 10; i++ {
+			a, b := chooseSliceOffsets(seconds * 1000)
+			if a < 0 || a+sliceLengthSec > b || b+sliceLengthSec > seconds {
+				t.Fatalf("duration=%d offsets=%d,%d", seconds, a, b)
+			}
+		}
+	}
 }

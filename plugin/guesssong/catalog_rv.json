@@ -1,0 +1,9055 @@
+{
+  "playlist_id": 3160107494,
+  "playlist_name": "VOCALOID传说曲持续更新计划（至26/10/07）",
+  "playlist_url": "https://music.163.com/playlist?id=3160107494",
+  "fetched_at": "2026-10-29T18:39:44.459762+00:00",
+  "legacy_source": "rv.json",
+  "merge_stats": {
+    "legacy_records": 685,
+    "legacy_unique": 684,
+    "playlist_unique": 960,
+    "overlap": 658,
+    "merged_unique": 986,
+    "missing_metadata_ids": [
+      533552339,
+      526454238,
+      1335356136,
+      1824962350,
+      484715,
+      444524198,
+      26141902
+    ]
+  },
+  "tracks": [
+    {
+      "id": 1390058564,
+      "name": "バイビーベイビーサヨウナラ (feat. 初音ミク)",
+      "artists": [
+        "saiB",
+        "初音ミク"
+      ],
+      "duration_ms": 190000
+    },
+    {
+      "id": 2121980419,
+      "name": "ラプラスショコラ",
+      "artists": [
+        "Kai"
+      ],
+      "duration_ms": 137192
+    },
+    {
+      "id": 404543524,
+      "name": "キドアイラク",
+      "artists": [
+        "初音ミク",
+        "GUMI",
+        "Task"
+      ],
+      "duration_ms": 232803
+    },
+    {
+      "id": 2086798921,
+      "name": "NEO",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 182600
+    },
+    {
+      "id": 1474338672,
+      "name": "再会 (VOCALOID ver)",
+      "artists": [
+        "はるまきごはん",
+        "初音ミク"
+      ],
+      "duration_ms": 239315
+    },
+    {
+      "id": 1895077481,
+      "name": "シンデレラ (Giga First Night Remix)",
+      "artists": [
+        "DECO*27",
+        "Giga",
+        "初音ミク"
+      ],
+      "duration_ms": 142113
+    },
+    {
+      "id": 2097828677,
+      "name": "はぐ (feat. 初音ミク & 可不)",
+      "artists": [
+        "MIMI",
+        "初音ミク",
+        "可不"
+      ],
+      "duration_ms": 159085
+    },
+    {
+      "id": 2684924244,
+      "name": "花弁、それにまつわる音声",
+      "artists": [
+        "あばらや"
+      ],
+      "duration_ms": 218055
+    },
+    {
+      "id": 1913836762,
+      "name": "ラストスコア (feat. 初音ミク)",
+      "artists": [
+        "せきこみごはん",
+        "初音ミク"
+      ],
+      "duration_ms": 259000
+    },
+    {
+      "id": 2642285401,
+      "name": "オブソミート (feat. 初音ミク&重音テト)",
+      "artists": [
+        "サツキ",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 229367
+    },
+    {
+      "id": 2734291446,
+      "name": "アベリア (feat. 初音ミク)",
+      "artists": [
+        "Aliey:S",
+        "初音ミク"
+      ],
+      "duration_ms": 217049
+    },
+    {
+      "id": 2132169876,
+      "name": "ころしちゃった! (feat. 初音ミク)",
+      "artists": [
+        "夏山よつぎ",
+        "初音ミク"
+      ],
+      "duration_ms": 195454
+    },
+    {
+      "id": 28977474,
+      "name": "Synchronicity ~第二章 光と影の楽園~",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 319000
+    },
+    {
+      "id": 22817716,
+      "name": "天国へ行こう",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 279600
+    },
+    {
+      "id": 3355210936,
+      "name": "個々々々々々人",
+      "artists": [
+        "Sohbana"
+      ],
+      "duration_ms": 180271
+    },
+    {
+      "id": 2140325144,
+      "name": "わかれみち",
+      "artists": [
+        "大漠波新",
+        "ゲキヤクβ",
+        "カゼヒキβ",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 265053
+    },
+    {
+      "id": 2735484466,
+      "name": "モニタリング (Best Friend Remix)",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 178382
+    },
+    {
+      "id": 3322691810,
+      "name": "ループザルーム (feat. 初音ミク)",
+      "artists": [
+        "ルシノ",
+        "初音ミク"
+      ],
+      "duration_ms": 134071
+    },
+    {
+      "id": 1316563242,
+      "name": "ココロナンセンス (REBOOT ver.)",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 209991
+    },
+    {
+      "id": 3376577017,
+      "name": "かいしんのいちげき！",
+      "artists": [
+        "初音ミク",
+        "天月-あまつき-"
+      ],
+      "duration_ms": 239882
+    },
+    {
+      "id": 1915292257,
+      "name": "贖罪",
+      "artists": [
+        "傘村トータ",
+        "結月ゆかり",
+        "初音ミク",
+        "Fukase",
+        "Ken",
+        "IA"
+      ],
+      "duration_ms": 259500
+    },
+    {
+      "id": 1833827931,
+      "name": "たぶん終わり",
+      "artists": [
+        "いよわ",
+        "初音ミク",
+        "v flower"
+      ],
+      "duration_ms": 198000
+    },
+    {
+      "id": 2719630556,
+      "name": "チェリーポップ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 138973
+    },
+    {
+      "id": 29753672,
+      "name": "キメラ",
+      "artists": [
+        "ATOLS",
+        "IA"
+      ],
+      "duration_ms": 220496
+    },
+    {
+      "id": 410055,
+      "name": "キミ以上、ボク未満。",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 224573
+    },
+    {
+      "id": 1874071402,
+      "name": "snooze (feat. 初音ミク)",
+      "artists": [
+        "wotaku",
+        "初音ミク"
+      ],
+      "duration_ms": 178000
+    },
+    {
+      "id": 2017123934,
+      "name": "バーバヤーガ",
+      "artists": [
+        "煮ル果実"
+      ],
+      "duration_ms": 163720
+    },
+    {
+      "id": 3354773832,
+      "name": "鳥の詩",
+      "artists": [
+        "鏡音レン",
+        "six feet under"
+      ],
+      "duration_ms": 264035
+    },
+    {
+      "id": 2070407475,
+      "name": "霽れを待つ",
+      "artists": [
+        "Orangestar",
+        "初音ミク"
+      ],
+      "duration_ms": 251453
+    },
+    {
+      "id": 3353204546,
+      "name": "正体",
+      "artists": [
+        "Riei",
+        "初音ミク"
+      ],
+      "duration_ms": 271621
+    },
+    {
+      "id": 2028948409,
+      "name": "Unveiled",
+      "artists": [
+        "ナナホシ管弦楽団"
+      ],
+      "duration_ms": 210961
+    },
+    {
+      "id": 546723680,
+      "name": "トオトロジイダウトフル",
+      "artists": [
+        "GUMI",
+        "ツミキ"
+      ],
+      "duration_ms": 197799
+    },
+    {
+      "id": 521187886,
+      "name": "コバルトメモリーズ",
+      "artists": [
+        "はるまきごはん",
+        "初音ミク"
+      ],
+      "duration_ms": 268074
+    },
+    {
+      "id": 2676576968,
+      "name": "BLUE BACK",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 189186
+    },
+    {
+      "id": 2612739896,
+      "name": "ヤミタイガール",
+      "artists": [
+        "れるりり",
+        "GUMI"
+      ],
+      "duration_ms": 244114
+    },
+    {
+      "id": 2055801247,
+      "name": "ラブレター・フロム・メランコリー",
+      "artists": [
+        "烏屋茶房"
+      ],
+      "duration_ms": 213946
+    },
+    {
+      "id": 1918884127,
+      "name": "ネロイズム",
+      "artists": [
+        "鳴花ミコト",
+        "かいりきベア"
+      ],
+      "duration_ms": 187826
+    },
+    {
+      "id": 34690740,
+      "name": "morning haze",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 304826
+    },
+    {
+      "id": 2730639960,
+      "name": "いますぐ輪廻",
+      "artists": [
+        "なきそ",
+        "初音ミク"
+      ],
+      "duration_ms": 122482
+    },
+    {
+      "id": 1826138323,
+      "name": "シェーマ",
+      "artists": [
+        "Chinozo",
+        "v flower"
+      ],
+      "duration_ms": 207529
+    },
+    {
+      "id": 2084089752,
+      "name": "ボルテッカー (feat. 初音ミク)",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 152333
+    },
+    {
+      "id": 3369761894,
+      "name": "お姫様は電子音で眠る",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 368384
+    },
+    {
+      "id": 399354854,
+      "name": "ていていしんじゃえ",
+      "artists": [
+        "4o"
+      ],
+      "duration_ms": 222427
+    },
+    {
+      "id": 399354855,
+      "name": "ミサイルキラー",
+      "artists": [
+        "4o",
+        "鏡音リン"
+      ],
+      "duration_ms": 241535
+    },
+    {
+      "id": 2638390009,
+      "name": "化けの花",
+      "artists": [
+        "なきそ",
+        "初音ミク"
+      ],
+      "duration_ms": 116333
+    },
+    {
+      "id": 2132170351,
+      "name": "メロメロイド (feat. 初音ミク)",
+      "artists": [
+        "かいりきベア",
+        "初音ミク"
+      ],
+      "duration_ms": 183488
+    },
+    {
+      "id": 27733722,
+      "name": "in the rain",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 320500
+    },
+    {
+      "id": 28872155,
+      "name": "lllトゥルティンアンテナlll",
+      "artists": [
+        "鏡音レン"
+      ],
+      "duration_ms": 225400
+    },
+    {
+      "id": 2660875049,
+      "name": "キャンディークッキーチョコレート (feat. 初音ミク & 重音テト)",
+      "artists": [
+        "はろける",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 169161
+    },
+    {
+      "id": 2686166750,
+      "name": "ダイダイダイダイダイキライ",
+      "artists": [
+        "雨良 Amala",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 156711
+    },
+    {
+      "id": 1825059851,
+      "name": "水死体にもどらないで",
+      "artists": [
+        "いよわ",
+        "初音ミク",
+        "v flower"
+      ],
+      "duration_ms": 227001
+    },
+    {
+      "id": 1848778332,
+      "name": "涙",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 244188
+    },
+    {
+      "id": 1880818220,
+      "name": "モザイクロール (Reloaded)",
+      "artists": [
+        "DECO*27"
+      ],
+      "duration_ms": 159240
+    },
+    {
+      "id": 1970326107,
+      "name": "Who?",
+      "artists": [
+        "Azari"
+      ],
+      "duration_ms": 116718
+    },
+    {
+      "id": 1864305690,
+      "name": "ぴんく",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 222786
+    },
+    {
+      "id": 2013133040,
+      "name": "GLIDE",
+      "artists": [
+        "niki",
+        "Lily"
+      ],
+      "duration_ms": 166000
+    },
+    {
+      "id": 1422947556,
+      "name": "ポッピンキャンディ☆フィーバー！ (feat. 音街ウナ&鏡音リン)",
+      "artists": [
+        "キノシタ",
+        "音街ウナ",
+        "鏡音リン"
+      ],
+      "duration_ms": 208000
+    },
+    {
+      "id": 2623126852,
+      "name": "ステラ",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 323906
+    },
+    {
+      "id": 2672829798,
+      "name": "テレパシ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 137746
+    },
+    {
+      "id": 26209808,
+      "name": "カンタレラ ~grace edition~",
+      "artists": [
+        "黒うさP",
+        "KAITO"
+      ],
+      "duration_ms": 179115
+    },
+    {
+      "id": 1864341171,
+      "name": "ロジカ",
+      "artists": [
+        "かいりきベア",
+        "v flower"
+      ],
+      "duration_ms": 238400
+    },
+    {
+      "id": 2649372852,
+      "name": "ゾンビ（feat. 初音ミク）",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 189013
+    },
+    {
+      "id": 2023084063,
+      "name": "水死体は恋したい",
+      "artists": [
+        "LonePi",
+        "初音ミク"
+      ],
+      "duration_ms": 185196
+    },
+    {
+      "id": 2650843590,
+      "name": "み む かゥ わ ナ イ ス ト ラ イ",
+      "artists": [
+        "ぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬぬ",
+        "初音ミク",
+        "ずんだもん",
+        "四国めたん"
+      ],
+      "duration_ms": 205069
+    },
+    {
+      "id": 35253555,
+      "name": "世界を壊している",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 209586
+    },
+    {
+      "id": 2678216477,
+      "name": "ONE OFF MIND",
+      "artists": [
+        "蜂屋ななし",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 219143
+    },
+    {
+      "id": 26209792,
+      "name": "ReAct",
+      "artists": [
+        "黒うさP",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 287089
+    },
+    {
+      "id": 509531786,
+      "name": "クラブ＝マジェスティ",
+      "artists": [
+        "nyanyannya"
+      ],
+      "duration_ms": 217621
+    },
+    {
+      "id": 29356664,
+      "name": "紙飛行機",
+      "artists": [
+        "囚人P"
+      ],
+      "duration_ms": 449000
+    },
+    {
+      "id": 29356663,
+      "name": "囚人",
+      "artists": [
+        "囚人P",
+        "鏡音レン"
+      ],
+      "duration_ms": 340000
+    },
+    {
+      "id": 2065967510,
+      "name": "HERO (feat. 初音ミク)",
+      "artists": [
+        "Ayase",
+        "初音ミク"
+      ],
+      "duration_ms": 204166
+    },
+    {
+      "id": 1418092909,
+      "name": "ネガティブ進化論",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 191357
+    },
+    {
+      "id": 2069361759,
+      "name": "あいしていたのに",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 219076
+    },
+    {
+      "id": 2633061838,
+      "name": "Summering",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 208529
+    },
+    {
+      "id": 2639291583,
+      "name": "モニタリング",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 176800
+    },
+    {
+      "id": 2144269430,
+      "name": "あいのうた",
+      "artists": [
+        "大漠波新",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 184766
+    },
+    {
+      "id": 22653751,
+      "name": "マーメイド (feat. メグッポイド)",
+      "artists": [
+        "monaca:factory",
+        "GUMI"
+      ],
+      "duration_ms": 202000
+    },
+    {
+      "id": 1959396193,
+      "name": "鉄の処女と夢見がちなお姫さま",
+      "artists": [
+        "じょるじん",
+        "鏡音リン"
+      ],
+      "duration_ms": 211900
+    },
+    {
+      "id": 1951952113,
+      "name": "愛言葉IV",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 218813
+    },
+    {
+      "id": 1971679115,
+      "name": "デイバイデイズ",
+      "artists": [
+        "syudou",
+        "初音ミク",
+        "可不"
+      ],
+      "duration_ms": 129059
+    },
+    {
+      "id": 27791349,
+      "name": "夕暮れ蝉日記",
+      "artists": [
+        "まふまふ",
+        "IA"
+      ],
+      "duration_ms": 219200
+    },
+    {
+      "id": 26124992,
+      "name": "かなしみのなみにおぼれる",
+      "artists": [
+        "Neru",
+        "鏡音レン"
+      ],
+      "duration_ms": 203000
+    },
+    {
+      "id": 31245383,
+      "name": "LaLaL危",
+      "artists": [
+        "梅とら"
+      ],
+      "duration_ms": 195000
+    },
+    {
+      "id": 466343981,
+      "name": "ハイパーゴアムササビスティックディサピアリジーニャス",
+      "artists": [
+        "KAITO",
+        "nyanyannya"
+      ],
+      "duration_ms": 210883
+    },
+    {
+      "id": 28977358,
+      "name": "Party×Party",
+      "artists": [
+        "ひとしずく×やま△",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "MEIKO",
+        "KAITO"
+      ],
+      "duration_ms": 219000
+    },
+    {
+      "id": 1947588987,
+      "name": "ミザン",
+      "artists": [
+        "須田景凪",
+        "ぬゆり"
+      ],
+      "duration_ms": 207300
+    },
+    {
+      "id": 1436919586,
+      "name": "ポジティブ・パレード",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 183373
+    },
+    {
+      "id": 490416076,
+      "name": "アップルドットコム",
+      "artists": [
+        "初音ミク",
+        "ピノキオピー"
+      ],
+      "duration_ms": 205882
+    },
+    {
+      "id": 26440351,
+      "name": "蜘蛛糸モノポリー",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク"
+      ],
+      "duration_ms": 275346
+    },
+    {
+      "id": 2061963201,
+      "name": "晴天を穿つ",
+      "artists": [
+        "傘村トータ",
+        "Mew"
+      ],
+      "duration_ms": 194400
+    },
+    {
+      "id": 1818537088,
+      "name": "愛されなくても君がいる",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 272333
+    },
+    {
+      "id": 1396524584,
+      "name": "キルマー",
+      "artists": [
+        "煮ル果実",
+        "v flower"
+      ],
+      "duration_ms": 209345
+    },
+    {
+      "id": 26219268,
+      "name": "小夜子",
+      "artists": [
+        "初音ミク",
+        "みきとP"
+      ],
+      "duration_ms": 255931
+    },
+    {
+      "id": 1885752787,
+      "name": "サクラノタトゥー (一二三×ピノキオピー)",
+      "artists": [
+        "一二三",
+        "ピノキオピー"
+      ],
+      "duration_ms": 233935
+    },
+    {
+      "id": 2036133022,
+      "name": "一千光年",
+      "artists": [
+        "いよわ",
+        "初音ミク",
+        "v flower",
+        "歌愛ユキ",
+        "GUMI",
+        "VY1",
+        "足立レイ",
+        "可不",
+        "星界",
+        "裏命",
+        "花隈千冬",
+        "SOLARIA"
+      ],
+      "duration_ms": 242500
+    },
+    {
+      "id": 1453381133,
+      "name": "死んでしまったのだろうか",
+      "artists": [
+        "Guiano",
+        "v flower"
+      ],
+      "duration_ms": 210946
+    },
+    {
+      "id": 1347529151,
+      "name": "シックシックシック",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 236000
+    },
+    {
+      "id": 1316562216,
+      "name": "さようなら、花泥棒さん",
+      "artists": [
+        "yamada",
+        "初音ミク"
+      ],
+      "duration_ms": 289065
+    },
+    {
+      "id": 1840052610,
+      "name": "花を唄う",
+      "artists": [
+        "シノ",
+        "初音ミク"
+      ],
+      "duration_ms": 206608
+    },
+    {
+      "id": 1844152897,
+      "name": "人間らしい",
+      "artists": [
+        "ユリイ・カノン",
+        "GUMI"
+      ],
+      "duration_ms": 207866
+    },
+    {
+      "id": 1385116335,
+      "name": "サイコグラム",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 224786
+    },
+    {
+      "id": 1937321567,
+      "name": "パジャミィ",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 203451
+    },
+    {
+      "id": 1924765417,
+      "name": "ニューダーリン",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 156307
+    },
+    {
+      "id": 27515067,
+      "name": "サイノウサンプラー",
+      "artists": [
+        "koyori",
+        "初音ミク"
+      ],
+      "duration_ms": 209586
+    },
+    {
+      "id": 1979045976,
+      "name": "キッカイケッタイ",
+      "artists": [
+        "メドミア",
+        "可不",
+        "初音ミク"
+      ],
+      "duration_ms": 102000
+    },
+    {
+      "id": 1390016329,
+      "name": "Booo!",
+      "artists": [
+        "西沢さんP",
+        "音街ウナ"
+      ],
+      "duration_ms": 173479
+    },
+    {
+      "id": 28844025,
+      "name": "StargazeR",
+      "artists": [
+        "初音ミク",
+        "骨盤P"
+      ],
+      "duration_ms": 206028
+    },
+    {
+      "id": 2068041065,
+      "name": "リレイアウター",
+      "artists": [
+        "稲葉曇",
+        "歌愛ユキ"
+      ],
+      "duration_ms": 189412
+    },
+    {
+      "id": 2108831771,
+      "name": "JUVENILE",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 273017
+    },
+    {
+      "id": 4888619,
+      "name": "しねばいいのに",
+      "artists": [
+        "KAITO",
+        "dBu music"
+      ],
+      "duration_ms": 331800
+    },
+    {
+      "id": 28468435,
+      "name": "magician's operation",
+      "artists": [
+        "EZFG",
+        "巡音ルカ"
+      ],
+      "duration_ms": 221933
+    },
+    {
+      "id": 1989905180,
+      "name": "おくすり飲んで寝よう (feat. 初音ミク)",
+      "artists": [
+        "もちうつね",
+        "初音ミク"
+      ],
+      "duration_ms": 188884
+    },
+    {
+      "id": 421148096,
+      "name": "ピチカートドロップス",
+      "artists": [
+        "初音ミク",
+        "とあ"
+      ],
+      "duration_ms": 216477
+    },
+    {
+      "id": 1918884502,
+      "name": "にっこり^^調査隊のテーマ (feat. 鏡音リン&鏡音レン)",
+      "artists": [
+        "WONDERFUL★OPPORTUNITY!",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 208050
+    },
+    {
+      "id": 3354772556,
+      "name": "Fairytale,",
+      "artists": [
+        "cillia",
+        "VY1"
+      ],
+      "duration_ms": 299350
+    },
+    {
+      "id": 3354771688,
+      "name": "ホール・ニュー・ワールド",
+      "artists": [
+        "KAITO",
+        "MEIKO",
+        "根気P"
+      ],
+      "duration_ms": 160218
+    },
+    {
+      "id": 1941347910,
+      "name": "絶対敵対メチャキライヤー",
+      "artists": [
+        "メドミア",
+        "初音ミク",
+        "可不"
+      ],
+      "duration_ms": 162947
+    },
+    {
+      "id": 4888355,
+      "name": "マリオネットシンドローム",
+      "artists": [
+        "すこっぷ",
+        "初音ミク"
+      ],
+      "duration_ms": 234962
+    },
+    {
+      "id": 2077713564,
+      "name": "混沌ブギ",
+      "artists": [
+        "jon-YAKITORY",
+        "初音ミク"
+      ],
+      "duration_ms": 154421
+    },
+    {
+      "id": 407485168,
+      "name": "うまれるまえは",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 240312
+    },
+    {
+      "id": 1383171732,
+      "name": "神曲 (feat. 初音ミク)",
+      "artists": [
+        "おにゅうP",
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 197578
+    },
+    {
+      "id": 2120430309,
+      "name": "のだ",
+      "artists": [
+        "大漠波新",
+        "ずんだもん",
+        "初音ミク",
+        "重音テト"
+      ],
+      "duration_ms": 177485
+    },
+    {
+      "id": 33516239,
+      "name": "少女A",
+      "artists": [
+        "椎名もた",
+        "鏡音リン"
+      ],
+      "duration_ms": 221500
+    },
+    {
+      "id": 1335362746,
+      "name": "ケセラリズム",
+      "artists": [
+        "ユリイ・カノン",
+        "GUMI"
+      ],
+      "duration_ms": 231773
+    },
+    {
+      "id": 1825057438,
+      "name": "さよならジャックポット",
+      "artists": [
+        "いよわ"
+      ],
+      "duration_ms": 269438
+    },
+    {
+      "id": 2702369947,
+      "name": "ごめんね ごめんね",
+      "artists": [
+        "きくお"
+      ],
+      "duration_ms": 287946
+    },
+    {
+      "id": 1955665030,
+      "name": "月光 [VOCALOID ver]",
+      "artists": [
+        "はるまきごはん",
+        "キタニタツヤ",
+        "初音ミク",
+        "鏡音リン"
+      ],
+      "duration_ms": 234495
+    },
+    {
+      "id": 1396524587,
+      "name": "ハングリーニコル",
+      "artists": [
+        "煮ル果実",
+        "v flower"
+      ],
+      "duration_ms": 287323
+    },
+    {
+      "id": 32803310,
+      "name": "四季刻歌",
+      "artists": [
+        "IA"
+      ],
+      "duration_ms": 234000
+    },
+    {
+      "id": 2101409535,
+      "name": "リアライズ",
+      "artists": [
+        "柊マグネタイト",
+        "初音ミク"
+      ],
+      "duration_ms": 160000
+    },
+    {
+      "id": 1841266666,
+      "name": "終焉逃避行",
+      "artists": [
+        "柊マグネタイト",
+        "初音ミク"
+      ],
+      "duration_ms": 179591
+    },
+    {
+      "id": 1396524585,
+      "name": "ヲズワルド",
+      "artists": [
+        "煮ル果実",
+        "v flower"
+      ],
+      "duration_ms": 293500
+    },
+    {
+      "id": 1865928065,
+      "name": "ハイドレンジア",
+      "artists": [
+        "LonePi",
+        "歌愛ユキ"
+      ],
+      "duration_ms": 204179
+    },
+    {
+      "id": 33715063,
+      "name": "イカサマ⇔カジノ",
+      "artists": [
+        "ひとしずく×やま△",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 221800
+    },
+    {
+      "id": 1849669026,
+      "name": "『んっあっあっ。』",
+      "artists": [
+        "SLAVE.V-V-R",
+        "初音ミク"
+      ],
+      "duration_ms": 213983
+    },
+    {
+      "id": 39443782,
+      "name": "君色に染まる",
+      "artists": [
+        "西沢さんP",
+        "GUMI"
+      ],
+      "duration_ms": 194119
+    },
+    {
+      "id": 26440349,
+      "name": "トゥイー・ボックスの人形劇場",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク"
+      ],
+      "duration_ms": 238346
+    },
+    {
+      "id": 1440419795,
+      "name": "あわよくばきみの眷属になりたいな",
+      "artists": [
+        "Peg",
+        "鏡音リン"
+      ],
+      "duration_ms": 186874
+    },
+    {
+      "id": 2071922745,
+      "name": "ももいろの鍵",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 203406
+    },
+    {
+      "id": 2002980370,
+      "name": "Iなんです",
+      "artists": [
+        "れるりり",
+        "初音ミク"
+      ],
+      "duration_ms": 147243
+    },
+    {
+      "id": 484732461,
+      "name": "エル・タンゴ・エゴイスタ",
+      "artists": [
+        "KAITO",
+        "巡音ルカ",
+        "nyanyannya"
+      ],
+      "duration_ms": 195026
+    },
+    {
+      "id": 1855988913,
+      "name": "あだぽしゃ",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 206074
+    },
+    {
+      "id": 2061963203,
+      "name": "あなたの夜が明けるまで",
+      "artists": [
+        "傘村トータ",
+        "IA",
+        "Fukase"
+      ],
+      "duration_ms": 279386
+    },
+    {
+      "id": 2058263030,
+      "name": "フューチャー・イヴ (feat. 初音ミク)",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク"
+      ],
+      "duration_ms": 219000
+    },
+    {
+      "id": 1408570397,
+      "name": "マジカルドクター",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 220220
+    },
+    {
+      "id": 1912598037,
+      "name": "くうになる (feat. 可不&初音ミク)",
+      "artists": [
+        "MIMI",
+        "可不",
+        "初音ミク"
+      ],
+      "duration_ms": 154000
+    },
+    {
+      "id": 2048347743,
+      "name": "新人類 (feat. 鏡音リン)",
+      "artists": [
+        "まらしぃ",
+        "堀江晶太",
+        "鏡音リン",
+        "じん"
+      ],
+      "duration_ms": 158853
+    },
+    {
+      "id": 31830615,
+      "name": "真夏と少年の天ノ川戦争",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 401506
+    },
+    {
+      "id": 852346,
+      "name": "トキヲ・ファンカ",
+      "artists": [
+        "takamatt",
+        "GUMI"
+      ],
+      "duration_ms": 338717
+    },
+    {
+      "id": 1313104270,
+      "name": "リアル初音ミクの消失",
+      "artists": [
+        "cosMo@暴走P",
+        "GUMI"
+      ],
+      "duration_ms": 215614
+    },
+    {
+      "id": 1826442166,
+      "name": "ERROR (feat. Lily)",
+      "artists": [
+        "niki"
+      ],
+      "duration_ms": 238500
+    },
+    {
+      "id": 1472554869,
+      "name": "マフィア",
+      "artists": [
+        "wotaku",
+        "初音ミク"
+      ],
+      "duration_ms": 185937
+    },
+    {
+      "id": 28917380,
+      "name": "背景、夏に溺れる",
+      "artists": [
+        "初音ミク",
+        "n-buna"
+      ],
+      "duration_ms": 314000
+    },
+    {
+      "id": 2043178301,
+      "name": "ラビットホール",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 159000
+    },
+    {
+      "id": 1347529144,
+      "name": "閻魔さまのいうとおり",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 240000
+    },
+    {
+      "id": 1369395002,
+      "name": "馬鹿",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 202176
+    },
+    {
+      "id": 34218859,
+      "name": "すーぱーぬこわーるど",
+      "artists": [
+        "まふまふ",
+        "鏡音リン",
+        "IA"
+      ],
+      "duration_ms": 220298
+    },
+    {
+      "id": 2041465981,
+      "name": "レクイエム (feat. 初音ミク)",
+      "artists": [
+        "kanaria",
+        "初音ミク"
+      ],
+      "duration_ms": 157161
+    },
+    {
+      "id": 1313897521,
+      "name": "マイナスレッテル",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 201135
+    },
+    {
+      "id": 1859603835,
+      "name": "ねぇねぇねぇ。",
+      "artists": [
+        "ピノキオピー",
+        "鏡音リン",
+        "初音ミク"
+      ],
+      "duration_ms": 210607
+    },
+    {
+      "id": 2084005903,
+      "name": "Beat Eater",
+      "artists": [
+        "ポリスピカデリー",
+        "初音ミク"
+      ],
+      "duration_ms": 218848
+    },
+    {
+      "id": 2055244250,
+      "name": "パノプティコン",
+      "artists": [
+        "r-906",
+        "初音ミク"
+      ],
+      "duration_ms": 255140
+    },
+    {
+      "id": 3353204566,
+      "name": "深海",
+      "artists": [
+        "Riei",
+        "初音ミク"
+      ],
+      "duration_ms": 221779
+    },
+    {
+      "id": 1457285659,
+      "name": "エゴイスト",
+      "artists": [
+        "大沼パセリ",
+        "v flower"
+      ],
+      "duration_ms": 219320
+    },
+    {
+      "id": 2020625193,
+      "name": "花に風",
+      "artists": [
+        "須田景凪",
+        "初音ミク"
+      ],
+      "duration_ms": 225748
+    },
+    {
+      "id": 2037085150,
+      "name": "ザムザ",
+      "artists": [
+        "てにをは",
+        "初音ミク"
+      ],
+      "duration_ms": 212479
+    },
+    {
+      "id": 2743487264,
+      "name": "MONSTER",
+      "artists": [
+        "KIRA"
+      ],
+      "duration_ms": 217730
+    },
+    {
+      "id": 27853205,
+      "name": "パレットには君がいっぱい",
+      "artists": [
+        "椎名もた",
+        "初音ミク"
+      ],
+      "duration_ms": 221000
+    },
+    {
+      "id": 1294899575,
+      "name": "METEOR",
+      "artists": [
+        "初音ミク",
+        "DIVELA"
+      ],
+      "duration_ms": 274440
+    },
+    {
+      "id": 2156434037,
+      "name": "ゴー・トゥ・大都会",
+      "artists": [
+        "月裏",
+        "GUMI",
+        "ニャントンロン"
+      ],
+      "duration_ms": 170156
+    },
+    {
+      "id": 2051317320,
+      "name": "強風オールバック",
+      "artists": [
+        "歌愛ユキ",
+        "ゆこぴ"
+      ],
+      "duration_ms": 137332
+    },
+    {
+      "id": 1453382030,
+      "name": "スーパーヒーロー",
+      "artists": [
+        "Guiano",
+        "IA"
+      ],
+      "duration_ms": 166526
+    },
+    {
+      "id": 1479930555,
+      "name": "GETCHA!",
+      "artists": [
+        "初音ミク",
+        "GUMI",
+        "Giga",
+        "KIRA"
+      ],
+      "duration_ms": 230500
+    },
+    {
+      "id": 32192205,
+      "name": "愛の詩",
+      "artists": [
+        "ラマーズP",
+        "初音ミク"
+      ],
+      "duration_ms": 219000
+    },
+    {
+      "id": 2020725645,
+      "name": "匿名M (feat. 初音ミク & ARuFa)",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク",
+        "ARuFa"
+      ],
+      "duration_ms": 158997
+    },
+    {
+      "id": 1877943224,
+      "name": "シャンティ (feat. KAITO)",
+      "artists": [
+        "wotaku",
+        "KAITO"
+      ],
+      "duration_ms": 165958
+    },
+    {
+      "id": 22778983,
+      "name": "茶番カプリシオ",
+      "artists": [
+        "mothy",
+        "初音ミク",
+        "神威がくぽ",
+        "GUMI",
+        "MEIKO",
+        "KAITO",
+        "鏡音レン",
+        "巡音ルカ",
+        "鏡音リン"
+      ],
+      "duration_ms": 298015
+    },
+    {
+      "id": 2046775099,
+      "name": "三日月ステップ 2023",
+      "artists": [
+        "r-906",
+        "初音ミク"
+      ],
+      "duration_ms": 189265
+    },
+    {
+      "id": 455311469,
+      "name": "従属ふりったー",
+      "artists": [
+        "koyori",
+        "初音ミク"
+      ],
+      "duration_ms": 221570
+    },
+    {
+      "id": 1449599572,
+      "name": "p.h.",
+      "artists": [
+        "SEVENTHLINKS",
+        "v flower"
+      ],
+      "duration_ms": 155376
+    },
+    {
+      "id": 1938210666,
+      "name": "絶え間なく藍色 (VOCALOID ver.)",
+      "artists": [
+        "獅子志司",
+        "初音ミク"
+      ],
+      "duration_ms": 219776
+    },
+    {
+      "id": 484730495,
+      "name": "影光SPECTRUM",
+      "artists": [
+        "初音ミク",
+        "FB777"
+      ],
+      "duration_ms": 306677
+    },
+    {
+      "id": 27853207,
+      "name": "シティライツ",
+      "artists": [
+        "椎名もた",
+        "鏡音リン"
+      ],
+      "duration_ms": 170000
+    },
+    {
+      "id": 29724781,
+      "name": "ネコミミアーカイブ",
+      "artists": [
+        "糞田舎P",
+        "初音ミク"
+      ],
+      "duration_ms": 210000
+    },
+    {
+      "id": 1935989135,
+      "name": "キメラ (feat. 初音ミク)",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 164691
+    },
+    {
+      "id": 1903309181,
+      "name": "アプリコット",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 205853
+    },
+    {
+      "id": 2008003632,
+      "name": "デビルじゃないもん",
+      "artists": [
+        "DECO*27",
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 163682
+    },
+    {
+      "id": 1920257953,
+      "name": "マシュマリー",
+      "artists": [
+        "MIMI",
+        "初音ミク"
+      ],
+      "duration_ms": 213626
+    },
+    {
+      "id": 477215496,
+      "name": "ムーンウォークフィーバー",
+      "artists": [
+        "日向電工"
+      ],
+      "duration_ms": 194066
+    },
+    {
+      "id": 1408587104,
+      "name": "ゴキブリの味",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 266739
+    },
+    {
+      "id": 2035058678,
+      "name": "クローゼットルーム",
+      "artists": [
+        "るりう",
+        "GUMI"
+      ],
+      "duration_ms": 187316
+    },
+    {
+      "id": 1925405601,
+      "name": "ジレンマ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 166733
+    },
+    {
+      "id": 422790936,
+      "name": "ラプンツェル",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 266586
+    },
+    {
+      "id": 1882069249,
+      "name": "Shadow Shadow",
+      "artists": [
+        "Azari",
+        "v flower"
+      ],
+      "duration_ms": 141777
+    },
+    {
+      "id": 1939575649,
+      "name": "まにまに",
+      "artists": [
+        "r-906",
+        "初音ミク"
+      ],
+      "duration_ms": 268965
+    },
+    {
+      "id": 532776181,
+      "name": "krank",
+      "artists": [
+        "神山羊",
+        "初音ミク"
+      ],
+      "duration_ms": 233480
+    },
+    {
+      "id": 1375960069,
+      "name": "花が落ちたので、",
+      "artists": [
+        "一二三",
+        "初音ミク"
+      ],
+      "duration_ms": 256866
+    },
+    {
+      "id": 490006875,
+      "name": "ドリームレス・ドリームス",
+      "artists": [
+        "はるまきごはん",
+        "初音ミク"
+      ],
+      "duration_ms": 226493
+    },
+    {
+      "id": 2752311988,
+      "name": "∞まわる∞",
+      "artists": [
+        "カルロス袴田(サイゼP)",
+        "音街ウナ"
+      ],
+      "duration_ms": 263858
+    },
+    {
+      "id": 1825059848,
+      "name": "IMAWANOKIWA",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 253231
+    },
+    {
+      "id": 1872393298,
+      "name": "Surges",
+      "artists": [
+        "Orangestar",
+        "IA",
+        "初音ミク"
+      ],
+      "duration_ms": 144543
+    },
+    {
+      "id": 1417885192,
+      "name": "ロストアンブレラ",
+      "artists": [
+        "稲葉曇",
+        "歌愛ユキ"
+      ],
+      "duration_ms": 204497
+    },
+    {
+      "id": 33937479,
+      "name": "Hand in Hand",
+      "artists": [
+        "livetune",
+        "初音ミク"
+      ],
+      "duration_ms": 311546
+    },
+    {
+      "id": 1408586358,
+      "name": "しう",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 278808
+    },
+    {
+      "id": 1379410951,
+      "name": "赤ペンおねがいします",
+      "artists": [
+        "椎名もた",
+        "初音ミク"
+      ],
+      "duration_ms": 222000
+    },
+    {
+      "id": 1316375344,
+      "name": "イヤガール",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 193125
+    },
+    {
+      "id": 1849309117,
+      "name": "ノンブレス・オブリージュ",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 208991
+    },
+    {
+      "id": 1883985010,
+      "name": "マシンガンポエムドール",
+      "artists": [
+        "cosMo@暴走P"
+      ],
+      "duration_ms": 140527
+    },
+    {
+      "id": 1943883908,
+      "name": "酔いどれ知らず",
+      "artists": [
+        "kanaria",
+        "GUMI"
+      ],
+      "duration_ms": 134869
+    },
+    {
+      "id": 1335362787,
+      "name": "セカイ再信仰特区",
+      "artists": [
+        "ろくろ",
+        "初音ミク"
+      ],
+      "duration_ms": 227764
+    },
+    {
+      "id": 1915002109,
+      "name": "パラサイト",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 165706
+    },
+    {
+      "id": 1970303952,
+      "name": "QUEEN",
+      "artists": [
+        "kanaria",
+        "GUMI"
+      ],
+      "duration_ms": 141882
+    },
+    {
+      "id": 1842125921,
+      "name": "It's A Whole World",
+      "artists": [
+        "そーいち"
+      ],
+      "duration_ms": 207374
+    },
+    {
+      "id": 1948735477,
+      "name": "ヒアソビ (feat. 初音ミク)",
+      "artists": [
+        "かめりあ",
+        "初音ミク"
+      ],
+      "duration_ms": 245149
+    },
+    {
+      "id": 1923751777,
+      "name": "ド屑",
+      "artists": [
+        "なきそ",
+        "歌愛ユキ"
+      ],
+      "duration_ms": 120000
+    },
+    {
+      "id": 1951285318,
+      "name": "転生林檎",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 219082
+    },
+    {
+      "id": 1818504092,
+      "name": "ニナ",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 206000
+    },
+    {
+      "id": 1825056882,
+      "name": "1000年生きてる",
+      "artists": [
+        "いよわ",
+        "初音ミク"
+      ],
+      "duration_ms": 203999
+    },
+    {
+      "id": 399354856,
+      "name": "故にユーエンミー",
+      "artists": [
+        "4o",
+        "初音ミク",
+        "薪宮風季"
+      ],
+      "duration_ms": 180000
+    },
+    {
+      "id": 1961462977,
+      "name": "孤独毒毒",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 188903
+    },
+    {
+      "id": 1962744445,
+      "name": "バグ",
+      "artists": [
+        "かいりきベア",
+        "初音ミク"
+      ],
+      "duration_ms": 171612
+    },
+    {
+      "id": 1892808930,
+      "name": "抜錨",
+      "artists": [
+        "ナナホシ管弦楽団"
+      ],
+      "duration_ms": 204000
+    },
+    {
+      "id": 1863858994,
+      "name": "EYE",
+      "artists": [
+        "kanaria",
+        "GUMI"
+      ],
+      "duration_ms": 134496
+    },
+    {
+      "id": 1440693795,
+      "name": "アブソリュート",
+      "artists": [
+        "YASUHIRO",
+        "鏡音リン"
+      ],
+      "duration_ms": 260645
+    },
+    {
+      "id": 1912642513,
+      "name": "サラマンダー",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 155647
+    },
+    {
+      "id": 1825022661,
+      "name": "アルティメットセンパイ",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 218068
+    },
+    {
+      "id": 26115907,
+      "name": "ファインダー",
+      "artists": [
+        "livetune",
+        "初音ミク"
+      ],
+      "duration_ms": 312000
+    },
+    {
+      "id": 1482191684,
+      "name": "ヒガン",
+      "artists": [
+        "john",
+        "初音ミク"
+      ],
+      "duration_ms": 214000
+    },
+    {
+      "id": 33367333,
+      "name": "無人駅",
+      "artists": [
+        "n-buna",
+        "miki"
+      ],
+      "duration_ms": 220640
+    },
+    {
+      "id": 31830614,
+      "name": "シンクロナイザー",
+      "artists": [
+        "Orangestar",
+        "初音ミク"
+      ],
+      "duration_ms": 232880
+    },
+    {
+      "id": 1813576412,
+      "name": "リコレクションエンドロウル",
+      "artists": [
+        "ツミキ",
+        "初音ミク"
+      ],
+      "duration_ms": 203226
+    },
+    {
+      "id": 478686034,
+      "name": "drop",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 321700
+    },
+    {
+      "id": 1968076297,
+      "name": "失楽ペトリ",
+      "artists": [
+        "ナナホシ管弦楽団",
+        "初音ミク"
+      ],
+      "duration_ms": 190000
+    },
+    {
+      "id": 28814771,
+      "name": "孤独ノ隠レンボ",
+      "artists": [
+        "150P",
+        "初音ミク"
+      ],
+      "duration_ms": 226934
+    },
+    {
+      "id": 1867863168,
+      "name": "シンデレラ",
+      "artists": [
+        "DECO*27"
+      ],
+      "duration_ms": 154261
+    },
+    {
+      "id": 22665152,
+      "name": "アストロノーツ",
+      "artists": [
+        "椎名もた",
+        "初音ミク"
+      ],
+      "duration_ms": 458400
+    },
+    {
+      "id": 573582096,
+      "name": "悪魔の踊り方",
+      "artists": [
+        "鏡音リン",
+        "キタニタツヤ"
+      ],
+      "duration_ms": 237035
+    },
+    {
+      "id": 1825037926,
+      "name": "ラヴィット",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 218068
+    },
+    {
+      "id": 2013729644,
+      "name": "オルターエゴ",
+      "artists": [
+        "Misumi",
+        "初音ミク"
+      ],
+      "duration_ms": 223920
+    },
+    {
+      "id": 1919802219,
+      "name": "魔法少女とチョコレゐト",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 187600
+    },
+    {
+      "id": 1913278640,
+      "name": "アイデンティティ",
+      "artists": [
+        "kanaria",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 155692
+    },
+    {
+      "id": 1931579035,
+      "name": "ノマド",
+      "artists": [
+        "須田景凪",
+        "v flower"
+      ],
+      "duration_ms": 232145
+    },
+    {
+      "id": 1842166288,
+      "name": "アイディスマイル (feat. 初音ミク&鏡音リン)",
+      "artists": [
+        "とあ",
+        "初音ミク",
+        "鏡音リン"
+      ],
+      "duration_ms": 181052
+    },
+    {
+      "id": 1901589029,
+      "name": "アニマル",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 152266
+    },
+    {
+      "id": 1961454524,
+      "name": "アイロニック",
+      "artists": [
+        "kanaria",
+        "初音ミク"
+      ],
+      "duration_ms": 143333
+    },
+    {
+      "id": 407485166,
+      "name": "少女ケシゴム",
+      "artists": [
+        "MARETU",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 232000
+    },
+    {
+      "id": 2676706713,
+      "name": "爆笑 (初音ミクver.)",
+      "artists": [
+        "syudou"
+      ],
+      "duration_ms": 207166
+    },
+    {
+      "id": 28189650,
+      "name": "クライヤ",
+      "artists": [
+        "初音ミク",
+        "すこっぷ"
+      ],
+      "duration_ms": 276000
+    },
+    {
+      "id": 32358972,
+      "name": "文学少女インセイン",
+      "artists": [
+        "烏屋茶房"
+      ],
+      "duration_ms": 232000
+    },
+    {
+      "id": 1870910634,
+      "name": "カレシのジュード",
+      "artists": [
+        "syudou"
+      ],
+      "duration_ms": 131272
+    },
+    {
+      "id": 1418072951,
+      "name": "ノイローゼ",
+      "artists": [
+        "蜂屋ななし",
+        "v flower"
+      ],
+      "duration_ms": 205019
+    },
+    {
+      "id": 532776179,
+      "name": "quiet room",
+      "artists": [
+        "神山羊",
+        "初音ミク"
+      ],
+      "duration_ms": 219213
+    },
+    {
+      "id": 1347497538,
+      "name": "アヤカシ",
+      "artists": [
+        "buzzG",
+        "初音ミク"
+      ],
+      "duration_ms": 222680
+    },
+    {
+      "id": 3354772469,
+      "name": "Dearest",
+      "artists": [
+        "yuukiss",
+        "MEIKO"
+      ],
+      "duration_ms": 101331
+    },
+    {
+      "id": 1387392404,
+      "name": "無限にホメてくれる桜乃そら先生",
+      "artists": [
+        "桜乃そら",
+        "GYARI"
+      ],
+      "duration_ms": 301278
+    },
+    {
+      "id": 2600134941,
+      "name": "ラブドール",
+      "artists": [
+        "DECO*27",
+        "GUMI"
+      ],
+      "duration_ms": 181211
+    },
+    {
+      "id": 33911652,
+      "name": "ハイドアンド シーク",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 265900
+    },
+    {
+      "id": 1824854197,
+      "name": "ファイヴ",
+      "artists": [
+        "Omoi"
+      ],
+      "duration_ms": 187507
+    },
+    {
+      "id": 2123762820,
+      "name": "シニカルナイトプラン",
+      "artists": [
+        "Ayase",
+        "初音ミク"
+      ],
+      "duration_ms": 200910
+    },
+    {
+      "id": 29091330,
+      "name": "負け犬至上主義",
+      "artists": [
+        "150P",
+        "IA"
+      ],
+      "duration_ms": 208000
+    },
+    {
+      "id": 1871038762,
+      "name": "エゴロック (long ver.)",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 169529
+    },
+    {
+      "id": 1895636990,
+      "name": "アンチジョーカー",
+      "artists": [
+        "マイキP"
+      ],
+      "duration_ms": 240000
+    },
+    {
+      "id": 1817414180,
+      "name": "ヨヒラ",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 193352
+    },
+    {
+      "id": 1330849743,
+      "name": "君の神様になりたい。",
+      "artists": [
+        "カンザキイオリ",
+        "初音ミク"
+      ],
+      "duration_ms": 260048
+    },
+    {
+      "id": 2675945034,
+      "name": "airhead",
+      "artists": [
+        "ピコン",
+        "初音ミク"
+      ],
+      "duration_ms": 171624
+    },
+    {
+      "id": 1913840996,
+      "name": "ロウワー",
+      "artists": [
+        "ぬゆり",
+        "v flower"
+      ],
+      "duration_ms": 230000
+    },
+    {
+      "id": 4888321,
+      "name": "クローバークラブ",
+      "artists": [
+        "ゆうゆ",
+        "初音ミク"
+      ],
+      "duration_ms": 172942
+    },
+    {
+      "id": 1878313261,
+      "name": "神っぽいな",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 203760
+    },
+    {
+      "id": 469073369,
+      "name": "純情スカート",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 248360
+    },
+    {
+      "id": 22717181,
+      "name": "ggrks-ググれカス-",
+      "artists": [
+        "巡音ルカ",
+        "神威がくぽ"
+      ],
+      "duration_ms": 221146
+    },
+    {
+      "id": 498880441,
+      "name": "とても素敵な六月でした",
+      "artists": [
+        "Eight",
+        "初音ミク"
+      ],
+      "duration_ms": 283426
+    },
+    {
+      "id": 1818504147,
+      "name": "セカイはまだ始まってすらいない",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 219000
+    },
+    {
+      "id": 1347497946,
+      "name": "カンタービレ×パッシオーネ",
+      "artists": [
+        "OSTER project",
+        "初音ミク"
+      ],
+      "duration_ms": 286306
+    },
+    {
+      "id": 623108,
+      "name": "心臓デモクラシー",
+      "artists": [
+        "みきとP",
+        "初音ミク"
+      ],
+      "duration_ms": 229200
+    },
+    {
+      "id": 1818504158,
+      "name": "君が生きてなくてよかった",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 264000
+    },
+    {
+      "id": 1855089388,
+      "name": "トンデモワンダーズ",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク",
+        "KAITO"
+      ],
+      "duration_ms": 195822
+    },
+    {
+      "id": 1818502016,
+      "name": "おばけのウケねらい",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 231000
+    },
+    {
+      "id": 1914870471,
+      "name": "群青讃歌",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 275500
+    },
+    {
+      "id": 1452688410,
+      "name": "ジェヘナ",
+      "artists": [
+        "wotaku",
+        "初音ミク"
+      ],
+      "duration_ms": 246503
+    },
+    {
+      "id": 2623131348,
+      "name": "限りなく灰色へ",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 274906
+    },
+    {
+      "id": 1890001608,
+      "name": "パメラ",
+      "artists": [
+        "須田景凪",
+        "v flower"
+      ],
+      "duration_ms": 196333
+    },
+    {
+      "id": 2623131352,
+      "name": "シネマ",
+      "artists": [
+        "Ayase",
+        "初音ミク"
+      ],
+      "duration_ms": 209133
+    },
+    {
+      "id": 484721137,
+      "name": "愛及屋烏",
+      "artists": [
+        "須田景凪"
+      ],
+      "duration_ms": 247520
+    },
+    {
+      "id": 4928128,
+      "name": "FLOWER TAIL",
+      "artists": [
+        "うむ",
+        "yuukiss",
+        "KAITO"
+      ],
+      "duration_ms": 261000
+    },
+    {
+      "id": 29379294,
+      "name": "走れ",
+      "artists": [
+        "KEI"
+      ],
+      "duration_ms": 207804
+    },
+    {
+      "id": 4887946,
+      "name": "Starduster",
+      "artists": [
+        "ジミーサムP",
+        "初音ミク"
+      ],
+      "duration_ms": 303000
+    },
+    {
+      "id": 1396522693,
+      "name": "紗痲",
+      "artists": [
+        "煮ル果実",
+        "v flower"
+      ],
+      "duration_ms": 205798
+    },
+    {
+      "id": 1376647905,
+      "name": "ライムライト",
+      "artists": [
+        "蜂屋ななし",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 210976
+    },
+    {
+      "id": 28661654,
+      "name": "細菌汚染 – Bacterial Contamination –",
+      "artists": [
+        "初音ミク",
+        "mathru"
+      ],
+      "duration_ms": 233980
+    },
+    {
+      "id": 2037944267,
+      "name": "Henceforth",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 235822
+    },
+    {
+      "id": 1347526544,
+      "name": "内臓ありますか",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 207000
+    },
+    {
+      "id": 1999309754,
+      "name": "ラブカ?",
+      "artists": [
+        "柊キライ",
+        "v flower"
+      ],
+      "duration_ms": 185322
+    },
+    {
+      "id": 2722469012,
+      "name": "トウキョウダイバアフェイクショウ",
+      "artists": [
+        "IA",
+        "ツミキ"
+      ],
+      "duration_ms": 176386
+    },
+    {
+      "id": 1492827692,
+      "name": "ラグトレイン",
+      "artists": [
+        "稲葉曇",
+        "歌愛ユキ"
+      ],
+      "duration_ms": 252680
+    },
+    {
+      "id": 1999305125,
+      "name": "メビウス",
+      "artists": [
+        "柊キライ",
+        "v flower"
+      ],
+      "duration_ms": 207052
+    },
+    {
+      "id": 1453108359,
+      "name": "幽霊東京",
+      "artists": [
+        "Ayase",
+        "初音ミク"
+      ],
+      "duration_ms": 205226
+    },
+    {
+      "id": 477215497,
+      "name": "バケモノダンスフロア",
+      "artists": [
+        "日向電工"
+      ],
+      "duration_ms": 197280
+    },
+    {
+      "id": 1372315637,
+      "name": "猛独が襲う",
+      "artists": [
+        "一二三",
+        "初音ミク"
+      ],
+      "duration_ms": 252307
+    },
+    {
+      "id": 22817721,
+      "name": "物をぱらぱら壊す",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 239400
+    },
+    {
+      "id": 573581063,
+      "name": "flos",
+      "artists": [
+        "初音ミク",
+        "R Sound Design"
+      ],
+      "duration_ms": 274576
+    },
+    {
+      "id": 1347502035,
+      "name": "テスラは夢の中",
+      "artists": [
+        "西沢さんP",
+        "初音ミク"
+      ],
+      "duration_ms": 187240
+    },
+    {
+      "id": 1311345075,
+      "name": "8.32",
+      "artists": [
+        "v flower",
+        "*Luna"
+      ],
+      "duration_ms": 248746
+    },
+    {
+      "id": 526472058,
+      "name": "夢喰い白黒バク",
+      "artists": [
+        "鏡音レン",
+        "Nem"
+      ],
+      "duration_ms": 216842
+    },
+    {
+      "id": 1388172420,
+      "name": "トラフィック・ジャム",
+      "artists": [
+        "煮ル果実",
+        "v flower"
+      ],
+      "duration_ms": 241632
+    },
+    {
+      "id": 1914870466,
+      "name": "あの娘シークレット",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 234499
+    },
+    {
+      "id": 1456486939,
+      "name": "春嵐",
+      "artists": [
+        "john",
+        "初音ミク"
+      ],
+      "duration_ms": 161872
+    },
+    {
+      "id": 32958080,
+      "name": "パズルガール",
+      "artists": [
+        "とあ",
+        "初音ミク"
+      ],
+      "duration_ms": 274840
+    },
+    {
+      "id": 4886289,
+      "name": "↑人生ゲーム↓",
+      "artists": [
+        "ゆずひこ",
+        "初音ミク"
+      ],
+      "duration_ms": 228019
+    },
+    {
+      "id": 34690736,
+      "name": "alternate",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 320000
+    },
+    {
+      "id": 2623126853,
+      "name": "ジャックポッドサッドガール",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 186933
+    },
+    {
+      "id": 1840474281,
+      "name": "ヴァンパイア",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 178235
+    },
+    {
+      "id": 2623131343,
+      "name": "potatoになっていく",
+      "artists": [
+        "Neru",
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 189226
+    },
+    {
+      "id": 1920598643,
+      "name": "テレキャスタービーボーイ",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 167546
+    },
+    {
+      "id": 2123758714,
+      "name": "SCREAM",
+      "artists": [
+        "GUMI",
+        "梅とら"
+      ],
+      "duration_ms": 206053
+    },
+    {
+      "id": 1385117202,
+      "name": "夜行性ハイズ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 235640
+    },
+    {
+      "id": 1915013179,
+      "name": "エンヴィーベイビー",
+      "artists": [
+        "kanaria",
+        "GUMI"
+      ],
+      "duration_ms": 135975
+    },
+    {
+      "id": 481523276,
+      "name": "RRRepeat!!!",
+      "artists": [
+        "GYARI",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "猫村いろは",
+        "KAITO",
+        "結月ゆかり"
+      ],
+      "duration_ms": 4026201
+    },
+    {
+      "id": 1826139261,
+      "name": "グッバイ宣言",
+      "artists": [
+        "Chinozo"
+      ],
+      "duration_ms": 172470
+    },
+    {
+      "id": 3354772314,
+      "name": "合い鳴き",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン",
+        "shr"
+      ],
+      "duration_ms": 237772
+    },
+    {
+      "id": 529824438,
+      "name": "カトラリー",
+      "artists": [
+        "初音ミク",
+        "神山羊"
+      ],
+      "duration_ms": 238888
+    },
+    {
+      "id": 1408587105,
+      "name": "マエガミスト",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 239371
+    },
+    {
+      "id": 548650156,
+      "name": "くたばろうぜ",
+      "artists": [
+        "Neru"
+      ],
+      "duration_ms": 206573
+    },
+    {
+      "id": 22686709,
+      "name": "初音ミクの分裂→破壊",
+      "artists": [
+        "cosMo@暴走P",
+        "初音ミク"
+      ],
+      "duration_ms": 331986
+    },
+    {
+      "id": 28872151,
+      "name": "つけまつける",
+      "artists": [
+        "鏡音リン"
+      ],
+      "duration_ms": 262506
+    },
+    {
+      "id": 423997821,
+      "name": "テレカクシ思春期",
+      "artists": [
+        "鏡音レン",
+        "HoneyWorks"
+      ],
+      "duration_ms": 211000
+    },
+    {
+      "id": 1864338278,
+      "name": "ダーリンダンス",
+      "artists": [
+        "かいりきベア",
+        "初音ミク"
+      ],
+      "duration_ms": 206274
+    },
+    {
+      "id": 26124997,
+      "name": "少年少女カメレオンシンプトム",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 212000
+    },
+    {
+      "id": 1453114195,
+      "name": "ラストリゾート",
+      "artists": [
+        "Ayase",
+        "初音ミク"
+      ],
+      "duration_ms": 189253
+    },
+    {
+      "id": 1486054020,
+      "name": "Ready Steady",
+      "artists": [
+        "Giga",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "q*Left"
+      ],
+      "duration_ms": 209375
+    },
+    {
+      "id": 1844149254,
+      "name": "ジャンキーナイトタウンオーケストラ",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 215000
+    },
+    {
+      "id": 4884416,
+      "name": "インタビュア",
+      "artists": [
+        "クワガタP",
+        "巡音ルカ"
+      ],
+      "duration_ms": 263560
+    },
+    {
+      "id": 1369404130,
+      "name": "邪魔",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 210465
+    },
+    {
+      "id": 1864341175,
+      "name": "アイ情劣等生 (REBOOT ver.)",
+      "artists": [
+        "かいりきベア",
+        "鏡音リン"
+      ],
+      "duration_ms": 251306
+    },
+    {
+      "id": 407485167,
+      "name": "スクラマイズ",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 234156
+    },
+    {
+      "id": 1477342161,
+      "name": "エバ",
+      "artists": [
+        "柊キライ",
+        "v flower"
+      ],
+      "duration_ms": 231506
+    },
+    {
+      "id": 26435325,
+      "name": "仇返しシンドローム",
+      "artists": [
+        "まふまふ",
+        "IA"
+      ],
+      "duration_ms": 180819
+    },
+    {
+      "id": 1333335843,
+      "name": "少女レイ -FUMIKIRI ver.-",
+      "artists": [
+        "初音ミク",
+        "みきとP"
+      ],
+      "duration_ms": 293533
+    },
+    {
+      "id": 28977469,
+      "name": "おおかみは赤ずきんに恋をした",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 206800
+    },
+    {
+      "id": 28977418,
+      "name": "からくり卍ばーすと",
+      "artists": [
+        "ひとしずく×やま△",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 270000
+    },
+    {
+      "id": 1824721964,
+      "name": "ジグソーパズル",
+      "artists": [
+        "まふまふ",
+        "鏡音レン"
+      ],
+      "duration_ms": 208200
+    },
+    {
+      "id": 4889665,
+      "name": "恋はきっと急上升☆",
+      "artists": [
+        "のぼる↑",
+        "GUMI"
+      ],
+      "duration_ms": 227999
+    },
+    {
+      "id": 1495030279,
+      "name": "孤独の宗教",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 190555
+    },
+    {
+      "id": 1864338286,
+      "name": "失敗作少女 (MARETU Remix)",
+      "artists": [
+        "かいりきベア",
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 184812
+    },
+    {
+      "id": 1408586355,
+      "name": "コウカツ",
+      "artists": [
+        "MARETU",
+        "初音ミク",
+        "音街ウナ"
+      ],
+      "duration_ms": 226310
+    },
+    {
+      "id": 582412,
+      "name": "君を捜す空~Synchronicity 巡る世界のレクイエム 第一章",
+      "artists": [
+        "ひとしずくP"
+      ],
+      "duration_ms": 167000
+    },
+    {
+      "id": 28642873,
+      "name": "アマツキツネ",
+      "artists": [
+        "鏡音リン",
+        "まらしぃ"
+      ],
+      "duration_ms": 232320
+    },
+    {
+      "id": 1376075091,
+      "name": "ドクター＝ファンクビート",
+      "artists": [
+        "nyanyannya",
+        "KAITO"
+      ],
+      "duration_ms": 210217
+    },
+    {
+      "id": 3354772421,
+      "name": "君の知らない物語",
+      "artists": [
+        "神無月P",
+        "GUMI"
+      ],
+      "duration_ms": 340520
+    },
+    {
+      "id": 1402830753,
+      "name": "Gimme×Gimme",
+      "artists": [
+        "P*Light",
+        "Giga",
+        "初音ミク",
+        "鏡音リン"
+      ],
+      "duration_ms": 220933
+    },
+    {
+      "id": 1818764621,
+      "name": "僕は空気が嫁ない",
+      "artists": [
+        "cosMo@暴走P",
+        "GUMI"
+      ],
+      "duration_ms": 239986
+    },
+    {
+      "id": 1369395007,
+      "name": "コールボーイ",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 208143
+    },
+    {
+      "id": 1804888684,
+      "name": "KING",
+      "artists": [
+        "kanaria",
+        "GUMI"
+      ],
+      "duration_ms": 134815
+    },
+    {
+      "id": 29167902,
+      "name": "ぼうけんのしょがきえました！",
+      "artists": [
+        "WONDERFUL★OPPORTUNITY!",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 222500
+    },
+    {
+      "id": 1311319152,
+      "name": "金星のダンス",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 209333
+    },
+    {
+      "id": 549321152,
+      "name": "わたしのアール",
+      "artists": [
+        "和田たけあき",
+        "初音ミク"
+      ],
+      "duration_ms": 213120
+    },
+    {
+      "id": 1864338280,
+      "name": "ルマ",
+      "artists": [
+        "かいりきベア",
+        "初音ミク"
+      ],
+      "duration_ms": 187012
+    },
+    {
+      "id": 1826442171,
+      "name": "ジッタードール (feat. Lily)",
+      "artists": [
+        "niki"
+      ],
+      "duration_ms": 238620
+    },
+    {
+      "id": 440209008,
+      "name": "踊れオーケストラ",
+      "artists": [
+        "YASUHIRO",
+        "IA"
+      ],
+      "duration_ms": 242703
+    },
+    {
+      "id": 28578701,
+      "name": "恋人のランジェ",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 372840
+    },
+    {
+      "id": 1824979546,
+      "name": "ヴィラン",
+      "artists": [
+        "てにをは",
+        "v flower"
+      ],
+      "duration_ms": 200392
+    },
+    {
+      "id": 1372314988,
+      "name": "祝福のメシアとアイの塔",
+      "artists": [
+        "ひとしずく×やま△",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "MEIKO",
+        "KAITO",
+        "神威がくぽ",
+        "GUMI",
+        "MAYU",
+        "IA"
+      ],
+      "duration_ms": 308000
+    },
+    {
+      "id": 1974435985,
+      "name": "ぼかろころしあむ (feat. 鏡音リン)",
+      "artists": [
+        "DIVELA",
+        "鏡音リン"
+      ],
+      "duration_ms": 155000
+    },
+    {
+      "id": 28844017,
+      "name": "パズル",
+      "artists": [
+        "クワガタP",
+        "初音ミク"
+      ],
+      "duration_ms": 254641
+    },
+    {
+      "id": 26113840,
+      "name": "缲り返し一粒",
+      "artists": [
+        "猫虫P",
+        "鏡音リン"
+      ],
+      "duration_ms": 254056
+    },
+    {
+      "id": 1477342160,
+      "name": "ボッカデラベリタ",
+      "artists": [
+        "柊キライ",
+        "v flower"
+      ],
+      "duration_ms": 203320
+    },
+    {
+      "id": 1477335727,
+      "name": "オートファジー",
+      "artists": [
+        "柊キライ",
+        "v flower"
+      ],
+      "duration_ms": 220200
+    },
+    {
+      "id": 33248274,
+      "name": "レコード・レド",
+      "artists": [
+        "鏡音リン",
+        "shr"
+      ],
+      "duration_ms": 192000
+    },
+    {
+      "id": 40915597,
+      "name": "ニュース39",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 235280
+    },
+    {
+      "id": 28559825,
+      "name": "ラズベリー＊モンスター",
+      "artists": [
+        "HoneyWorks",
+        "初音ミク"
+      ],
+      "duration_ms": 174660
+    },
+    {
+      "id": 31997139,
+      "name": "レッド・パージ!!!",
+      "artists": [
+        "鏡音レン",
+        "鏡音リン",
+        "P.I.N.A."
+      ],
+      "duration_ms": 343300
+    },
+    {
+      "id": 1914871812,
+      "name": "ラストダンス",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 241000
+    },
+    {
+      "id": 1835378671,
+      "name": "懺悔参り",
+      "artists": [
+        "羽生まゐご"
+      ],
+      "duration_ms": 201533
+    },
+    {
+      "id": 484056985,
+      "name": "スーパーマーケット☆フィーバー",
+      "artists": [
+        "初音ミク",
+        "音街ウナ",
+        "カルロス袴田"
+      ],
+      "duration_ms": 219219
+    },
+    {
+      "id": 512489315,
+      "name": "ニセモノ注意報",
+      "artists": [
+        "150P"
+      ],
+      "duration_ms": 225399
+    },
+    {
+      "id": 1926395719,
+      "name": "Mousou Shikkan Yami Girl",
+      "artists": [
+        "れるりり",
+        "大柴広己",
+        "GUMI"
+      ],
+      "duration_ms": 181512
+    },
+    {
+      "id": 1385116336,
+      "name": "アンドロイドガール",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 210653
+    },
+    {
+      "id": 1832399528,
+      "name": "セイデンキニンゲン",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 196173
+    },
+    {
+      "id": 1347497944,
+      "name": "クレイジー・ビート",
+      "artists": [
+        "さつき が てんこもり",
+        "初音ミク",
+        "鏡音レン"
+      ],
+      "duration_ms": 228666
+    },
+    {
+      "id": 22702140,
+      "name": "ドミノ倒シ",
+      "artists": [
+        "すこっぷ"
+      ],
+      "duration_ms": 194000
+    },
+    {
+      "id": 22717395,
+      "name": "驫麤~とりぷるばか~",
+      "artists": [
+        "ラマーズP",
+        "初音ミク",
+        "重音テト",
+        "亞北ネル"
+      ],
+      "duration_ms": 244586
+    },
+    {
+      "id": 1914871811,
+      "name": "トーキョーゲットー",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 240374
+    },
+    {
+      "id": 32358954,
+      "name": "メアの教育",
+      "artists": [
+        "コウ"
+      ],
+      "duration_ms": 199780
+    },
+    {
+      "id": 418602436,
+      "name": "ヒトサマアレルギー",
+      "artists": [
+        "かいりきベア",
+        "v flower"
+      ],
+      "duration_ms": 198640
+    },
+    {
+      "id": 22821037,
+      "name": "ジェンガ",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 298000
+    },
+    {
+      "id": 573577093,
+      "name": "ハグ",
+      "artists": [
+        "初音ミク",
+        "カンザキイオリ"
+      ],
+      "duration_ms": 234031
+    },
+    {
+      "id": 1915003745,
+      "name": "アダルトチルドレン",
+      "artists": [
+        "カンザキイオリ",
+        "鏡音リン"
+      ],
+      "duration_ms": 242500
+    },
+    {
+      "id": 407485169,
+      "name": "パケットヒーロー",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 278125
+    },
+    {
+      "id": 28661548,
+      "name": "一心不乱",
+      "artists": [
+        "初音ミク",
+        "巡音ルカ",
+        "GUMI",
+        "梅とら"
+      ],
+      "duration_ms": 197218
+    },
+    {
+      "id": 573577100,
+      "name": "自由に捕らわれる。",
+      "artists": [
+        "初音ミク",
+        "カンザキイオリ"
+      ],
+      "duration_ms": 360045
+    },
+    {
+      "id": 28606032,
+      "name": "ハイファイレイヴァー",
+      "artists": [
+        "EasyPop",
+        "巡音ルカ",
+        "GUMI",
+        "初音ミク"
+      ],
+      "duration_ms": 203615
+    },
+    {
+      "id": 28642867,
+      "name": "cat's dance",
+      "artists": [
+        "初音ミク",
+        "まらしぃ"
+      ],
+      "duration_ms": 326440
+    },
+    {
+      "id": 1330849751,
+      "name": "あの夏が飽和する",
+      "artists": [
+        "カンザキイオリ",
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 385044
+    },
+    {
+      "id": 407685201,
+      "name": "ミルククラウン・オン・ソーネチカ",
+      "artists": [
+        "ユジー",
+        "初音ミク"
+      ],
+      "duration_ms": 216544
+    },
+    {
+      "id": 28936583,
+      "name": "こどものしくみ",
+      "artists": [
+        "ピノキオピー"
+      ],
+      "duration_ms": 251000
+    },
+    {
+      "id": 27571762,
+      "name": "それがあなたの幸せとしても",
+      "artists": [
+        "巡音ルカ",
+        "Heavenz"
+      ],
+      "duration_ms": 267000
+    },
+    {
+      "id": 27733714,
+      "name": "fix",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 273100
+    },
+    {
+      "id": 412902325,
+      "name": "花降らし",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 299258
+    },
+    {
+      "id": 447280045,
+      "name": "濫觴生命",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 277896
+    },
+    {
+      "id": 489999001,
+      "name": "ニア",
+      "artists": [
+        "初音ミク",
+        "夏代孝明"
+      ],
+      "duration_ms": 248685
+    },
+    {
+      "id": 1309903136,
+      "name": "幾望の月",
+      "artists": [
+        "結月ゆかり",
+        "なきゃむりゃ"
+      ],
+      "duration_ms": 296000
+    },
+    {
+      "id": 22826150,
+      "name": "朝焼け、君の唄。",
+      "artists": [
+        "ナノウ",
+        "初音ミク"
+      ],
+      "duration_ms": 305973
+    },
+    {
+      "id": 1385116334,
+      "name": "スクランブル交際",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 183213
+    },
+    {
+      "id": 31830626,
+      "name": "未完成タイムリミッター",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 221706
+    },
+    {
+      "id": 458231455,
+      "name": "回る空うさぎ",
+      "artists": [
+        "Orangestar",
+        "初音ミク"
+      ],
+      "duration_ms": 173960
+    },
+    {
+      "id": 1818504144,
+      "name": "ラブソングを殺さないで",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 197000
+    },
+    {
+      "id": 447279032,
+      "name": "時ノ雨、最終戦争",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 218662
+    },
+    {
+      "id": 1914695645,
+      "name": "テレキャスタービーボーイ",
+      "artists": [
+        "すりぃ"
+      ],
+      "duration_ms": 62000
+    },
+    {
+      "id": 546724681,
+      "name": "メルティランドナイトメア",
+      "artists": [
+        "初音ミク",
+        "はるまきごはん"
+      ],
+      "duration_ms": 266936
+    },
+    {
+      "id": 423997817,
+      "name": "39みゅーじっく!",
+      "artists": [
+        "初音ミク",
+        "みきとP"
+      ],
+      "duration_ms": 265846
+    },
+    {
+      "id": 33916361,
+      "name": "どうぶつ占い",
+      "artists": [
+        "すこっぷ",
+        "初音ミク"
+      ],
+      "duration_ms": 297000
+    },
+    {
+      "id": 32958091,
+      "name": "ミュージックミュージック",
+      "artists": [
+        "とあ",
+        "初音ミク"
+      ],
+      "duration_ms": 221653
+    },
+    {
+      "id": 1824854135,
+      "name": "君が飛び降りるのなら",
+      "artists": [
+        "Omoi"
+      ],
+      "duration_ms": 170000
+    },
+    {
+      "id": 548648145,
+      "name": "SNOBBISM",
+      "artists": [
+        "Neru",
+        "z'5"
+      ],
+      "duration_ms": 210826
+    },
+    {
+      "id": 2641547435,
+      "name": "レイズ",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 298344
+    },
+    {
+      "id": 29185030,
+      "name": "愛して愛して愛して",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 253000
+    },
+    {
+      "id": 32431535,
+      "name": "CITRUS",
+      "artists": [
+        "ONE",
+        "IA",
+        "Orangestar"
+      ],
+      "duration_ms": 217570
+    },
+    {
+      "id": 29185036,
+      "name": "君はできない子",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 262600
+    },
+    {
+      "id": 29747157,
+      "name": "心做し",
+      "artists": [
+        "一之瀬ユウ",
+        "GUMI"
+      ],
+      "duration_ms": 268355
+    },
+    {
+      "id": 4887032,
+      "name": "ショットガン・ラヴァーズ",
+      "artists": [
+        "のぼる↑",
+        "初音ミク"
+      ],
+      "duration_ms": 224000
+    },
+    {
+      "id": 1408586354,
+      "name": "アイムハイ",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 252834
+    },
+    {
+      "id": 484730497,
+      "name": "トラッシュ・アンド・トラッシュ!",
+      "artists": [
+        "鏡音リン",
+        "和田たけあき"
+      ],
+      "duration_ms": 181533
+    },
+    {
+      "id": 22745612,
+      "name": "シザーハンズ",
+      "artists": [
+        "Nem"
+      ],
+      "duration_ms": 274000
+    },
+    {
+      "id": 1376659382,
+      "name": "アンヘル",
+      "artists": [
+        "かいりきベア",
+        "鳴花ミコト"
+      ],
+      "duration_ms": 217885
+    },
+    {
+      "id": 28936580,
+      "name": "週刊少年バイバイ",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 197000
+    },
+    {
+      "id": 1313897519,
+      "name": "レミングミング",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 195472
+    },
+    {
+      "id": 4885588,
+      "name": "Guilty Verse",
+      "artists": [
+        "氷山キヨテル"
+      ],
+      "duration_ms": 255000
+    },
+    {
+      "id": 1881715467,
+      "name": "イナイイナイ依存症 (MARETU Remix)",
+      "artists": [
+        "かいりきベア",
+        "MARETU"
+      ],
+      "duration_ms": 208877
+    },
+    {
+      "id": 489970715,
+      "name": "きみも悪い人でよかった",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 391000
+    },
+    {
+      "id": 502455386,
+      "name": "リバースユニバース",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 189080
+    },
+    {
+      "id": 30830840,
+      "name": "ユクエシレズ",
+      "artists": [
+        "GUMI",
+        "うみろ"
+      ],
+      "duration_ms": 223722
+    },
+    {
+      "id": 26124540,
+      "name": "Sweet Devil",
+      "artists": [
+        "初音ミク",
+        "P*Light"
+      ],
+      "duration_ms": 236000
+    },
+    {
+      "id": 532940102,
+      "name": "lili.",
+      "artists": [
+        "神山羊",
+        "v flower"
+      ],
+      "duration_ms": 212386
+    },
+    {
+      "id": 29185031,
+      "name": "しかばねの踊り",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 229333
+    },
+    {
+      "id": 1398679772,
+      "name": "ディザーチューン",
+      "artists": [
+        "DIVELA",
+        "初音ミク"
+      ],
+      "duration_ms": 224284
+    },
+    {
+      "id": 1835378673,
+      "name": "阿吽のビーツ",
+      "artists": [
+        "羽生まゐご"
+      ],
+      "duration_ms": 206640
+    },
+    {
+      "id": 1396876232,
+      "name": "ミスリード・ミスリード",
+      "artists": [
+        "Omoi",
+        "初音ミク"
+      ],
+      "duration_ms": 205500
+    },
+    {
+      "id": 529823405,
+      "name": "失想ワアド",
+      "artists": [
+        "初音ミク",
+        "じん"
+      ],
+      "duration_ms": 295706
+    },
+    {
+      "id": 460887,
+      "name": "幸福な死を",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 288000
+    },
+    {
+      "id": 1815390455,
+      "name": "再演",
+      "artists": [
+        "Akali",
+        "音街ウナ",
+        "GUMI"
+      ],
+      "duration_ms": 287960
+    },
+    {
+      "id": 484721146,
+      "name": "ミラーリング",
+      "artists": [
+        "須田景凪",
+        "初音ミク"
+      ],
+      "duration_ms": 223125
+    },
+    {
+      "id": 1856798418,
+      "name": "プロトディスコ",
+      "artists": [
+        "ぬゆり",
+        "v flower"
+      ],
+      "duration_ms": 269440
+    },
+    {
+      "id": 407485164,
+      "name": "スヂ",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 212265
+    },
+    {
+      "id": 1914695646,
+      "name": "表裏一体",
+      "artists": [
+        "すりぃ",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 238000
+    },
+    {
+      "id": 22716790,
+      "name": "橙ゲノム",
+      "artists": [
+        "つなまる"
+      ],
+      "duration_ms": 220100
+    },
+    {
+      "id": 408557934,
+      "name": "僕がモンスターになった日",
+      "artists": [
+        "Fukase",
+        "れるりり"
+      ],
+      "duration_ms": 201560
+    },
+    {
+      "id": 32823158,
+      "name": "番蝶",
+      "artists": [
+        "鏡音リン"
+      ],
+      "duration_ms": 177000
+    },
+    {
+      "id": 1459024209,
+      "name": "エイトリアム",
+      "artists": [
+        "R Sound Design",
+        "v flower"
+      ],
+      "duration_ms": 274343
+    },
+    {
+      "id": 484056986,
+      "name": "フリィダム ロリィタ",
+      "artists": [
+        "結月ゆかり",
+        "ねじ式"
+      ],
+      "duration_ms": 221541
+    },
+    {
+      "id": 3354771358,
+      "name": "愛惜ヒエラルキ",
+      "artists": [
+        "鏡音レン",
+        "shr"
+      ],
+      "duration_ms": 234451
+    },
+    {
+      "id": 1834120221,
+      "name": "ディカディズム",
+      "artists": [
+        "ぬゆり",
+        "v flower",
+        "心华"
+      ],
+      "duration_ms": 232547
+    },
+    {
+      "id": 1440693799,
+      "name": "厭世輪舞曲",
+      "artists": [
+        "YASUHIRO",
+        "鏡音リン"
+      ],
+      "duration_ms": 278244
+    },
+    {
+      "id": 26213690,
+      "name": "春に一番近い街",
+      "artists": [
+        "40mP",
+        "GUMI"
+      ],
+      "duration_ms": 269949
+    },
+    {
+      "id": 1831866006,
+      "name": "再演 (MARETU Cover)",
+      "artists": [
+        "MARETU",
+        "初音ミク",
+        "Akali"
+      ],
+      "duration_ms": 213344
+    },
+    {
+      "id": 22699111,
+      "name": "積み木の人形",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 176226
+    },
+    {
+      "id": 2105376346,
+      "name": "このピアノでお前を8759632145回ぶん殴る (feat. 猫村いろは)",
+      "artists": [
+        "SLAVE.V-V-R",
+        "猫村いろは",
+        "結月ゆかり",
+        "心華"
+      ],
+      "duration_ms": 262833
+    },
+    {
+      "id": 1369404131,
+      "name": "ビターチョコデコレーション",
+      "artists": [
+        "syudou",
+        "初音ミク"
+      ],
+      "duration_ms": 197996
+    },
+    {
+      "id": 27630876,
+      "name": "無気力クーデター",
+      "artists": [
+        "Last Note."
+      ],
+      "duration_ms": 236643
+    },
+    {
+      "id": 1440704065,
+      "name": "ねぇ、どろどろさん",
+      "artists": [
+        "YASUHIRO",
+        "鏡音リン"
+      ],
+      "duration_ms": 252981
+    },
+    {
+      "id": 860262,
+      "name": "なりすましゲンガー",
+      "artists": [
+        "KulfiQ",
+        "鏡音リン",
+        "初音ミク"
+      ],
+      "duration_ms": 229000
+    },
+    {
+      "id": 1335362789,
+      "name": "スロウダウナー",
+      "artists": [
+        "ろくろ",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 227773
+    },
+    {
+      "id": 407485173,
+      "name": "マインドブランド",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 259230
+    },
+    {
+      "id": 2070408389,
+      "name": "快晴",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 263515
+    },
+    {
+      "id": 32358971,
+      "name": "ダンスダンスデカダンス",
+      "artists": [
+        "烏屋茶房"
+      ],
+      "duration_ms": 245093
+    },
+    {
+      "id": 3354771185,
+      "name": "春よ、来い",
+      "artists": [
+        "初音ミク",
+        "前奏詐欺の人"
+      ],
+      "duration_ms": 283631
+    },
+    {
+      "id": 529834569,
+      "name": "い～やい～やい～や",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン",
+        "Neru",
+        "z'5"
+      ],
+      "duration_ms": 207466
+    },
+    {
+      "id": 28917385,
+      "name": "劇場愛歌",
+      "artists": [
+        "n-buna",
+        "miki"
+      ],
+      "duration_ms": 246000
+    },
+    {
+      "id": 27741616,
+      "name": "誰でもいいから付き合いたい",
+      "artists": [
+        "卓球少年",
+        "鏡音レン"
+      ],
+      "duration_ms": 65746
+    },
+    {
+      "id": 4887938,
+      "name": "时忘人",
+      "artists": [
+        "KAITO",
+        "仕事してP"
+      ],
+      "duration_ms": 291800
+    },
+    {
+      "id": 28912788,
+      "name": "空想フォレスト",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 257973
+    },
+    {
+      "id": 3354768760,
+      "name": "七色のヘタリア動画 を歌わせてみた",
+      "artists": [
+        "VOCALOID",
+        "axisP"
+      ],
+      "duration_ms": 710251
+    },
+    {
+      "id": 28564198,
+      "name": "スキスキ絶頂症",
+      "artists": [
+        "koyori",
+        "GUMI"
+      ],
+      "duration_ms": 214000
+    },
+    {
+      "id": 432387,
+      "name": "ストロボラスト",
+      "artists": [
+        "椎名もた",
+        "初音ミク"
+      ],
+      "duration_ms": 319000
+    },
+    {
+      "id": 3354766764,
+      "name": "この曲100万再生いかなかったら死にます！",
+      "artists": [
+        "初音ミク",
+        "たまお"
+      ],
+      "duration_ms": 258369
+    },
+    {
+      "id": 1347497945,
+      "name": "撥条少女時計",
+      "artists": [
+        "Drop",
+        "葉月ゆら",
+        "初音ミク"
+      ],
+      "duration_ms": 248640
+    },
+    {
+      "id": 1347502037,
+      "name": "バイオレンストリガー",
+      "artists": [
+        "P*Light",
+        "初音ミク"
+      ],
+      "duration_ms": 203053
+    },
+    {
+      "id": 1327074184,
+      "name": "ポジティブ☆ダンスタイム",
+      "artists": [
+        "音街ウナ",
+        "鏡音リン",
+        "キノシタ"
+      ],
+      "duration_ms": 242000
+    },
+    {
+      "id": 407485172,
+      "name": "うみたがり",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 225000
+    },
+    {
+      "id": 3376576954,
+      "name": "ジャガーノート",
+      "artists": [
+        "初音ミク",
+        "夏代孝明"
+      ],
+      "duration_ms": 198112
+    },
+    {
+      "id": 546724679,
+      "name": "天使だと思っていたのに",
+      "artists": [
+        "初音ミク",
+        "鬱P"
+      ],
+      "duration_ms": 312372
+    },
+    {
+      "id": 1915002558,
+      "name": "ベノム",
+      "artists": [
+        "かいりきベア",
+        "v flower"
+      ],
+      "duration_ms": 203033
+    },
+    {
+      "id": 1347502034,
+      "name": "Let Me Take You",
+      "artists": [
+        "BANVOX",
+        "初音ミク"
+      ],
+      "duration_ms": 183746
+    },
+    {
+      "id": 426290629,
+      "name": "チャンバラジョニー",
+      "artists": [
+        "初音ミク",
+        "DECO*27"
+      ],
+      "duration_ms": 207098
+    },
+    {
+      "id": 32098065,
+      "name": "クノイチでも恋がしたい",
+      "artists": [
+        "初音ミク",
+        "鏡音リン"
+      ],
+      "duration_ms": 257346
+    },
+    {
+      "id": 4884866,
+      "name": "メテオ",
+      "artists": [
+        "じょん",
+        "初音ミク"
+      ],
+      "duration_ms": 516853
+    },
+    {
+      "id": 1818502017,
+      "name": "からっぽのまにまに",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 229000
+    },
+    {
+      "id": 484058976,
+      "name": "帝国少女",
+      "artists": [
+        "初音ミク",
+        "R Sound Design"
+      ],
+      "duration_ms": 254237
+    },
+    {
+      "id": 4886074,
+      "name": "Blackjack",
+      "artists": [
+        "ゆちゃP",
+        "巡音ルカ"
+      ],
+      "duration_ms": 158926
+    },
+    {
+      "id": 3353203479,
+      "name": "疑心暗鬼",
+      "artists": [
+        "梅とら",
+        "巡音ルカ",
+        "初音ミク",
+        "GUMI",
+        "IA",
+        "鏡音リン"
+      ],
+      "duration_ms": 170688
+    },
+    {
+      "id": 1347529070,
+      "name": "ぼくらはみんな意味不明",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 233000
+    },
+    {
+      "id": 3354766725,
+      "name": "UNDER CONSTRUCTION",
+      "artists": [
+        "初音ミク",
+        "けんまP"
+      ],
+      "duration_ms": 160775
+    },
+    {
+      "id": 26440474,
+      "name": "マカロン (feat. 初音ミク)",
+      "artists": [
+        "ATOLS",
+        "初音ミク"
+      ],
+      "duration_ms": 196394
+    },
+    {
+      "id": 1385117201,
+      "name": "愛言葉III",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 246333
+    },
+    {
+      "id": 1321543977,
+      "name": "アディショナルメモリー",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 240976
+    },
+    {
+      "id": 1385116338,
+      "name": "乙女解剖",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 223400
+    },
+    {
+      "id": 29491235,
+      "name": "ハートアラモード",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 239000
+    },
+    {
+      "id": 1347497531,
+      "name": "レトロマニア狂想曲",
+      "artists": [
+        "PolyphonicBranch",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 194653
+    },
+    {
+      "id": 28364361,
+      "name": "おじゃま虫",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 216346
+    },
+    {
+      "id": 573582098,
+      "name": "ハローディストピア",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン",
+        "まふまふ"
+      ],
+      "duration_ms": 206576
+    },
+    {
+      "id": 4884231,
+      "name": "Paranoid Doll",
+      "artists": [
+        "natsuP",
+        "神威がくぽ"
+      ],
+      "duration_ms": 248080
+    },
+    {
+      "id": 22784894,
+      "name": "ARiA",
+      "artists": [
+        "Headphone-Tokyo"
+      ],
+      "duration_ms": 272000
+    },
+    {
+      "id": 1400378511,
+      "name": "unravel -Full Version (dj-Jo Remix)",
+      "artists": [
+        "dj-Jo",
+        "初音ミク"
+      ],
+      "duration_ms": 238133
+    },
+    {
+      "id": 489999002,
+      "name": "マチガイサガシ",
+      "artists": [
+        "IA",
+        "まふまふ"
+      ],
+      "duration_ms": 209693
+    },
+    {
+      "id": 1335362744,
+      "name": "スーサイドパレヱド",
+      "artists": [
+        "ユリイ・カノン",
+        "GUMI"
+      ],
+      "duration_ms": 194194
+    },
+    {
+      "id": 546722667,
+      "name": "明星ギャラクティカ",
+      "artists": [
+        "初音ミク",
+        "ナユタン星人"
+      ],
+      "duration_ms": 182883
+    },
+    {
+      "id": 825558,
+      "name": "こっち向いて Baby",
+      "artists": [
+        "ryo (supercell)",
+        "初音ミク"
+      ],
+      "duration_ms": 210493
+    },
+    {
+      "id": 3354768390,
+      "name": "いつだってHappyDay！",
+      "artists": [
+        "初音ミク",
+        "バカッパの証"
+      ],
+      "duration_ms": 261330
+    },
+    {
+      "id": 22640619,
+      "name": "闇色アリス",
+      "artists": [
+        "samfree",
+        "初音ミク"
+      ],
+      "duration_ms": 236512
+    },
+    {
+      "id": 3397070258,
+      "name": "アンデッドエネミー",
+      "artists": [
+        "鏡音リン"
+      ],
+      "duration_ms": 190406
+    },
+    {
+      "id": 28559827,
+      "name": "初恋の絵本",
+      "artists": [
+        "HoneyWorks",
+        "GUMI"
+      ],
+      "duration_ms": 198716
+    },
+    {
+      "id": 28152558,
+      "name": "愛迷エレジー",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 177833
+    },
+    {
+      "id": 529814460,
+      "name": "KILLER B",
+      "artists": [
+        "巡音ルカ",
+        "初音ミク",
+        "GUMI",
+        "IA",
+        "鏡音リン",
+        "梅とら"
+      ],
+      "duration_ms": 205426
+    },
+    {
+      "id": 484721144,
+      "name": "花瓶に触れた",
+      "artists": [
+        "須田景凪",
+        "v flower"
+      ],
+      "duration_ms": 221132
+    },
+    {
+      "id": 1914871810,
+      "name": "お気に召すまま",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 247750
+    },
+    {
+      "id": 1408586353,
+      "name": "ダーリン",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 223793
+    },
+    {
+      "id": 452804931,
+      "name": "ストラトステラ",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 185312
+    },
+    {
+      "id": 1335373476,
+      "name": "おどりゃんせ",
+      "artists": [
+        "ユリイ・カノン",
+        "GUMI",
+        "初音ミク"
+      ],
+      "duration_ms": 203533
+    },
+    {
+      "id": 4887708,
+      "name": "缲り返し一粒",
+      "artists": [
+        "猫虫P",
+        "初音ミク"
+      ],
+      "duration_ms": 253493
+    },
+    {
+      "id": 1309901145,
+      "name": "アカリがやってきたぞっ",
+      "artists": [
+        "紲星あかり",
+        "GYARI"
+      ],
+      "duration_ms": 301000
+    },
+    {
+      "id": 3347119767,
+      "name": "一騎当千",
+      "artists": [
+        "梅とら"
+      ],
+      "duration_ms": 205588
+    },
+    {
+      "id": 33856835,
+      "name": "ジェシカ",
+      "artists": [
+        "くるりんご",
+        "初音ミク"
+      ],
+      "duration_ms": 225000
+    },
+    {
+      "id": 484058975,
+      "name": "ビースト・ダンス",
+      "artists": [
+        "音街ウナ",
+        "和田たけあき"
+      ],
+      "duration_ms": 200333
+    },
+    {
+      "id": 4884448,
+      "name": "戯言スピーカー",
+      "artists": [
+        "ねこぼーろ",
+        "初音ミク"
+      ],
+      "duration_ms": 249000
+    },
+    {
+      "id": 4885284,
+      "name": "トゥインクル",
+      "artists": [
+        "Junky",
+        "鏡音リン"
+      ],
+      "duration_ms": 215118
+    },
+    {
+      "id": 28457390,
+      "name": "いーあるふぁんくらぶ",
+      "artists": [
+        "Giga",
+        "初音ミク",
+        "鏡音レン"
+      ],
+      "duration_ms": 226840
+    },
+    {
+      "id": 35288537,
+      "name": "怪盗Fの台本～消えたダイヤの謎～",
+      "artists": [
+        "GUMI",
+        "KAITO",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "神威がくぽ",
+        "巡音ルカ",
+        "IA",
+        "MAYU",
+        "MEIKO"
+      ],
+      "duration_ms": 247226
+    },
+    {
+      "id": 500913306,
+      "name": "レディーレ",
+      "artists": [
+        "須田景凪"
+      ],
+      "duration_ms": 235000
+    },
+    {
+      "id": 22716992,
+      "name": "影踏みエトランゼ",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 241000
+    },
+    {
+      "id": 22677585,
+      "name": "celluloid",
+      "artists": [
+        "初音ミク",
+        "baker"
+      ],
+      "duration_ms": 238236
+    },
+    {
+      "id": 1339711519,
+      "name": "ハイスペックニート",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 201706
+    },
+    {
+      "id": 573583096,
+      "name": "アウトサイダー",
+      "artists": [
+        "初音ミク",
+        "Eve"
+      ],
+      "duration_ms": 207875
+    },
+    {
+      "id": 33495318,
+      "name": "妄想税 Big Room House Remix",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 281000
+    },
+    {
+      "id": 548648148,
+      "name": "病名は愛だった",
+      "artists": [
+        "Neru",
+        "鏡音レン",
+        "鏡音リン",
+        "z'5"
+      ],
+      "duration_ms": 231880
+    },
+    {
+      "id": 28941711,
+      "name": "drop pop candy",
+      "artists": [
+        "Reol",
+        "Giga"
+      ],
+      "duration_ms": 224973
+    },
+    {
+      "id": 1335373478,
+      "name": "だれかの心臓になれたなら",
+      "artists": [
+        "ユリイ・カノン",
+        "GUMI"
+      ],
+      "duration_ms": 232920
+    },
+    {
+      "id": 1335681507,
+      "name": "Happy Halloween",
+      "artists": [
+        "Junky",
+        "鏡音リン"
+      ],
+      "duration_ms": 246030
+    },
+    {
+      "id": 1313897517,
+      "name": "失敗作少女 (REBOOT ver.)",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 200205
+    },
+    {
+      "id": 1334078127,
+      "name": "アサガオの散る頃に",
+      "artists": [
+        "初音ミク",
+        "じっぷす"
+      ],
+      "duration_ms": 207760
+    },
+    {
+      "id": 507795306,
+      "name": "命に嫌われている。",
+      "artists": [
+        "初音ミク",
+        "カンザキイオリ"
+      ],
+      "duration_ms": 273867
+    },
+    {
+      "id": 31830613,
+      "name": "空奏列車",
+      "artists": [
+        "Orangestar",
+        "IA",
+        "初音ミク"
+      ],
+      "duration_ms": 247440
+    },
+    {
+      "id": 28559820,
+      "name": "病名恋ワズライ",
+      "artists": [
+        "HoneyWorks",
+        "GUMI"
+      ],
+      "duration_ms": 257068
+    },
+    {
+      "id": 1337971569,
+      "name": "残響",
+      "artists": [
+        "164",
+        "GUMI"
+      ],
+      "duration_ms": 204303
+    },
+    {
+      "id": 1294899572,
+      "name": "劣等上等",
+      "artists": [
+        "鏡音リン",
+        "鏡音レン",
+        "Giga"
+      ],
+      "duration_ms": 236600
+    },
+    {
+      "id": 422132440,
+      "name": "上弦の月",
+      "artists": [
+        "黒うさP",
+        "KAITO"
+      ],
+      "duration_ms": 237300
+    },
+    {
+      "id": 22716845,
+      "name": "巡姫舞踊曲",
+      "artists": [
+        "No.D",
+        "巡音ルカ"
+      ],
+      "duration_ms": 202000
+    },
+    {
+      "id": 476410,
+      "name": "moonlit bear",
+      "artists": [
+        "KAITO",
+        "mothy",
+        "初音ミク"
+      ],
+      "duration_ms": 411991
+    },
+    {
+      "id": 28814787,
+      "name": "在来ヒーローズ",
+      "artists": [
+        "150P"
+      ],
+      "duration_ms": 220165
+    },
+    {
+      "id": 1294910587,
+      "name": "グリーンライツ・セレナーデ",
+      "artists": [
+        "初音ミク",
+        "Omoi"
+      ],
+      "duration_ms": 244920
+    },
+    {
+      "id": 526327012,
+      "name": "だんだん早くなる",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 137883
+    },
+    {
+      "id": 1408587103,
+      "name": "うみなおし",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 247968
+    },
+    {
+      "id": 484058972,
+      "name": "フィクサー",
+      "artists": [
+        "v flower",
+        "ぬゆり"
+      ],
+      "duration_ms": 247588
+    },
+    {
+      "id": 28914363,
+      "name": "カーニバル",
+      "artists": [
+        "otetsu",
+        "GUMI"
+      ],
+      "duration_ms": 217740
+    },
+    {
+      "id": 28152562,
+      "name": "愛言葉Ⅱ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 265888
+    },
+    {
+      "id": 546724680,
+      "name": "メリーバッドエンド",
+      "artists": [
+        "初音ミク",
+        "まふまふ"
+      ],
+      "duration_ms": 179121
+    },
+    {
+      "id": 4889580,
+      "name": "ずれていく",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 148897
+    },
+    {
+      "id": 407485162,
+      "name": "コインロッカーベイビー",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 268000
+    },
+    {
+      "id": 1408586356,
+      "name": "ホワイトハッピー",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 234303
+    },
+    {
+      "id": 433223733,
+      "name": "フラジール",
+      "artists": [
+        "GUMI",
+        "ぬゆり"
+      ],
+      "duration_ms": 272587
+    },
+    {
+      "id": 425298508,
+      "name": "高音厨音域テスト",
+      "artists": [
+        "初音ミク/木村わいP"
+      ],
+      "duration_ms": 90395
+    },
+    {
+      "id": 29124085,
+      "name": "デリヘル呼んだら君が来た",
+      "artists": [
+        "初音ミク",
+        "ナナホシ管弦楽団",
+        "IA"
+      ],
+      "duration_ms": 247000
+    },
+    {
+      "id": 26440385,
+      "name": "ジャバヲッキー・ジャバヲッカ",
+      "artists": [
+        "烏屋茶房",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 189424
+    },
+    {
+      "id": 31830625,
+      "name": "雨き声残響",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 171413
+    },
+    {
+      "id": 34766717,
+      "name": "夜もすがら君想ふ",
+      "artists": [
+        "西沢さんP",
+        "GUMI"
+      ],
+      "duration_ms": 237296
+    },
+    {
+      "id": 28559819,
+      "name": "竹取オーバーナイトセンセーション",
+      "artists": [
+        "HoneyWorks",
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 246363
+    },
+    {
+      "id": 507794324,
+      "name": "命ばっかり",
+      "artists": [
+        "v flower",
+        "結月ゆかり",
+        "ぬゆり"
+      ],
+      "duration_ms": 254200
+    },
+    {
+      "id": 452804930,
+      "name": "ハウトゥワープ",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 184645
+    },
+    {
+      "id": 417953304,
+      "name": "気まぐれメルシィ",
+      "artists": [
+        "P*Light",
+        "初音ミク"
+      ],
+      "duration_ms": 203639
+    },
+    {
+      "id": 1914870467,
+      "name": "ドラマツルギー",
+      "artists": [
+        "Eve",
+        "初音ミク"
+      ],
+      "duration_ms": 238750
+    },
+    {
+      "id": 29491558,
+      "name": "いかないで",
+      "artists": [
+        "歌愛ユキ",
+        "想太"
+      ],
+      "duration_ms": 195000
+    },
+    {
+      "id": 28468981,
+      "name": "林檎売りの泡沫少女",
+      "artists": [
+        "yukkedoluce",
+        "GUMI"
+      ],
+      "duration_ms": 360000
+    },
+    {
+      "id": 500913305,
+      "name": "メーベル",
+      "artists": [
+        "須田景凪"
+      ],
+      "duration_ms": 196000
+    },
+    {
+      "id": 1333336761,
+      "name": "ロキ",
+      "artists": [
+        "鏡音リン",
+        "みきとP"
+      ],
+      "duration_ms": 229106
+    },
+    {
+      "id": 28411821,
+      "name": "古書屋敷殺人事件",
+      "artists": [
+        "初音ミク",
+        "てにをは"
+      ],
+      "duration_ms": 269000
+    },
+    {
+      "id": 27950385,
+      "name": "愛Dee",
+      "artists": [
+        "Mitchie M",
+        "初音ミク",
+        "巡音ルカ"
+      ],
+      "duration_ms": 288089
+    },
+    {
+      "id": 26209802,
+      "name": "恋愛フィロソフィア",
+      "artists": [
+        "黒うさP"
+      ],
+      "duration_ms": 220355
+    },
+    {
+      "id": 425136544,
+      "name": "メルト",
+      "artists": [
+        "音街ウナ",
+        "cillia",
+        "supercell"
+      ],
+      "duration_ms": 256809
+    },
+    {
+      "id": 461080610,
+      "name": "スターナイトスノウ",
+      "artists": [
+        "初音ミク",
+        "n-buna",
+        "Orangestar"
+      ],
+      "duration_ms": 280093
+    },
+    {
+      "id": 1815394093,
+      "name": "ちがう!!!",
+      "artists": [
+        "カルロス袴田",
+        "初音ミク",
+        "音街ウナ"
+      ],
+      "duration_ms": 272333
+    },
+    {
+      "id": 1358188091,
+      "name": "テオ",
+      "artists": [
+        "Omoi",
+        "初音ミク"
+      ],
+      "duration_ms": 210453
+    },
+    {
+      "id": 33791287,
+      "name": "日本橋高架下R計画",
+      "artists": [
+        "IA",
+        "じん"
+      ],
+      "duration_ms": 168080
+    },
+    {
+      "id": 1347497532,
+      "name": "キレキャリオン",
+      "artists": [
+        "ポリスピカデリー",
+        "初音ミク"
+      ],
+      "duration_ms": 180493
+    },
+    {
+      "id": 33367334,
+      "name": "始発とカフカ",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 313293
+    },
+    {
+      "id": 26123974,
+      "name": "Unfragment (Original Mix)",
+      "artists": [
+        "Hiroyuki ODA"
+      ],
+      "duration_ms": 539000
+    },
+    {
+      "id": 452804933,
+      "name": "ロケットサイダー",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 188333
+    },
+    {
+      "id": 478686056,
+      "name": "てんしょう しょうてんしょう",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 253560
+    },
+    {
+      "id": 1818764582,
+      "name": "バレリーコ",
+      "artists": [
+        "みきとP",
+        "GUMI"
+      ],
+      "duration_ms": 247986
+    },
+    {
+      "id": 484056980,
+      "name": "グラーヴェ",
+      "artists": [
+        "初音ミク",
+        "niki"
+      ],
+      "duration_ms": 181186
+    },
+    {
+      "id": 452814864,
+      "name": "飛行少女",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 192962
+    },
+    {
+      "id": 28364368,
+      "name": "アンチビート（Antibeat）",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 215053
+    },
+    {
+      "id": 29747152,
+      "name": "About me",
+      "artists": [
+        "一之瀬ユウ",
+        "GUMI"
+      ],
+      "duration_ms": 245000
+    },
+    {
+      "id": 515349,
+      "name": "ロストエンファウンド",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク"
+      ],
+      "duration_ms": 300920
+    },
+    {
+      "id": 483690461,
+      "name": "ナンセンス文学",
+      "artists": [
+        "初音ミク",
+        "Eve"
+      ],
+      "duration_ms": 206920
+    },
+    {
+      "id": 28636628,
+      "name": "テロル",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 234000
+    },
+    {
+      "id": 1347497539,
+      "name": "ドクハク",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 245706
+    },
+    {
+      "id": 29460982,
+      "name": "曖昧劣情Lover",
+      "artists": [
+        "koyori",
+        "v flower"
+      ],
+      "duration_ms": 220773
+    },
+    {
+      "id": 432486475,
+      "name": "いいや",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 184000
+    },
+    {
+      "id": 502455382,
+      "name": "ヒバナ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 204573
+    },
+    {
+      "id": 22783162,
+      "name": "シルバーバレット",
+      "artists": [
+        "虹原ぺぺろん",
+        "GUMI"
+      ],
+      "duration_ms": 244000
+    },
+    {
+      "id": 502455381,
+      "name": "アンノウン・マザーグース",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 279400
+    },
+    {
+      "id": 483690462,
+      "name": "はやくそれになりたい！",
+      "artists": [
+        "音街ウナ",
+        "キノシタ"
+      ],
+      "duration_ms": 233106
+    },
+    {
+      "id": 1316375345,
+      "name": "アルカリレットウセイ (REBOOT ver.)",
+      "artists": [
+        "かいりきベア"
+      ],
+      "duration_ms": 206582
+    },
+    {
+      "id": 28547071,
+      "name": "crack",
+      "artists": [
+        "初音ミク",
+        "keeno"
+      ],
+      "duration_ms": 268400
+    },
+    {
+      "id": 29023572,
+      "name": "shake it!",
+      "artists": [
+        "初音ミク",
+        "emon (Tes.)",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 226000
+    },
+    {
+      "id": 31245772,
+      "name": "幽霊屋敷の首吊り少女",
+      "artists": [
+        "トーマ",
+        "GUMI"
+      ],
+      "duration_ms": 269000
+    },
+    {
+      "id": 27853206,
+      "name": "Q",
+      "artists": [
+        "椎名もた",
+        "鏡音リン"
+      ],
+      "duration_ms": 258000
+    },
+    {
+      "id": 28364367,
+      "name": "音偽バナシ",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 228920
+    },
+    {
+      "id": 28917386,
+      "name": "さよならワンダーノイズ",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 181000
+    },
+    {
+      "id": 484058954,
+      "name": "彗星ハネムーン",
+      "artists": [
+        "初音ミク",
+        "ナユタン星人"
+      ],
+      "duration_ms": 209420
+    },
+    {
+      "id": 484705,
+      "name": "くたばれPTA (feat. 初音ミク)",
+      "artists": [
+        "梨本P",
+        "初音ミク"
+      ],
+      "duration_ms": 188986
+    },
+    {
+      "id": 549320124,
+      "name": "チェチェ・チェック・ワンツー!",
+      "artists": [
+        "和田たけあき",
+        "結月ゆかり"
+      ],
+      "duration_ms": 202080
+    },
+    {
+      "id": 459717347,
+      "name": "惑星ループ",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 195176
+    },
+    {
+      "id": 460104,
+      "name": "君の体温",
+      "artists": [
+        "クワガタP",
+        "初音ミク"
+      ],
+      "duration_ms": 242671
+    },
+    {
+      "id": 32431066,
+      "name": "神のまにまに",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "GUMI",
+        "れるりり"
+      ],
+      "duration_ms": 256386
+    },
+    {
+      "id": 432486471,
+      "name": "リバーシブル・キャンペーン（Reversible·Campaign）",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 177000
+    },
+    {
+      "id": 32432767,
+      "name": "夏に去りし君を想フ (feat. 初音ミク)",
+      "artists": [
+        "baker",
+        "初音ミク"
+      ],
+      "duration_ms": 166306
+    },
+    {
+      "id": 494858478,
+      "name": "砂の惑星",
+      "artists": [
+        "初音ミク",
+        "米津玄師"
+      ],
+      "duration_ms": 240853
+    },
+    {
+      "id": 484058936,
+      "name": "拝啓ドッペルゲンガー",
+      "artists": [
+        "GUMI",
+        "KEMU VOXX"
+      ],
+      "duration_ms": 267154
+    },
+    {
+      "id": 484056984,
+      "name": "雨とペトラ",
+      "artists": [
+        "v flower",
+        "須田景凪"
+      ],
+      "duration_ms": 214569
+    },
+    {
+      "id": 860283,
+      "name": "アカツキアライヴァル",
+      "artists": [
+        "Last Note.",
+        "初音ミク",
+        "巡音ルカ"
+      ],
+      "duration_ms": 282239
+    },
+    {
+      "id": 26310277,
+      "name": "アザレアの亡霊",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 192000
+    },
+    {
+      "id": 452804928,
+      "name": "パーフェクト生命",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 183600
+    },
+    {
+      "id": 860339,
+      "name": "マッシュルームマザー",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 225000
+    },
+    {
+      "id": 459717345,
+      "name": "太陽系デスコ",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 203200
+    },
+    {
+      "id": 33365077,
+      "name": "このふざけた素晴らしき世界は、僕の為にある",
+      "artists": [
+        "初音ミク",
+        "n.k"
+      ],
+      "duration_ms": 263784
+    },
+    {
+      "id": 35253562,
+      "name": "脱獄",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 227120
+    },
+    {
+      "id": 33937483,
+      "name": "Nostalogic (MEIKO-SAN mix)",
+      "artists": [
+        "MEIKO",
+        "yuukiss"
+      ],
+      "duration_ms": 258466
+    },
+    {
+      "id": 459717342,
+      "name": "ダンスロボットダンス",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 191052
+    },
+    {
+      "id": 458231454,
+      "name": "DAYBREAK FRONTLINE",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 215840
+    },
+    {
+      "id": 22699128,
+      "name": "とおせんぼ",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 210800
+    },
+    {
+      "id": 426026627,
+      "name": "キライ・キライ・ジガヒダイ!",
+      "artists": [
+        "音街ウナ",
+        "和田たけあき"
+      ],
+      "duration_ms": 213995
+    },
+    {
+      "id": 22716854,
+      "name": "深海シティアンダーグラウンド",
+      "artists": [
+        "田中B",
+        "鏡音リン"
+      ],
+      "duration_ms": 277700
+    },
+    {
+      "id": 33856838,
+      "name": "とある一家の御茶会議",
+      "artists": [
+        "くるりんご",
+        "GUMI"
+      ],
+      "duration_ms": 265066
+    },
+    {
+      "id": 452804927,
+      "name": "アンドロメダアンドロメダ",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 182957
+    },
+    {
+      "id": 22717355,
+      "name": "VOiCE",
+      "artists": [
+        "ラヴリーP",
+        "初音ミク"
+      ],
+      "duration_ms": 267800
+    },
+    {
+      "id": 28864032,
+      "name": "脱げばいいってモンじゃない！",
+      "artists": [
+        "初音ミク",
+        "デッドボールP"
+      ],
+      "duration_ms": 262000
+    },
+    {
+      "id": 526327014,
+      "name": "シャルル",
+      "artists": [
+        "須田景凪",
+        "v flower"
+      ],
+      "duration_ms": 233875
+    },
+    {
+      "id": 28457399,
+      "name": "Masked B***h",
+      "artists": [
+        "Giga",
+        "GUMI"
+      ],
+      "duration_ms": 223600
+    },
+    {
+      "id": 29124091,
+      "name": "自傷無色",
+      "artists": [
+        "初音ミク",
+        "ねこぼーろ"
+      ],
+      "duration_ms": 215093
+    },
+    {
+      "id": 22686711,
+      "name": "初音ミクの暴走",
+      "artists": [
+        "cosMo@暴走P",
+        "初音ミク"
+      ],
+      "duration_ms": 287600
+    },
+    {
+      "id": 432486474,
+      "name": "妄想感傷代償連盟",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 270000
+    },
+    {
+      "id": 35270794,
+      "name": "金曜日のおはよう",
+      "artists": [
+        "GUMI"
+      ],
+      "duration_ms": 244453
+    },
+    {
+      "id": 30590099,
+      "name": "月・影・舞・華",
+      "artists": [
+        "神野貴志",
+        "初音ミク"
+      ],
+      "duration_ms": 244053
+    },
+    {
+      "id": 447279046,
+      "name": "Alice in 冷凍庫",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 341613
+    },
+    {
+      "id": 422960772,
+      "name": "頓珍漢の宴",
+      "artists": [
+        "初音ミク",
+        "ピノキオピー"
+      ],
+      "duration_ms": 235573
+    },
+    {
+      "id": 28063245,
+      "name": "命のユースティティア",
+      "artists": [
+        "Neru",
+        "鏡音レン"
+      ],
+      "duration_ms": 253000
+    },
+    {
+      "id": 432486477,
+      "name": "ライアーダンス（Liar Dance）",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 216000
+    },
+    {
+      "id": 22817725,
+      "name": "僕をそんな目で見ないで",
+      "artists": [
+        "きくお",
+        "初音ミク"
+      ],
+      "duration_ms": 308400
+    },
+    {
+      "id": 27630877,
+      "name": "有頂天ビバーチェ",
+      "artists": [
+        "Last Note.",
+        "GUMI"
+      ],
+      "duration_ms": 214600
+    },
+    {
+      "id": 550022,
+      "name": "ロゼッタ",
+      "artists": [
+        "GUMI",
+        "monaca:factory"
+      ],
+      "duration_ms": 196226
+    },
+    {
+      "id": 22809569,
+      "name": "Leia",
+      "artists": [
+        "ゆよゆっぺ",
+        "巡音ルカ"
+      ],
+      "duration_ms": 237000
+    },
+    {
+      "id": 29379333,
+      "name": "ピエロ",
+      "artists": [
+        "KEI",
+        "初音ミク"
+      ],
+      "duration_ms": 302000
+    },
+    {
+      "id": 30870541,
+      "name": "悪徳のジャッジメント",
+      "artists": [
+        "mothy",
+        "KAITO"
+      ],
+      "duration_ms": 302573
+    },
+    {
+      "id": 3354765023,
+      "name": "under the darkness",
+      "artists": [
+        "神威がくぽ",
+        "黒糖ポッキー"
+      ],
+      "duration_ms": 341589
+    },
+    {
+      "id": 31830617,
+      "name": "イヤホンと蝉時雨",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 259520
+    },
+    {
+      "id": 407679309,
+      "name": "白ゆき",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 264906
+    },
+    {
+      "id": 3354764267,
+      "name": "イッシュのポケモン　言えるのか！",
+      "artists": [
+        "初音ミク",
+        "重音テト",
+        "ヒッキーP"
+      ],
+      "duration_ms": 283435
+    },
+    {
+      "id": 29460985,
+      "name": "イノコリ先生",
+      "artists": [
+        "HoneyWorks",
+        "v flower"
+      ],
+      "duration_ms": 310360
+    },
+    {
+      "id": 3360888432,
+      "name": "虎視眈々",
+      "artists": [
+        "梅とら",
+        "巡音ルカ",
+        "初音ミク",
+        "GUMI",
+        "IA",
+        "鏡音リン"
+      ],
+      "duration_ms": 228440
+    },
+    {
+      "id": 434732274,
+      "name": "WAAAA! (feat. 鏡音リン & 鏡音レン)",
+      "artists": [
+        "GYARI",
+        "鏡音リン",
+        "鏡音レン",
+        "初音ミク",
+        "結月ゆかり",
+        "猫村いろは",
+        "巡音ルカ"
+      ],
+      "duration_ms": 1401881
+    },
+    {
+      "id": 512489317,
+      "name": "完全犯罪ラブレター",
+      "artists": [
+        "150P",
+        "IA"
+      ],
+      "duration_ms": 247035
+    },
+    {
+      "id": 447280029,
+      "name": "キミノヨゾラ哨戒班",
+      "artists": [
+        "Orangestar",
+        "鈴木秋則",
+        "IA"
+      ],
+      "duration_ms": 173638
+    },
+    {
+      "id": 26115909,
+      "name": "ストロボナイツ",
+      "artists": [
+        "livetune",
+        "初音ミク"
+      ],
+      "duration_ms": 346000
+    },
+    {
+      "id": 1818764611,
+      "name": "きょうもハレバレ",
+      "artists": [
+        "ふわりP",
+        "GUMI"
+      ],
+      "duration_ms": 233986
+    },
+    {
+      "id": 4887945,
+      "name": "はやぶさ",
+      "artists": [
+        "キセノンP",
+        "初音ミク"
+      ],
+      "duration_ms": 423800
+    },
+    {
+      "id": 416531155,
+      "name": "罪の名前",
+      "artists": [
+        "ryo (supercell)",
+        "初音ミク"
+      ],
+      "duration_ms": 384551
+    },
+    {
+      "id": 33361943,
+      "name": "アイラ",
+      "artists": [
+        "GUMI",
+        "n-buna"
+      ],
+      "duration_ms": 273000
+    },
+    {
+      "id": 489970714,
+      "name": "すきなことだけでいいです",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 274000
+    },
+    {
+      "id": 4890956,
+      "name": "桜の季节",
+      "artists": [
+        "ゆうゆ",
+        "初音ミク"
+      ],
+      "duration_ms": 275400
+    },
+    {
+      "id": 28411811,
+      "name": "延命治療",
+      "artists": [
+        "Neru",
+        "IA"
+      ],
+      "duration_ms": 210930
+    },
+    {
+      "id": 22822652,
+      "name": "しわ",
+      "artists": [
+        "buzzG",
+        "GUMI"
+      ],
+      "duration_ms": 255900
+    },
+    {
+      "id": 26113843,
+      "name": "しんでしまうとはなさけない!",
+      "artists": [
+        "じーざす",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 249560
+    },
+    {
+      "id": 419238716,
+      "name": "厨病激発ボーイ",
+      "artists": [
+        "れるりり",
+        "鏡音レン"
+      ],
+      "duration_ms": 206541
+    },
+    {
+      "id": 4885292,
+      "name": "3331",
+      "artists": [
+        "ナノウ",
+        "初音ミク"
+      ],
+      "duration_ms": 260973
+    },
+    {
+      "id": 28828187,
+      "name": "被害妄想携帯女子(笑)",
+      "artists": [
+        "GUMI",
+        "Giga",
+        "スズム"
+      ],
+      "duration_ms": 232000
+    },
+    {
+      "id": 28457388,
+      "name": "えれくとりっく・えんじぇぅ",
+      "artists": [
+        "Giga",
+        "ヤスオP",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 191240
+    },
+    {
+      "id": 34497568,
+      "name": "うそつき",
+      "artists": [
+        "初音ミク",
+        "つなまる"
+      ],
+      "duration_ms": 213110
+    },
+    {
+      "id": 35270792,
+      "name": "今好きになる。",
+      "artists": [
+        "初音ミク",
+        "HoneyWorks"
+      ],
+      "duration_ms": 258298
+    },
+    {
+      "id": 481523267,
+      "name": "tettey-terettey (feat. 鏡音リン)",
+      "artists": [
+        "GYARI",
+        "鏡音リン",
+        "鏡音レン",
+        "初音ミク",
+        "結月ゆかり",
+        "巡音ルカ"
+      ],
+      "duration_ms": 1219256
+    },
+    {
+      "id": 494858481,
+      "name": "脱法ロック",
+      "artists": [
+        "鏡音レン",
+        "Neru"
+      ],
+      "duration_ms": 189413
+    },
+    {
+      "id": 860337,
+      "name": "とても痛い痛がりたい",
+      "artists": [
+        "VY2",
+        "EZFG",
+        "VY1"
+      ],
+      "duration_ms": 193693
+    },
+    {
+      "id": 459717339,
+      "name": "エイリアンエイリアン",
+      "artists": [
+        "ナユタン星人",
+        "初音ミク"
+      ],
+      "duration_ms": 181973
+    },
+    {
+      "id": 30148963,
+      "name": "ツギハギスタッカート",
+      "artists": [
+        "とあ",
+        "初音ミク"
+      ],
+      "duration_ms": 250359
+    },
+    {
+      "id": 34228396,
+      "name": "サヨナラチェーンソー",
+      "artists": [
+        "結月ゆかり",
+        "和田たけあき"
+      ],
+      "duration_ms": 250920
+    },
+    {
+      "id": 33166366,
+      "name": "ブリキノダンス",
+      "artists": [
+        "初音ミク",
+        "日向電工"
+      ],
+      "duration_ms": 198974
+    },
+    {
+      "id": 22659956,
+      "name": "チェックメイト",
+      "artists": [
+        "ゆちゃP",
+        "GUMI"
+      ],
+      "duration_ms": 217493
+    },
+    {
+      "id": 35253557,
+      "name": "イドラのサーカス",
+      "artists": [
+        "Neru"
+      ],
+      "duration_ms": 211706
+    },
+    {
+      "id": 434732276,
+      "name": "abgm (feat. 鏡音リン)",
+      "artists": [
+        "GYARI",
+        "初音ミク",
+        "鏡音リン",
+        "結月ゆかり",
+        "鏡音レン"
+      ],
+      "duration_ms": 1416000
+    },
+    {
+      "id": 452608852,
+      "name": "ゆるふわ樹海ガール",
+      "artists": [
+        "石風呂"
+      ],
+      "duration_ms": 205613
+    },
+    {
+      "id": 27958142,
+      "name": "猪突猛進ガール",
+      "artists": [
+        "れるりり",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 208302
+    },
+    {
+      "id": 28364362,
+      "name": "毒占欲",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 264306
+    },
+    {
+      "id": 31245770,
+      "name": "九龍レトロ",
+      "artists": [
+        "トーマ",
+        "GUMI"
+      ],
+      "duration_ms": 205000
+    },
+    {
+      "id": 26124989,
+      "name": "アブストラクト・ナンセンス",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 232000
+    },
+    {
+      "id": 494858482,
+      "name": "孤独の果て",
+      "artists": [
+        "鏡音リン",
+        "光収容"
+      ],
+      "duration_ms": 265000
+    },
+    {
+      "id": 515353,
+      "name": "タイガーランペイジ",
+      "artists": [
+        "sasakure.UK",
+        "鏡音リン"
+      ],
+      "duration_ms": 307906
+    },
+    {
+      "id": 422094957,
+      "name": "チュルリラ・チュルリラ・ダッダッダ!",
+      "artists": [
+        "結月ゆかり",
+        "和田たけあき"
+      ],
+      "duration_ms": 195386
+    },
+    {
+      "id": 27958133,
+      "name": "脳内革命ガール",
+      "artists": [
+        "MARETU",
+        "初音ミク"
+      ],
+      "duration_ms": 220889
+    },
+    {
+      "id": 29491571,
+      "name": "M.S.S.Phantom",
+      "artists": [
+        "M.S.S Project",
+        "初音ミク"
+      ],
+      "duration_ms": 291000
+    },
+    {
+      "id": 4888573,
+      "name": "Just a game (feat. GUMI)",
+      "artists": [
+        "takamatt",
+        "GUMI"
+      ],
+      "duration_ms": 244000
+    },
+    {
+      "id": 22730068,
+      "name": "Soar",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 217600
+    },
+    {
+      "id": 31245771,
+      "name": "マダラカルト",
+      "artists": [
+        "トーマ",
+        "GUMI"
+      ],
+      "duration_ms": 197413
+    },
+    {
+      "id": 4888357,
+      "name": "ペテン师が笑う顷に",
+      "artists": [
+        "梨本P",
+        "初音ミク"
+      ],
+      "duration_ms": 221797
+    },
+    {
+      "id": 26310269,
+      "name": "魔法少女幸福論",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 192000
+    },
+    {
+      "id": 428095216,
+      "name": "チルノのすうがく教室",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 335959
+    },
+    {
+      "id": 22813148,
+      "name": "しゅうまつがやってくる!",
+      "artists": [
+        "sasakure.UK",
+        "鏡音リン"
+      ],
+      "duration_ms": 229840
+    },
+    {
+      "id": 1400920956,
+      "name": "好き!雪!本気マジック feat. 初音ミク",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 202213
+    },
+    {
+      "id": 860287,
+      "name": "ろりこんでよかった〜",
+      "artists": [
+        "初音ミク",
+        "Takebo3"
+      ],
+      "duration_ms": 209106
+    },
+    {
+      "id": 428116071,
+      "name": "SUPER HATSUNE BEAT vol.1",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 575346
+    },
+    {
+      "id": 432486470,
+      "name": "ゴーストルール",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 210000
+    },
+    {
+      "id": 28382729,
+      "name": "1/6 -out of the gravity-",
+      "artists": [
+        "ぼーかりおどP",
+        "初音ミク"
+      ],
+      "duration_ms": 265199
+    },
+    {
+      "id": 26219543,
+      "name": "一途な片思い、実らせたい小さな幸せ。",
+      "artists": [
+        "うたたP",
+        "MAYU"
+      ],
+      "duration_ms": 252293
+    },
+    {
+      "id": 22716985,
+      "name": "Hello, Worker",
+      "artists": [
+        "巡音ルカ",
+        "KEI"
+      ],
+      "duration_ms": 236000
+    },
+    {
+      "id": 33367341,
+      "name": "メリュー",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 212586
+    },
+    {
+      "id": 28406224,
+      "name": "過食性:アイドル症候群 -Album ver.-",
+      "artists": [
+        "GUMI",
+        "MAYU",
+        "スズム"
+      ],
+      "duration_ms": 249000
+    },
+    {
+      "id": 469073363,
+      "name": "BadBye",
+      "artists": [
+        "koma'n",
+        "初音ミク"
+      ],
+      "duration_ms": 178320
+    },
+    {
+      "id": 28590199,
+      "name": "LUVORATORRRRRY!",
+      "artists": [
+        "GUMI",
+        "鏡音リン",
+        "Giga",
+        "Reol"
+      ],
+      "duration_ms": 207000
+    },
+    {
+      "id": 29534249,
+      "name": "「Ib」",
+      "artists": [
+        "コウ"
+      ],
+      "duration_ms": 238305
+    },
+    {
+      "id": 28411806,
+      "name": "罰ゲーム",
+      "artists": [
+        "くるりんご",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 243000
+    },
+    {
+      "id": 28189654,
+      "name": "ケッペキショウ",
+      "artists": [
+        "すこっぷ"
+      ],
+      "duration_ms": 219000
+    },
+    {
+      "id": 28941709,
+      "name": "ヒビカセ",
+      "artists": [
+        "Reol"
+      ],
+      "duration_ms": 250560
+    },
+    {
+      "id": 33367345,
+      "name": "夜明けと蛍",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 308973
+    },
+    {
+      "id": 28559818,
+      "name": "ヤキモチの答え",
+      "artists": [
+        "HoneyWorks",
+        "GUMI"
+      ],
+      "duration_ms": 218337
+    },
+    {
+      "id": 35270802,
+      "name": "告白ライバル宣言",
+      "artists": [
+        "GUMI"
+      ],
+      "duration_ms": 233325
+    },
+    {
+      "id": 4888624,
+      "name": "Nostalogic (single edit)",
+      "artists": [
+        "MEIKO",
+        "yuukiss"
+      ],
+      "duration_ms": 240693
+    },
+    {
+      "id": 35288527,
+      "name": "Ever ∞ Lasting ∞ Night",
+      "artists": [
+        "GUMI",
+        "KAITO",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "神威がくぽ",
+        "巡音ルカ",
+        "MEIKO"
+      ],
+      "duration_ms": 323653
+    },
+    {
+      "id": 428095217,
+      "name": "全く身にならないソング",
+      "artists": [
+        "結月ゆかり"
+      ],
+      "duration_ms": 258324
+    },
+    {
+      "id": 1966112474,
+      "name": "Blessing (feat. 初音ミク&鏡音リン&鏡音レン&巡音ルカ&KAITO&MEIKO)",
+      "artists": [
+        "halyosy",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "KAITO",
+        "MEIKO"
+      ],
+      "duration_ms": 271000
+    },
+    {
+      "id": 31830623,
+      "name": "アスノヨゾラ哨戒班",
+      "artists": [
+        "Orangestar",
+        "IA"
+      ],
+      "duration_ms": 177773
+    },
+    {
+      "id": 22813143,
+      "name": "カムパネルラ",
+      "artists": [
+        "sasakure.UK",
+        "GUMI"
+      ],
+      "duration_ms": 252706
+    },
+    {
+      "id": 30512288,
+      "name": "世界寿命と最後の一日",
+      "artists": [
+        "スズム"
+      ],
+      "duration_ms": 277896
+    },
+    {
+      "id": 28411815,
+      "name": "アイロニ",
+      "artists": [
+        "すこっぷ",
+        "初音ミク"
+      ],
+      "duration_ms": 255373
+    },
+    {
+      "id": 22677427,
+      "name": "二次元ドリームフィーバー",
+      "artists": [
+        "PolyphonicBranch",
+        "初音ミク"
+      ],
+      "duration_ms": 189706
+    },
+    {
+      "id": 436997,
+      "name": "My Colorful Confuse",
+      "artists": [
+        "家の里でマンボウが死んでるP"
+      ],
+      "duration_ms": 262462
+    },
+    {
+      "id": 32358712,
+      "name": "すろぉもぉしょん",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 313000
+    },
+    {
+      "id": 28953243,
+      "name": "恋愛裁判",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 222026
+    },
+    {
+      "id": 29812004,
+      "name": "ECHO",
+      "artists": [
+        "Crusher-P",
+        "GUMI"
+      ],
+      "duration_ms": 244793
+    },
+    {
+      "id": 22717169,
+      "name": "秘密警察",
+      "artists": [
+        "ぶりる",
+        "初音ミク"
+      ],
+      "duration_ms": 210070
+    },
+    {
+      "id": 28559822,
+      "name": "スキキライ",
+      "artists": [
+        "HoneyWorks",
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 287161
+    },
+    {
+      "id": 751698,
+      "name": "YOU SESSION",
+      "artists": [
+        "GYARI"
+      ],
+      "duration_ms": 624059
+    },
+    {
+      "id": 22635207,
+      "name": "キャットフード",
+      "artists": [
+        "doriko",
+        "初音ミク"
+      ],
+      "duration_ms": 289280
+    },
+    {
+      "id": 29124077,
+      "name": "+♂ (プラス男子)",
+      "artists": [
+        "Giga",
+        "鏡音レン",
+        "初音ミク",
+        "鏡音リン",
+        "巡音ルカ",
+        "GUMI"
+      ],
+      "duration_ms": 215662
+    },
+    {
+      "id": 33955384,
+      "name": "サリシノハラ",
+      "artists": [
+        "初音ミク",
+        "みきとP"
+      ],
+      "duration_ms": 273019
+    },
+    {
+      "id": 26310275,
+      "name": "ヤンキーボーイ・ヤンキーガール",
+      "artists": [
+        "トーマ",
+        "GUMI"
+      ],
+      "duration_ms": 192000
+    },
+    {
+      "id": 26358300,
+      "name": "告白予行練習 (feat. GUMI)",
+      "artists": [
+        "HoneyWorks",
+        "GUMI"
+      ],
+      "duration_ms": 159933
+    },
+    {
+      "id": 29045722,
+      "name": "Black Board",
+      "artists": [
+        "一之瀬ユウ",
+        "初音ミク"
+      ],
+      "duration_ms": 222197
+    },
+    {
+      "id": 29827559,
+      "name": "おこちゃま戦争",
+      "artists": [
+        "Giga",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 213213
+    },
+    {
+      "id": 4890890,
+      "name": "ハイセンスナンセンス (feat. 初音ミク)",
+      "artists": [
+        "盛るP"
+      ],
+      "duration_ms": 172000
+    },
+    {
+      "id": 28917382,
+      "name": "ウミユリ海底譚",
+      "artists": [
+        "n-buna",
+        "初音ミク"
+      ],
+      "duration_ms": 237000
+    },
+    {
+      "id": 28917375,
+      "name": "透明エレジー",
+      "artists": [
+        "n-buna",
+        "GUMI"
+      ],
+      "duration_ms": 222000
+    },
+    {
+      "id": 476442,
+      "name": "リグレットメッセージ",
+      "artists": [
+        "mothy",
+        "鏡音リン"
+      ],
+      "duration_ms": 202762
+    },
+    {
+      "id": 428116072,
+      "name": "名前のない怪物",
+      "artists": [
+        "結月ゆかり"
+      ],
+      "duration_ms": 330344
+    },
+    {
+      "id": 26310273,
+      "name": "オレンジ",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 244000
+    },
+    {
+      "id": 27950392,
+      "name": "アイドルを咲かせ",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 235612
+    },
+    {
+      "id": 1818504146,
+      "name": "ありふれたせかいせいふく",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 202000
+    },
+    {
+      "id": 410058,
+      "name": "心壊サミット",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 168893
+    },
+    {
+      "id": 4888615,
+      "name": "イケ恋歌",
+      "artists": [
+        "鏡音レン",
+        "れれれP"
+      ],
+      "duration_ms": 221000
+    },
+    {
+      "id": 26219552,
+      "name": "幸せになれる隠しコマンドがあるらしい",
+      "artists": [
+        "うたたP",
+        "結月ゆかり"
+      ],
+      "duration_ms": 224493
+    },
+    {
+      "id": 437039,
+      "name": "粘着系男子の15年ネチネチ",
+      "artists": [
+        "家の里でマンボウが死んでるP",
+        "VY2"
+      ],
+      "duration_ms": 351000
+    },
+    {
+      "id": 28152553,
+      "name": "罪と罰",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 182142
+    },
+    {
+      "id": 28364360,
+      "name": "ストリーミングハート",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 178946
+    },
+    {
+      "id": 4884807,
+      "name": "Mr.Music",
+      "artists": [
+        "れるりり",
+        "巡音ルカ",
+        "鏡音リン",
+        "鏡音レン",
+        "初音ミク",
+        "歌愛ユキ",
+        "GUMI"
+      ],
+      "duration_ms": 272000
+    },
+    {
+      "id": 30070153,
+      "name": "たすけてドラえもん",
+      "artists": [
+        "黒田亜津",
+        "初音ミク"
+      ],
+      "duration_ms": 332013
+    },
+    {
+      "id": 29023566,
+      "name": "39",
+      "artists": [
+        "初音ミク",
+        "sasakure.UK",
+        "DECO*27"
+      ],
+      "duration_ms": 220813
+    },
+    {
+      "id": 4887939,
+      "name": "桜前线异常ナシ",
+      "artists": [
+        "ワタルP",
+        "初音ミク"
+      ],
+      "duration_ms": 199412
+    },
+    {
+      "id": 35288526,
+      "name": "Twilight ∞ nighT",
+      "artists": [
+        "ひとしずく×やま△",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "KAITO",
+        "MEIKO",
+        "巡音ルカ",
+        "GUMI",
+        "神威がくぽ"
+      ],
+      "duration_ms": 226200
+    },
+    {
+      "id": 26209803,
+      "name": "リスキーゲーム",
+      "artists": [
+        "黒うさP",
+        "初音ミク"
+      ],
+      "duration_ms": 209596
+    },
+    {
+      "id": 3348852730,
+      "name": "威風堂々",
+      "artists": [
+        "梅とら",
+        "巡音ルカ",
+        "初音ミク",
+        "GUMI",
+        "IA",
+        "鏡音リン",
+        "MAYU"
+      ],
+      "duration_ms": 201693
+    },
+    {
+      "id": 27958132,
+      "name": "一触即発☆禅ガール",
+      "artists": [
+        "れるりり",
+        "初音ミク",
+        "GUMI"
+      ],
+      "duration_ms": 202875
+    },
+    {
+      "id": 26212284,
+      "name": "敗北の少年",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI"
+      ],
+      "duration_ms": 216253
+    },
+    {
+      "id": 1294899571,
+      "name": "No Logic",
+      "artists": [
+        "巡音ルカ",
+        "ジミーサムP"
+      ],
+      "duration_ms": 260519
+    },
+    {
+      "id": 27515069,
+      "name": "独りんぼエンヴィー",
+      "artists": [
+        "koyori",
+        "初音ミク"
+      ],
+      "duration_ms": 204506
+    },
+    {
+      "id": 30870182,
+      "name": "M.S.S.Planet",
+      "artists": [
+        "初音ミク",
+        "GUMI",
+        "M.S.S Project"
+      ],
+      "duration_ms": 211900
+    },
+    {
+      "id": 27950389,
+      "name": "イージーデンス",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 289970
+    },
+    {
+      "id": 22686739,
+      "name": "ANTI THE∞HOLiC",
+      "artists": [
+        "cosMo@暴走P",
+        "鏡音リン",
+        "巡音ルカ"
+      ],
+      "duration_ms": 309160
+    },
+    {
+      "id": 416531752,
+      "name": "聖槍爆裂ボーイ",
+      "artists": [
+        "れるりり",
+        "鏡音レン",
+        "もじゃ"
+      ],
+      "duration_ms": 206680
+    },
+    {
+      "id": 26213691,
+      "name": "ドレミファロンド",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 199000
+    },
+    {
+      "id": 27853410,
+      "name": "妄想税",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 216546
+    },
+    {
+      "id": 22779017,
+      "name": "白ノ娘",
+      "artists": [
+        "mothy",
+        "弱音ハク"
+      ],
+      "duration_ms": 480420
+    },
+    {
+      "id": 1824719288,
+      "name": "指切り",
+      "artists": [
+        "すこっぷ",
+        "初音ミク"
+      ],
+      "duration_ms": 162960
+    },
+    {
+      "id": 22699059,
+      "name": "人造エネミー",
+      "artists": [
+        "じん"
+      ],
+      "duration_ms": 239000
+    },
+    {
+      "id": 31245766,
+      "name": "骸骨楽団とリリア",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 200520
+    },
+    {
+      "id": 22717002,
+      "name": "スーパートルコ行进曲　-　オワタ\\(^o^)/",
+      "artists": [
+        "オワタP",
+        "神威がくぽ"
+      ],
+      "duration_ms": 182000
+    },
+    {
+      "id": 29836643,
+      "name": "般若心経ロック",
+      "artists": [
+        "初音ミク",
+        "クワガタP"
+      ],
+      "duration_ms": 121000
+    },
+    {
+      "id": 31245764,
+      "name": "バビロン",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 208000
+    },
+    {
+      "id": 1982708914,
+      "name": "リンカーネイション",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI",
+        "鏡音リン"
+      ],
+      "duration_ms": 215733
+    },
+    {
+      "id": 30070241,
+      "name": "sister's noise　",
+      "artists": [
+        "鏡音リン",
+        "non"
+      ],
+      "duration_ms": 261085
+    },
+    {
+      "id": 409926,
+      "name": "夕日坂",
+      "artists": [
+        "doriko",
+        "初音ミク"
+      ],
+      "duration_ms": 380346
+    },
+    {
+      "id": 4888616,
+      "name": "番凩",
+      "artists": [
+        "仕事してP",
+        "KAITO",
+        "MEIKO"
+      ],
+      "duration_ms": 225093
+    },
+    {
+      "id": 30070242,
+      "name": "亡國覚醒カタルシス",
+      "artists": [
+        "鏡音レン"
+      ],
+      "duration_ms": 272000
+    },
+    {
+      "id": 26125000,
+      "name": "ハウトゥー世界征服",
+      "artists": [
+        "Neru",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 214000
+    },
+    {
+      "id": 26124996,
+      "name": "再教育",
+      "artists": [
+        "Neru",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 248000
+    },
+    {
+      "id": 28578695,
+      "name": "WORLD'S END UMBRELLA",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 328946
+    },
+    {
+      "id": 22640599,
+      "name": "リリリリ★バーニングナイト",
+      "artists": [
+        "samfree",
+        "Lily"
+      ],
+      "duration_ms": 242000
+    },
+    {
+      "id": 26432098,
+      "name": "放課後ストライド (feat. GUMI)",
+      "artists": [
+        "Last Note.",
+        "GUMI"
+      ],
+      "duration_ms": 228174
+    },
+    {
+      "id": 26440335,
+      "name": "夕景イエスタデイ",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 233081
+    },
+    {
+      "id": 37095790,
+      "name": "ドーナツホール",
+      "artists": [
+        "米津玄師",
+        "GUMI"
+      ],
+      "duration_ms": 205155
+    },
+    {
+      "id": 26440343,
+      "name": "サマータイムレコード",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 275440
+    },
+    {
+      "id": 22677428,
+      "name": "エンヴィキャットウォーク",
+      "artists": [
+        "トーマ",
+        "初音ミク"
+      ],
+      "duration_ms": 225920
+    },
+    {
+      "id": 4886065,
+      "name": "どういうことなの!?",
+      "artists": [
+        "くちばしP",
+        "初音ミク"
+      ],
+      "duration_ms": 240000
+    },
+    {
+      "id": 26440337,
+      "name": "アウターサイエンス",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 215411
+    },
+    {
+      "id": 28977423,
+      "name": "Crazy ∞ nighT",
+      "artists": [
+        "ひとしずく×やま△",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "KAITO",
+        "MEIKO",
+        "GUMI",
+        "神威がくぽ"
+      ],
+      "duration_ms": 202706
+    },
+    {
+      "id": 28844016,
+      "name": "あなたの歌姫 (full ver.)",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 189056
+    },
+    {
+      "id": 27741612,
+      "name": "paranoia",
+      "artists": [
+        "つなまる",
+        "初音ミク"
+      ],
+      "duration_ms": 233494
+    },
+    {
+      "id": 26440338,
+      "name": "オツキミリサイタル",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 221657
+    },
+    {
+      "id": 27733712,
+      "name": "glow",
+      "artists": [
+        "keeno",
+        "初音ミク"
+      ],
+      "duration_ms": 283000
+    },
+    {
+      "id": 29246096,
+      "name": "THE WORLDS",
+      "artists": [
+        "初音ミク",
+        "M.S.S Project"
+      ],
+      "duration_ms": 287000
+    },
+    {
+      "id": 858574,
+      "name": "火葬曲",
+      "artists": [
+        "No.D/上野悠仁",
+        "初音ミク"
+      ],
+      "duration_ms": 269186
+    },
+    {
+      "id": 27950386,
+      "name": "ビバハピ",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 215899
+    },
+    {
+      "id": 469065438,
+      "name": "SPiCa",
+      "artists": [
+        "とくP",
+        "初音ミク"
+      ],
+      "duration_ms": 216506
+    },
+    {
+      "id": 28457396,
+      "name": "ギガンティックO.T.N",
+      "artists": [
+        "Giga",
+        "鏡音レン"
+      ],
+      "duration_ms": 202400
+    },
+    {
+      "id": 4885282,
+      "name": "呜呼、素晴らしきニャン生",
+      "artists": [
+        "Nem",
+        "鏡音レン",
+        "GUMI"
+      ],
+      "duration_ms": 222000
+    },
+    {
+      "id": 22691081,
+      "name": "ワンダーランドと羊の歌",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 287786
+    },
+    {
+      "id": 26440340,
+      "name": "アヤノの幸福理論",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 337734
+    },
+    {
+      "id": 3360886199,
+      "name": "下からマ○コ",
+      "artists": [
+        "まだ仔"
+      ],
+      "duration_ms": 157106
+    },
+    {
+      "id": 582369,
+      "name": "秘蜜 ~黒の誓い~",
+      "artists": [
+        "ひとしずくP",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 256493
+    },
+    {
+      "id": 4886071,
+      "name": "妄想スケッチ",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 222493
+    },
+    {
+      "id": 4890960,
+      "name": "夢みることり",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "nagimiso.sys"
+      ],
+      "duration_ms": 217959
+    },
+    {
+      "id": 22811619,
+      "name": "愛言葉",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 264400
+    },
+    {
+      "id": 26124988,
+      "name": "ロストワンの号哭",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 217000
+    },
+    {
+      "id": 22779014,
+      "name": "円尾坂の仕立屋",
+      "artists": [
+        "mothy",
+        "巡音ルカ"
+      ],
+      "duration_ms": 384824
+    },
+    {
+      "id": 4885291,
+      "name": "サイバーサンダーサイダー",
+      "artists": [
+        "EZFG",
+        "VY1"
+      ],
+      "duration_ms": 200706
+    },
+    {
+      "id": 416531743,
+      "name": "LOL -lots of laugh-",
+      "artists": [
+        "初音ミク",
+        "Mikumix",
+        "Ken"
+      ],
+      "duration_ms": 215893
+    },
+    {
+      "id": 26440339,
+      "name": "ロスタイムメモリー",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 286836
+    },
+    {
+      "id": 469065455,
+      "name": "永遠に幸せになる方法、見つけました。",
+      "artists": [
+        "うたたP",
+        "初音ミク"
+      ],
+      "duration_ms": 311000
+    },
+    {
+      "id": 4884529,
+      "name": "スイートフロートアパート",
+      "artists": [
+        "GUMI",
+        "家の里でマンボウが死んでるP"
+      ],
+      "duration_ms": 312000
+    },
+    {
+      "id": 26440333,
+      "name": "夜咄ディセイブ",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 197253
+    },
+    {
+      "id": 4884774,
+      "name": "心拍数♯0822",
+      "artists": [
+        "一之瀬ユウ",
+        "初音ミク"
+      ],
+      "duration_ms": 319786
+    },
+    {
+      "id": 22716864,
+      "name": "天樂",
+      "artists": [
+        "ゆうゆ",
+        "鏡音リン"
+      ],
+      "duration_ms": 274266
+    },
+    {
+      "id": 29785926,
+      "name": "みんなみくみくにしてあげる♪",
+      "artists": [
+        "MOSAIC.WAV",
+        "ika",
+        "初音ミク"
+      ],
+      "duration_ms": 308120
+    },
+    {
+      "id": 26212271,
+      "name": "カミサマネジマキ",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI"
+      ],
+      "duration_ms": 215840
+    },
+    {
+      "id": 22699062,
+      "name": "メカクシコード",
+      "artists": [
+        "じん"
+      ],
+      "duration_ms": 225000
+    },
+    {
+      "id": 4888569,
+      "name": "ハロ/ハワユ",
+      "artists": [
+        "ナノウ",
+        "初音ミク"
+      ],
+      "duration_ms": 285693
+    },
+    {
+      "id": 4887944,
+      "name": "タイムマシン",
+      "artists": [
+        "初音ミク",
+        "164",
+        "40mP"
+      ],
+      "duration_ms": 248106
+    },
+    {
+      "id": 26212270,
+      "name": "地球最後の告白を",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI"
+      ],
+      "duration_ms": 264480
+    },
+    {
+      "id": 29124079,
+      "name": "脳漿炸裂ガール",
+      "artists": [
+        "初音ミク",
+        "GUMI",
+        "れるりり"
+      ],
+      "duration_ms": 192000
+    },
+    {
+      "id": 4889333,
+      "name": "モノクロ∞ブルースカイ",
+      "artists": [
+        "のぼる↑",
+        "初音ミク"
+      ],
+      "duration_ms": 226000
+    },
+    {
+      "id": 495641,
+      "name": "腐れ外道とチョコレゐト",
+      "artists": [
+        "ピノキオピー",
+        "初音ミク"
+      ],
+      "duration_ms": 191826
+    },
+    {
+      "id": 22753032,
+      "name": "Alice in Musicland",
+      "artists": [
+        "OSTER project",
+        "KAITO",
+        "巡音ルカ",
+        "MEIKO",
+        "鏡音レン",
+        "鏡音リン",
+        "初音ミク"
+      ],
+      "duration_ms": 618386
+    },
+    {
+      "id": 22686719,
+      "name": "初音ミクの激唱",
+      "artists": [
+        "cosMo@暴走P",
+        "初音ミク"
+      ],
+      "duration_ms": 299986
+    },
+    {
+      "id": 860542,
+      "name": "PONPONPON　",
+      "artists": [
+        "Giga",
+        "鏡音レン",
+        "中田ヤスタカ"
+      ],
+      "duration_ms": 242000
+    },
+    {
+      "id": 28977422,
+      "name": "Bad ∞ End ∞ Night",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "KAITO",
+        "MEIKO",
+        "GUMI",
+        "神威がくぽ"
+      ],
+      "duration_ms": 248333
+    },
+    {
+      "id": 1417673643,
+      "name": "いーあるふぁんくらぶ",
+      "artists": [
+        "みきとP",
+        "GUMI",
+        "鏡音リン"
+      ],
+      "duration_ms": 238344
+    },
+    {
+      "id": 26213681,
+      "name": "シリョクケンサ",
+      "artists": [
+        "40mP",
+        "GUMI"
+      ],
+      "duration_ms": 266893
+    },
+    {
+      "id": 858549,
+      "name": "白い雪のプリンセスは",
+      "artists": [
+        "のぼる↑",
+        "初音ミク"
+      ],
+      "duration_ms": 263213
+    },
+    {
+      "id": 33937480,
+      "name": "リモコン",
+      "artists": [
+        "じーざす",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 310906
+    },
+    {
+      "id": 29246102,
+      "name": "恋愛勇者",
+      "artists": [
+        "GUMI",
+        "Last Note."
+      ],
+      "duration_ms": 271578
+    },
+    {
+      "id": 33791278,
+      "name": "如月アテンション",
+      "artists": [
+        "IA",
+        "じん"
+      ],
+      "duration_ms": 244240
+    },
+    {
+      "id": 26440332,
+      "name": "チルドレンレコード(Re Ver.)",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 182021
+    },
+    {
+      "id": 28912390,
+      "name": "会いたい",
+      "artists": [
+        "GUMI",
+        "Dios/シグナルP"
+      ],
+      "duration_ms": 300000
+    },
+    {
+      "id": 1382507778,
+      "name": "セツナトリップ",
+      "artists": [
+        "Last Note.",
+        "GUMI"
+      ],
+      "duration_ms": 248500
+    },
+    {
+      "id": 26219539,
+      "name": "こちら、幸福安心委員会です。",
+      "artists": [
+        "うたたP",
+        "初音ミク"
+      ],
+      "duration_ms": 273693
+    },
+    {
+      "id": 28912796,
+      "name": "コノハの世界事情",
+      "artists": [
+        "じん",
+        "初音ミク",
+        "IA"
+      ],
+      "duration_ms": 187760
+    },
+    {
+      "id": 22699058,
+      "name": "ヘッドフォンアクター",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 216400
+    },
+    {
+      "id": 26142121,
+      "name": "六兆年と一夜物語",
+      "artists": [
+        "KEMU VOXX",
+        "IA"
+      ],
+      "duration_ms": 217000
+    },
+    {
+      "id": 28521803,
+      "name": "キリトリセン",
+      "artists": [
+        "40mP",
+        "GUMI"
+      ],
+      "duration_ms": 235080
+    },
+    {
+      "id": 4887035,
+      "name": "トエト",
+      "artists": [
+        "トラボルタP",
+        "巡音ルカ"
+      ],
+      "duration_ms": 209000
+    },
+    {
+      "id": 26124987,
+      "name": "東京テディベア",
+      "artists": [
+        "Neru",
+        "鏡音リン"
+      ],
+      "duration_ms": 194000
+    },
+    {
+      "id": 22821014,
+      "name": "からくりピエロ",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 249493
+    },
+    {
+      "id": 4884608,
+      "name": "想像フォレスト",
+      "artists": [
+        "じん",
+        "IA"
+      ],
+      "duration_ms": 255000
+    },
+    {
+      "id": 4889343,
+      "name": "鎖の少女",
+      "artists": [
+        "のぼる↑",
+        "初音ミク"
+      ],
+      "duration_ms": 269999
+    },
+    {
+      "id": 26212269,
+      "name": "人生リセットボタン",
+      "artists": [
+        "KEMU VOXX"
+      ],
+      "duration_ms": 229920
+    },
+    {
+      "id": 26212280,
+      "name": "イカサマライフゲイム",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI"
+      ],
+      "duration_ms": 245000
+    },
+    {
+      "id": 437016,
+      "name": "クワガタにチョップしたらタイムスリップした",
+      "artists": [
+        "家の里でマンボウが死んでるP"
+      ],
+      "duration_ms": 318207
+    },
+    {
+      "id": 22640622,
+      "name": "メグメグ☆ファイアーエンドレスナイト",
+      "artists": [
+        "samfree",
+        "GUMI"
+      ],
+      "duration_ms": 238000
+    },
+    {
+      "id": 26212288,
+      "name": "インビジブル",
+      "artists": [
+        "KEMU VOXX",
+        "GUMI",
+        "鏡音リン"
+      ],
+      "duration_ms": 215706
+    },
+    {
+      "id": 22659961,
+      "name": "ポーカーフェイス",
+      "artists": [
+        "ゆちゃP",
+        "GUMI"
+      ],
+      "duration_ms": 200666
+    },
+    {
+      "id": 22716865,
+      "name": "リンちゃんなう!",
+      "artists": [
+        "オワタP",
+        "初音ミク",
+        "巡音ルカ"
+      ],
+      "duration_ms": 170240
+    },
+    {
+      "id": 28987909,
+      "name": "Dear",
+      "artists": [
+        "初音ミク",
+        "19's Sound Factory"
+      ],
+      "duration_ms": 270000
+    },
+    {
+      "id": 22677430,
+      "name": "ネトゲ廃人シュプレヒコール",
+      "artists": [
+        "さつき が てんこもり",
+        "初音ミク"
+      ],
+      "duration_ms": 293573
+    },
+    {
+      "id": 22779036,
+      "name": "悪食娘コンチータ (feat. MEIKO)",
+      "artists": [
+        "mothy",
+        "MEIKO"
+      ],
+      "duration_ms": 211430
+    },
+    {
+      "id": 22821020,
+      "name": "トリノコシティ",
+      "artists": [
+        "40mP",
+        "初音ミク"
+      ],
+      "duration_ms": 205400
+    },
+    {
+      "id": 416531748,
+      "name": "Calc.(Game Version)",
+      "artists": [
+        "ジミーサムP",
+        "初音ミク"
+      ],
+      "duration_ms": 223546
+    },
+    {
+      "id": 22716873,
+      "name": "カゲロウデイズ",
+      "artists": [
+        "じん",
+        "初音ミク"
+      ],
+      "duration_ms": 231293
+    },
+    {
+      "id": 29023577,
+      "name": "しんかいしょうじょ",
+      "artists": [
+        "初音ミク",
+        "ゆうゆ"
+      ],
+      "duration_ms": 215533
+    },
+    {
+      "id": 1818761620,
+      "name": "天ノ弱",
+      "artists": [
+        "164",
+        "GUMI"
+      ],
+      "duration_ms": 187986
+    },
+    {
+      "id": 22691072,
+      "name": "リンネ",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 261000
+    },
+    {
+      "id": 426881149,
+      "name": "trick and treat",
+      "artists": [
+        "鏡音リン",
+        "OSTER project",
+        "鏡音レン"
+      ],
+      "duration_ms": 222040
+    },
+    {
+      "id": 1382508630,
+      "name": "紅一葉",
+      "artists": [
+        "黒うさP",
+        "巡音ルカ"
+      ],
+      "duration_ms": 252146
+    },
+    {
+      "id": 26096272,
+      "name": "千本桜",
+      "artists": [
+        "黒うさP",
+        "初音ミク"
+      ],
+      "duration_ms": 252467
+    },
+    {
+      "id": 22716871,
+      "name": "白虎野の娘",
+      "artists": [
+        "KAITO",
+        "ぶっちぎりP"
+      ],
+      "duration_ms": 285200
+    },
+    {
+      "id": 548356,
+      "name": "十面相",
+      "artists": [
+        "YM",
+        "GUMI"
+      ],
+      "duration_ms": 223001
+    },
+    {
+      "id": 28786577,
+      "name": "下克上",
+      "artists": [
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 207000
+    },
+    {
+      "id": 1903937505,
+      "name": "FREELY TOMORROW",
+      "artists": [
+        "Mitchie M",
+        "初音ミク"
+      ],
+      "duration_ms": 240930
+    },
+    {
+      "id": 22779010,
+      "name": "ヴェノマニア公の狂気",
+      "artists": [
+        "mothy"
+      ],
+      "duration_ms": 245411
+    },
+    {
+      "id": 28578696,
+      "name": "Mrs.Pumpkinの滑稽な夢",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 258760
+    },
+    {
+      "id": 4887942,
+      "name": "メランコリック",
+      "artists": [
+        "Junky",
+        "鏡音リン"
+      ],
+      "duration_ms": 217880
+    },
+    {
+      "id": 4886068,
+      "name": "ハッピーシンセサイザ",
+      "artists": [
+        "GUMI",
+        "巡音ルカ",
+        "EasyPop"
+      ],
+      "duration_ms": 236634
+    },
+    {
+      "id": 1383171720,
+      "name": "Nyanyanyanyanyanyanya!",
+      "artists": [
+        "daniwellP",
+        "初音ミク"
+      ],
+      "duration_ms": 226533
+    },
+    {
+      "id": 22811610,
+      "name": "むかしむかしのきょうのぼく",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 286906
+    },
+    {
+      "id": 33937482,
+      "name": "アンハッピーリフレイン",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 226026
+    },
+    {
+      "id": 4889131,
+      "name": "IMITATION BLACK",
+      "artists": [
+        "natsuP"
+      ],
+      "duration_ms": 223600
+    },
+    {
+      "id": 26209793,
+      "name": "ACUTE",
+      "artists": [
+        "黒うさP",
+        "巡音ルカ",
+        "KAITO",
+        "初音ミク"
+      ],
+      "duration_ms": 277662
+    },
+    {
+      "id": 22637287,
+      "name": "アンチクロロベンゼン",
+      "artists": [
+        "オワタP"
+      ],
+      "duration_ms": 198878
+    },
+    {
+      "id": 4886152,
+      "name": "Fire◎Flower",
+      "artists": [
+        "halyosy",
+        "鏡音レン"
+      ],
+      "duration_ms": 262360
+    },
+    {
+      "id": 4887935,
+      "name": "絵本『人柱アリス』",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "MEIKO",
+        "KAITO"
+      ],
+      "duration_ms": 189000
+    },
+    {
+      "id": 22717539,
+      "name": "えれくとりっく・えんじぇぅ",
+      "artists": [
+        "ヤスオP",
+        "初音ミク"
+      ],
+      "duration_ms": 195000
+    },
+    {
+      "id": 22691076,
+      "name": "パンダヒーロー",
+      "artists": [
+        "米津玄師",
+        "GUMI"
+      ],
+      "duration_ms": 227360
+    },
+    {
+      "id": 22686732,
+      "name": "初音ミクの暴走",
+      "artists": [
+        "cosMo@暴走P"
+      ],
+      "duration_ms": 98973
+    },
+    {
+      "id": 4890958,
+      "name": "トルコ行进曲-オワタ\\(^o^)/",
+      "artists": [
+        "オワタP",
+        "初音ミク"
+      ],
+      "duration_ms": 181946
+    },
+    {
+      "id": 22717168,
+      "name": "家に帰ると妻が必ず死んだふりをしています",
+      "artists": [
+        "ほぼ日P",
+        "初音ミク"
+      ],
+      "duration_ms": 165651
+    },
+    {
+      "id": 4887940,
+      "name": "え?あぁ、そう.",
+      "artists": [
+        "一之瀬ユウ",
+        "初音ミク"
+      ],
+      "duration_ms": 197226
+    },
+    {
+      "id": 22811650,
+      "name": "二息歩行",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 183000
+    },
+    {
+      "id": 22717166,
+      "name": "般若心経ポップ",
+      "artists": [
+        "初音ミク",
+        "おにゅうP"
+      ],
+      "duration_ms": 167186
+    },
+    {
+      "id": 28578698,
+      "name": "clock lock works",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 265560
+    },
+    {
+      "id": 4890954,
+      "name": "私の時間",
+      "artists": [
+        "くちばしP",
+        "初音ミク"
+      ],
+      "duration_ms": 265264
+    },
+    {
+      "id": 29535224,
+      "name": "コンビニ",
+      "artists": [
+        "初音ミク",
+        "cokesi"
+      ],
+      "duration_ms": 276000
+    },
+    {
+      "id": 4890973,
+      "name": "from Y to Y",
+      "artists": [
+        "ジミーサムP",
+        "初音ミク"
+      ],
+      "duration_ms": 330933
+    },
+    {
+      "id": 515609,
+      "name": "ワンダーラスト",
+      "artists": [
+        "sasakure.UK"
+      ],
+      "duration_ms": 202000
+    },
+    {
+      "id": 3354761661,
+      "name": "粉雪",
+      "artists": [
+        "初音ミク",
+        "BinoP"
+      ],
+      "duration_ms": 323687
+    },
+    {
+      "id": 515603,
+      "name": "ぼくらの16bit戦争",
+      "artists": [
+        "sasakure.UK",
+        "GUMI"
+      ],
+      "duration_ms": 236000
+    },
+    {
+      "id": 4884227,
+      "name": "いろは唄",
+      "artists": [
+        "銀サク",
+        "鏡音リン"
+      ],
+      "duration_ms": 247360
+    },
+    {
+      "id": 4887931,
+      "name": "镜音レンの暴走",
+      "artists": [
+        "cosMo@暴走P",
+        "鏡音レン"
+      ],
+      "duration_ms": 286266
+    },
+    {
+      "id": 22811615,
+      "name": "弱虫モンブラン",
+      "artists": [
+        "DECO*27",
+        "GUMI"
+      ],
+      "duration_ms": 240120
+    },
+    {
+      "id": 22717167,
+      "name": "マトリョシカ",
+      "artists": [
+        "米津玄師",
+        "GUMI",
+        "初音ミク"
+      ],
+      "duration_ms": 199226
+    },
+    {
+      "id": 22811616,
+      "name": "モザイクロール",
+      "artists": [
+        "DECO*27",
+        "GUMI"
+      ],
+      "duration_ms": 182480
+    },
+    {
+      "id": 22717345,
+      "name": "1925",
+      "artists": [
+        "T-POCKET",
+        "初音ミク"
+      ],
+      "duration_ms": 199000
+    },
+    {
+      "id": 4888609,
+      "name": "右肩の蝶",
+      "artists": [
+        "鏡音レン",
+        "のりP"
+      ],
+      "duration_ms": 264800
+    },
+    {
+      "id": 22781686,
+      "name": "星屑ユートピア",
+      "artists": [
+        "otetsu",
+        "巡音ルカ"
+      ],
+      "duration_ms": 262006
+    },
+    {
+      "id": 4887941,
+      "name": "右肩の蝶",
+      "artists": [
+        "鏡音リン",
+        "のりP"
+      ],
+      "duration_ms": 276506
+    },
+    {
+      "id": 469065436,
+      "name": "ぽっぴっぽー",
+      "artists": [
+        "初音ミク",
+        "ラマーズP"
+      ],
+      "duration_ms": 179025
+    },
+    {
+      "id": 22699121,
+      "name": "ローリンガール",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 191893
+    },
+    {
+      "id": 4888613,
+      "name": "パラジクロロベンゼン",
+      "artists": [
+        "鏡音レン",
+        "オワタP"
+      ],
+      "duration_ms": 234894
+    },
+    {
+      "id": 22699123,
+      "name": "ワールズエンド・ダンスホール",
+      "artists": [
+        "wowaka",
+        "初音ミク",
+        "巡音ルカ"
+      ],
+      "duration_ms": 214386
+    },
+    {
+      "id": 4884801,
+      "name": "くるみ☆ぽんちお",
+      "artists": [
+        "まだ仔",
+        "初音ミク"
+      ],
+      "duration_ms": 199306
+    },
+    {
+      "id": 858554,
+      "name": "サンドリヨン(Cendrillon)",
+      "artists": [
+        "初音ミク",
+        "KAITO",
+        "Dios/シグナルP"
+      ],
+      "duration_ms": 276786
+    },
+    {
+      "id": 22760391,
+      "name": "Last Night, Good Night",
+      "artists": [
+        "livetune",
+        "初音ミク"
+      ],
+      "duration_ms": 380656
+    },
+    {
+      "id": 22813149,
+      "name": "*ハロー、プラネット。",
+      "artists": [
+        "sasakure.UK",
+        "初音ミク"
+      ],
+      "duration_ms": 301200
+    },
+    {
+      "id": 4890952,
+      "name": "カンタレラ",
+      "artists": [
+        "黒うさP",
+        "KAITO"
+      ],
+      "duration_ms": 181200
+    },
+    {
+      "id": 22699130,
+      "name": "裏表ラバーズ",
+      "artists": [
+        "wowaka",
+        "初音ミク"
+      ],
+      "duration_ms": 189053
+    },
+    {
+      "id": 28844024,
+      "name": "ルカルカ★ナイトフィーバー",
+      "artists": [
+        "巡音ルカ",
+        "samfree"
+      ],
+      "duration_ms": 240400
+    },
+    {
+      "id": 4888333,
+      "name": "ココロ",
+      "artists": [
+        "トラボルタP",
+        "鏡音リン"
+      ],
+      "duration_ms": 282800
+    },
+    {
+      "id": 22677582,
+      "name": "ミラクルペイント",
+      "artists": [
+        "初音ミク",
+        "OSTER project"
+      ],
+      "duration_ms": 262757
+    },
+    {
+      "id": 22677432,
+      "name": "よっこらせっくす",
+      "artists": [
+        "アゴアニキ",
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 154560
+    },
+    {
+      "id": 22779029,
+      "name": "悪ノ娘 (feat. 鏡音リン)",
+      "artists": [
+        "mothy",
+        "鏡音リン"
+      ],
+      "duration_ms": 277685
+    },
+    {
+      "id": 422132432,
+      "name": "千年の独奏歌",
+      "artists": [
+        "KAITO",
+        "yanagi"
+      ],
+      "duration_ms": 278233
+    },
+    {
+      "id": 29819846,
+      "name": "ドルア ガの塔より おなかすいたうた",
+      "artists": [
+        "初音ミク",
+        "ドンフライP"
+      ],
+      "duration_ms": 212000
+    },
+    {
+      "id": 543373,
+      "name": "結ンデ開イテ羅刹ト骸",
+      "artists": [
+        "米津玄師",
+        "初音ミク"
+      ],
+      "duration_ms": 260853
+    },
+    {
+      "id": 4887930,
+      "name": "Just Be Friends",
+      "artists": [
+        "Dixie Flatline",
+        "巡音ルカ"
+      ],
+      "duration_ms": 300240
+    },
+    {
+      "id": 4888331,
+      "name": "初めての恋が终わる时(ショートヴァージョン)",
+      "artists": [
+        "ryo (supercell)",
+        "初音ミク"
+      ],
+      "duration_ms": 315160
+    },
+    {
+      "id": 30070243,
+      "name": "VOCALOIDでニコニコ動画流星群【完成版】",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "KAITO",
+        "MEIKO"
+      ],
+      "duration_ms": 836000
+    },
+    {
+      "id": 29827556,
+      "name": "magnet",
+      "artists": [
+        "湊貴大",
+        "初音ミク",
+        "巡音ルカ"
+      ],
+      "duration_ms": 244226
+    },
+    {
+      "id": 409912,
+      "name": "歌に形はないけれど",
+      "artists": [
+        "doriko",
+        "初音ミク"
+      ],
+      "duration_ms": 333000
+    },
+    {
+      "id": 22635211,
+      "name": "ロミオとシンデレラ",
+      "artists": [
+        "doriko",
+        "初音ミク"
+      ],
+      "duration_ms": 279093
+    },
+    {
+      "id": 4886147,
+      "name": "ダンシング☆サムライ",
+      "artists": [
+        "神威がくぽ"
+      ],
+      "duration_ms": 189000
+    },
+    {
+      "id": 4890948,
+      "name": "RIP=RELEASE",
+      "artists": [
+        "湊貴大",
+        "巡音ルカ"
+      ],
+      "duration_ms": 252306
+    },
+    {
+      "id": 22760401,
+      "name": "Packaged",
+      "artists": [
+        "livetune",
+        "初音ミク"
+      ],
+      "duration_ms": 296066
+    },
+    {
+      "id": 22677426,
+      "name": "桜ノ雨",
+      "artists": [
+        "halyosy",
+        "初音ミク"
+      ],
+      "duration_ms": 395053
+    },
+    {
+      "id": 22779027,
+      "name": "悪ノ召使 (feat. 鏡音レン)",
+      "artists": [
+        "mothy",
+        "鏡音レン",
+        "鏡音リン"
+      ],
+      "duration_ms": 292148
+    },
+    {
+      "id": 1821574359,
+      "name": "ダブルラリアット",
+      "artists": [
+        "アゴアニキ",
+        "巡音ルカ"
+      ],
+      "duration_ms": 207933
+    },
+    {
+      "id": 22677576,
+      "name": "サイハテ",
+      "artists": [
+        "初音ミク",
+        "小林オニキス"
+      ],
+      "duration_ms": 164533
+    },
+    {
+      "id": 4888328,
+      "name": "炉心融解",
+      "artists": [
+        "iroha(sasaki)",
+        "kuma",
+        "鏡音リン"
+      ],
+      "duration_ms": 328906
+    },
+    {
+      "id": 1956147831,
+      "name": "ぶっちぎりにしてあげる♪",
+      "artists": [
+        "鏡音リン",
+        "ぶっちぎりP"
+      ],
+      "duration_ms": 108382
+    },
+    {
+      "id": 22686712,
+      "name": "初音ミクの消失",
+      "artists": [
+        "cosMo@暴走P",
+        "初音ミク"
+      ],
+      "duration_ms": 292060
+    },
+    {
+      "id": 22677561,
+      "name": "恋は戦争",
+      "artists": [
+        "ryo (supercell)",
+        "初音ミク"
+      ],
+      "duration_ms": 237933
+    },
+    {
+      "id": 22677555,
+      "name": "恋スルVOC@LOID",
+      "artists": [
+        "初音ミク",
+        "OSTER project"
+      ],
+      "duration_ms": 291933
+    },
+    {
+      "id": 22709627,
+      "name": "ブラック★ロックシューター",
+      "artists": [
+        "supercell",
+        "初音ミク"
+      ],
+      "duration_ms": 292986
+    },
+    {
+      "id": 22677571,
+      "name": "ハジメテノオト",
+      "artists": [
+        "初音ミク",
+        "malo"
+      ],
+      "duration_ms": 302473
+    },
+    {
+      "id": 22709632,
+      "name": "ワールドイズマイン",
+      "artists": [
+        "supercell",
+        "初音ミク"
+      ],
+      "duration_ms": 253413
+    },
+    {
+      "id": 22677563,
+      "name": "卑怯戦队うろたんだー",
+      "artists": [
+        "初音ミク",
+        "シンP",
+        "MEIKO",
+        "KAITO"
+      ],
+      "duration_ms": 269067
+    },
+    {
+      "id": 825736,
+      "name": "メルト",
+      "artists": [
+        "supercell",
+        "初音ミク"
+      ],
+      "duration_ms": 258799
+    },
+    {
+      "id": 22677558,
+      "name": "Ievan Polkka (Replica ver.)",
+      "artists": [
+        "初音ミク",
+        "Otomania"
+      ],
+      "duration_ms": 150706
+    },
+    {
+      "id": 4892549,
+      "name": "みくみくにしてあげる♪",
+      "artists": [
+        "IKA"
+      ],
+      "duration_ms": 102053
+    },
+    {
+      "id": 533552339
+    },
+    {
+      "id": 526454238
+    },
+    {
+      "id": 1335356136
+    },
+    {
+      "id": 1336317967,
+      "name": "Confession",
+      "artists": [
+        "默语寒炎",
+        "鏡音リン",
+        "鏡音レン",
+        "Creuzer"
+      ],
+      "duration_ms": 268093
+    },
+    {
+      "id": 432486472,
+      "name": "ラブドール（Love Doll）",
+      "artists": [
+        "DECO*27",
+        "初音ミク"
+      ],
+      "duration_ms": 182000
+    },
+    {
+      "id": 1833652861,
+      "name": "エゴロック (long ver.)",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 167200
+    },
+    {
+      "id": 1813577882,
+      "name": "トウキョウダイバアフェイクショウ",
+      "artists": [
+        "ツミキ",
+        "初音ミク"
+      ],
+      "duration_ms": 174146
+    },
+    {
+      "id": 22745603,
+      "name": "梦喰い白黒バク",
+      "artists": [
+        "Nem",
+        "鏡音レン"
+      ],
+      "duration_ms": 218000
+    },
+    {
+      "id": 1844152978,
+      "name": "テレキャスタービーボーイ (long ver.)",
+      "artists": [
+        "すりぃ",
+        "鏡音レン"
+      ],
+      "duration_ms": 166493
+    },
+    {
+      "id": 547973358,
+      "name": "くたばろうぜ",
+      "artists": [
+        "Neru",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 206210
+    },
+    {
+      "id": 1824962350
+    },
+    {
+      "id": 502455387,
+      "name": "快晴",
+      "artists": [
+        "Orangestar",
+        "初音ミク"
+      ],
+      "duration_ms": 264307
+    },
+    {
+      "id": 505474379,
+      "name": "病名は愛だった",
+      "artists": [
+        "Neru",
+        "鏡音リン",
+        "鏡音レン",
+        "z'5"
+      ],
+      "duration_ms": 232280
+    },
+    {
+      "id": 28996501,
+      "name": "drop pop candy",
+      "artists": [
+        "Giga",
+        "鏡音リン",
+        "巡音ルカ"
+      ],
+      "duration_ms": 224962
+    },
+    {
+      "id": 484715
+    },
+    {
+      "id": 444524198
+    },
+    {
+      "id": 1818761616,
+      "name": "Just a game",
+      "artists": [
+        "takamatt",
+        "GUMI"
+      ],
+      "duration_ms": 243986
+    },
+    {
+      "id": 28996499,
+      "name": "ヒビカセ",
+      "artists": [
+        "Giga",
+        "初音ミク"
+      ],
+      "duration_ms": 250731
+    },
+    {
+      "id": 28768887,
+      "name": "Blessing",
+      "artists": [
+        "初音ミク",
+        "鏡音リン",
+        "鏡音レン",
+        "巡音ルカ",
+        "KAITO",
+        "MEIKO",
+        "halyosy"
+      ],
+      "duration_ms": 279126
+    },
+    {
+      "id": 26141902
+    },
+    {
+      "id": 27621458,
+      "name": "リンカーネイション",
+      "artists": [
+        "KEMU VOXX",
+        "鏡音リン",
+        "GUMI"
+      ],
+      "duration_ms": 217613
+    },
+    {
+      "id": 22716852,
+      "name": "リモコン",
+      "artists": [
+        "じーざす",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 310987
+    },
+    {
+      "id": 22717170,
+      "name": "アンチクロロベンゼン",
+      "artists": [
+        "オワタP",
+        "鏡音リン",
+        "鏡音レン"
+      ],
+      "duration_ms": 200666
+    },
+    {
+      "id": 29819830,
+      "name": "粉雪",
+      "artists": [
+        "初音ミク"
+      ],
+      "duration_ms": 337000
+    },
+    {
+      "id": 22637316,
+      "name": "パラジクロロベンゼン",
+      "artists": [
+        "オワタP",
+        "鏡音レン"
+      ],
+      "duration_ms": 234894
+    },
+    {
+      "id": 22677559,
+      "name": "magnet",
+      "artists": [
+        "初音ミク",
+        "巡音ルカ",
+        "湊貴大"
+      ],
+      "duration_ms": 241613
+    }
+  ]
+}

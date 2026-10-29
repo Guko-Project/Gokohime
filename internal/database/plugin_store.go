@@ -408,6 +408,36 @@ func RandomGuessSongCatalog(ctx context.Context, tx *gorm.DB, library string) (*
 	return &item, nil
 }
 
+// MergeGuessSongCatalog adds missing song IDs without replacing custom metadata
+// or restoring soft-deleted songs. The unique key is (library, song_id).
+func MergeGuessSongCatalog(ctx context.Context, tx *gorm.DB, library string, entries []GuessSongCatalog) error {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return errors.New("database not initialized")
+	}
+	return db.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if len(entries) == 0 {
+			return nil
+		}
+		for i := range entries {
+			entries[i].Library = library
+		}
+		return tx.Clauses(clause.OnConflict{DoNothing: true}).CreateInBatches(entries, 100).Error
+	})
+}
+
+// ListGuessSongCandidates returns a shuffled pool so a failed song is not retried
+// within the same game preparation.
+func ListGuessSongCandidates(ctx context.Context, tx *gorm.DB, library string) ([]GuessSongCatalog, error) {
+	db := dbOrGlobal(tx)
+	if db == nil {
+		return nil, errors.New("database not initialized")
+	}
+	var entries []GuessSongCatalog
+	err := db.WithContext(ctx).Where("library = ?", library).Order("RANDOM()").Limit(100).Find(&entries).Error
+	return entries, err
+}
+
 func LoadGuessGameSession(ctx context.Context, tx *gorm.DB, groupID int64) (*GuessGameSession, error) {
 	db := dbOrGlobal(tx)
 	if db == nil {

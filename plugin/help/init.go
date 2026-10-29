@@ -25,7 +25,8 @@ const helpText = `【鸽子姬 帮助菜单】
 .kks / .kksadd / .kksdel - KK 歌单随机歌
 .saying - 查看已迁移到 randpic 的语录分类
 .save (回复表情) - 保存表情
-.cg jstart - 猜歌游戏
+.cg cstart / .猜歌 - 中V猜歌
+.cg jstart - 日V猜歌
 
 @我 或直接聊天 - AI 对话`
 
