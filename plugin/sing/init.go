@@ -29,12 +29,18 @@ var pending sync.Map
 type destination struct{ selfID, groupID, userID int64 }
 
 func init() {
-	zero.OnCommand("sing", commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
+	for _, command := range []string{"sing", "msing", "ssing"} {
+		zero.OnCommand(command, commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
+	}
 }
 
 func commandBoundary(ctx *zero.Ctx) bool {
+	command, _ := ctx.State["command"].(string)
+	if command != "sing" && command != "msing" && command != "ssing" {
+		return false
+	}
 	text := ctx.Event.Message[0].Data["text"]
-	rest, ok := strings.CutPrefix(text, zero.BotConfig.CommandPrefix+"sing")
+	rest, ok := strings.CutPrefix(text, zero.BotConfig.CommandPrefix+command)
 	if !ok || rest == "" {
 		return ok
 	}
@@ -43,10 +49,15 @@ func commandBoundary(ctx *zero.Ctx) bool {
 }
 
 func handleSing(ctx *zero.Ctx) {
+	command, _ := ctx.State["command"].(string)
+	mode := "score"
+	if command == "msing" {
+		mode = "mimic"
+	}
 	query, _ := ctx.State["args"].(string)
 	query = strings.TrimSpace(query)
 	if query == "" {
-		ctx.SendChain(message.Text("用法：.sing [歌名]\n例如：.sing 千本樱\n会翻唱歌曲的一段副歌。"))
+		ctx.SendChain(message.Text("用法：.sing [歌名]（默认 score）\n.msing [歌名]（mimic）\n.ssing [歌名]（score）\n例如：.sing 千本樱\n会翻唱歌曲的一段副歌。"))
 		return
 	}
 	cfg := config.Get()
@@ -64,7 +75,7 @@ func handleSing(ctx *zero.Ctx) {
 	settings := cfg.Sing
 	go func() {
 		defer pending.Delete(target)
-		runSing(target, query, settings)
+		runSing(target, query, mode, settings)
 	}()
 }
 
@@ -80,14 +91,14 @@ func (d destination) send(segments ...message.Segment) bool {
 	return bot.SendPrivateMessage(d.userID, msg) != 0
 }
 
-func runSing(target destination, query string, cfg config.SingConfig) {
+func runSing(target destination, query, mode string, cfg config.SingConfig) {
 	timeout := time.Duration(cfg.PollTimeoutSec) * time.Second
 	if timeout <= 0 {
 		timeout = 20 * time.Minute
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
-	c := newClient(cfg.BaseURL, cfg.APIKey)
+	c := newClient(cfg.BaseURL, cfg.APIKey, mode)
 	fail := func(err error) {
 		log.Warnf("[sing] request failed: %v", err)
 		reply := "这首暂时没能唱出来，请稍后再试试！"
@@ -109,7 +120,7 @@ func runSing(target destination, query string, cfg config.SingConfig) {
 		fail(err)
 		return
 	}
-	log.Infof("[sing] submitted task=%s song_id=%s", taskID, selected.ID)
+	log.Infof("[sing] submitted task=%s song_id=%s mode=%s", taskID, selected.ID, mode)
 	if err := c.wait(ctx, taskID, time.Duration(cfg.PollIntervalSec)*time.Second); err != nil {
 		fail(fmt.Errorf("task %s: %w", taskID, err))
 		return

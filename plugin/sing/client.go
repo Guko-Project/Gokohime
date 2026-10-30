@@ -32,11 +32,12 @@ type taskResult struct {
 type client struct {
 	baseURL string
 	apiKey  string
+	mode    string
 	http    *http.Client
 }
 
-func newClient(baseURL, apiKey string) *client {
-	return &client{strings.TrimRight(baseURL, "/"), apiKey, &http.Client{
+func newClient(baseURL, apiKey, mode string) *client {
+	return &client{strings.TrimRight(baseURL, "/"), apiKey, mode, &http.Client{
 		Timeout: 60 * time.Second,
 		// Never forward credentials to a redirect destination.
 		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
@@ -125,7 +126,7 @@ func (c *client) submit(ctx context.Context, songID string) (string, error) {
 	err := c.json(ctx, http.MethodPost, "/release_task", struct {
 		SongID string   `json:"song_id"`
 		Modes  []string `json:"modes"`
-	}{songID, []string{"score"}}, &task)
+	}{songID, []string{c.mode}}, &task)
 	if err != nil {
 		return "", fmt.Errorf("submit: %w", err)
 	}
@@ -158,8 +159,8 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 			failures = 0
 			switch result.Status {
 			case "done":
-				if result.Outputs["score"] == "" {
-					return errors.New("DiffSinger task has no score audio")
+				if result.Outputs[c.mode] == "" {
+					return fmt.Errorf("DiffSinger task has no %s audio", c.mode)
 				}
 				return nil
 			case "failed":
@@ -181,7 +182,7 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 
 func (c *client) audio(ctx context.Context, taskID string) ([]byte, error) {
 	// Build the authenticated URL locally, rather than trusting a returned URL.
-	data, err := c.request(ctx, http.MethodGet, "/v1/audio?"+url.Values{"task_id": {taskID}, "kind": {"score"}}.Encode(), nil, maxAudioBytes)
+	data, err := c.request(ctx, http.MethodGet, "/v1/audio?"+url.Values{"task_id": {taskID}, "kind": {c.mode}}.Encode(), nil, maxAudioBytes)
 	if err != nil {
 		return nil, fmt.Errorf("download: %w", err)
 	}

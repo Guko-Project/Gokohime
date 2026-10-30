@@ -7,7 +7,8 @@ import (
 	"time"
 )
 
-// Opt-in: submits one real score synthesis task, without sending any QQ messages.
+// Opt-in: submits one real synthesis task, without sending any QQ messages.
+// DSAPI_LIVE_MODE selects score (default) or mimic.
 func TestLiveService(t *testing.T) {
 	if os.Getenv("DSAPI_LIVE_TEST") != "1" {
 		t.Skip("set DSAPI_LIVE_TEST=1 and DSAPI_KEY to run")
@@ -20,7 +21,14 @@ func TestLiveService(t *testing.T) {
 	if base == "" {
 		base = "https://kirameki-dsapi.colanns.me"
 	}
-	c := newClient(base, key)
+	mode := os.Getenv("DSAPI_LIVE_MODE")
+	if mode == "" {
+		mode = "score"
+	}
+	if mode != "score" && mode != "mimic" {
+		t.Fatal("invalid DSAPI_LIVE_MODE")
+	}
+	c := newClient(base, key, mode)
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
 	defer cancel()
 	id := os.Getenv("DSAPI_LIVE_TASK_ID")
@@ -33,7 +41,7 @@ func TestLiveService(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		t.Logf("submitted score task=%s song=%s (%s)", id, s.Name, s.ID)
+		t.Logf("submitted %s task=%s song=%s (%s)", mode, id, s.Name, s.ID)
 	}
 	if err := c.wait(ctx, id, 3*time.Second); err != nil {
 		t.Fatal(err)
@@ -42,5 +50,5 @@ func TestLiveService(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Logf("score audio received: %d bytes", len(data))
+	t.Logf("%s audio received: %d bytes", mode, len(data))
 }

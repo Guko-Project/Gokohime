@@ -27,7 +27,8 @@ const helpText = `【鸽子姬 帮助菜单】
 .save (回复表情) - 保存表情
 .cg cstart / .猜歌 - 中V猜歌
 .cg jstart - 日V猜歌
-.sing 歌名 - 绮萱 AI 翻唱歌曲副歌（DiffSinger）
+.sing / .ssing 歌名 - score 翻唱副歌（绮萱 / DiffSinger）
+.msing 歌名 - mimic 翻唱副歌（绮萱 / DiffSinger）
 
 @我 或直接聊天 - AI 对话`
 
@@ -38,7 +39,7 @@ func init() {
 				if abs, err := filepath.Abs(helpImagePath); err == nil {
 					if img, err := imageutil.LocalImageSegment(abs); err == nil {
 						ctx.SendChain(img)
-						ctx.SendChain(message.Text(".sing 歌名 - 绮萱 AI 翻唱歌曲副歌（DiffSinger）"))
+						ctx.SendChain(message.Text(".sing / .ssing 歌名 - score 翻唱副歌（绮萱 / DiffSinger）\n.msing 歌名 - mimic 翻唱副歌（绮萱 / DiffSinger）"))
 						return
 					}
 				}

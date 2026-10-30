@@ -38,6 +38,8 @@ var (
 		"save":       {},
 		"saying":     {},
 		"sing":       {},
+		"msing":      {},
+		"ssing":      {},
 		"unban":      {},
 		"吃什么":        {},
 		"帮助":         {},
