@@ -57,18 +57,29 @@ func TestAsynchronousDelivery(t *testing.T) {
 	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}} {
 		for _, groupID := range []int64{123, 0} {
 			t.Run(tc.command+fmt.Sprint(groupID), func(t *testing.T) {
+				query, matchType, lyricQuery := "雨爱 杨丞琳", "title_artist", ""
+				if groupID == 0 {
+					query, matchType, lyricQuery = "迎着风向前走", "lyric", "迎着风向前走"
+				}
 				release := make(chan struct{})
 				server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 					switch r.URL.Path {
-					case "/search":
+					case "/resolve_song":
 						<-release
-						fmt.Fprint(w, `[{"id":"1","name":"雨爱","artists":["杨丞琳"]}]`)
+						if r.URL.Query().Get("q") != query {
+							t.Errorf("wrong query: %s", r.URL.Query().Get("q"))
+						}
+						json.NewEncoder(w).Encode(resolvedSong{Song: song{ID: "1", Name: "雨爱"}, MatchType: matchType, LyricQuery: lyricQuery})
 					case "/release_task":
 						var body struct {
-							Modes []string `json:"modes"`
+							Modes      []string `json:"modes"`
+							LyricQuery string   `json:"lyric_query"`
 						}
 						if err := json.NewDecoder(r.Body).Decode(&body); err != nil || len(body.Modes) != 1 || body.Modes[0] != tc.mode {
 							t.Errorf("wrong generation mode: %+v, %v", body, err)
+						}
+						if body.LyricQuery != lyricQuery {
+							t.Errorf("wrong lyric query: %q", body.LyricQuery)
 						}
 						fmt.Fprint(w, `{"task_id":"task"}`)
 					case "/query_result":
@@ -99,7 +110,7 @@ func TestAsynchronousDelivery(t *testing.T) {
 				defer zero.APICallers.Delete(987654)
 				ctx := zero.GetBot(987654)
 				ctx.Event = &zero.Event{SelfID: 987654, GroupID: groupID, UserID: 456}
-				ctx.State = zero.State{"command": tc.command, "args": " 雨爱 "}
+				ctx.State = zero.State{"command": tc.command, "args": " " + query + " "}
 				returned := make(chan struct{})
 				go func() { handleSing(ctx); close(returned) }()
 				first := receive(t, c)

@@ -33,15 +33,15 @@ func TestLiveService(t *testing.T) {
 	defer cancel()
 	id := os.Getenv("DSAPI_LIVE_TASK_ID")
 	if id == "" {
-		s, err := c.search(ctx, "雨爱")
+		s, err := c.resolve(ctx, "雨爱 杨丞琳")
 		if err != nil {
 			t.Fatal(err)
 		}
-		id, err = c.submit(ctx, s.ID)
+		id, err = c.submit(ctx, s.Song.ID, s.LyricQuery)
 		if err != nil {
 			t.Fatal(err)
 		}
-		t.Logf("submitted %s task=%s song=%s (%s)", mode, id, s.Name, s.ID)
+		t.Logf("submitted %s task=%s song=%s (%s)", mode, id, s.Song.Name, s.Song.ID)
 	}
 	if err := c.wait(ctx, id, 3*time.Second); err != nil {
 		t.Fatal(err)

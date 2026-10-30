@@ -1,4 +1,4 @@
-// Package sing provides asynchronous DiffSinger chorus covers.
+// Package sing provides asynchronous DiffSinger covers selected by title or lyric.
 package sing
 
 import (
@@ -57,7 +57,7 @@ func handleSing(ctx *zero.Ctx) {
 	query, _ := ctx.State["args"].(string)
 	query = strings.TrimSpace(query)
 	if query == "" {
-		ctx.SendChain(message.Text("用法：.sing [歌名]（默认 score）\n.msing [歌名]（mimic）\n.ssing [歌名]（score）\n例如：.sing 千本樱\n会翻唱歌曲的一段副歌。"))
+		ctx.SendChain(message.Text("用法：.sing 歌名 [歌手]（默认 score）\n.msing 歌名 [歌手]（mimic）\n.ssing 歌名 [歌手]（score）\n也可直接输入歌词，从命中的歌词句开始唱。\n例如：.sing 雨爱 杨丞琳\n按歌名点歌会翻唱一段连续歌词。"))
 		return
 	}
 	cfg := config.Get()
@@ -104,23 +104,23 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 		reply := "这首暂时没能唱出来，请稍后再试试！"
 		switch {
 		case errors.Is(err, errNoSong):
-			reply = "没有找到这首歌，试试更完整的歌名，或者加上歌手名吧！"
+			reply = "没有找到这首歌，试试歌名加歌手，或者更完整的一句歌词吧！"
 		case errors.Is(err, context.DeadlineExceeded):
 			reply = "这首准备得太久了，等待超时，请稍后再试试！"
 		}
 		target.send(message.Text(reply))
 	}
-	selected, err := c.search(ctx, query)
+	selected, err := c.resolve(ctx, query)
 	if err != nil {
 		fail(err)
 		return
 	}
-	taskID, err := c.submit(ctx, selected.ID)
+	taskID, err := c.submit(ctx, selected.Song.ID, selected.LyricQuery)
 	if err != nil {
 		fail(err)
 		return
 	}
-	log.Infof("[sing] submitted task=%s song_id=%s mode=%s", taskID, selected.ID, mode)
+	log.Infof("[sing] submitted task=%s song_id=%s mode=%s match=%s", taskID, selected.Song.ID, mode, selected.MatchType)
 	if err := c.wait(ctx, taskID, time.Duration(cfg.PollIntervalSec)*time.Second); err != nil {
 		fail(fmt.Errorf("task %s: %w", taskID, err))
 		return

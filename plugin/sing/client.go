@@ -24,6 +24,12 @@ type song struct {
 	Artists []string `json:"artists"`
 }
 
+type resolvedSong struct {
+	Song       song   `json:"song"`
+	MatchType  string `json:"match_type"`
+	LyricQuery string `json:"lyric_query"`
+}
+
 type taskResult struct {
 	Status  string            `json:"status"`
 	Outputs map[string]string `json:"outputs"`
@@ -95,38 +101,30 @@ func (c *client) json(ctx context.Context, method, path string, body, out any) e
 	return json.Unmarshal(data, out)
 }
 
-func (c *client) search(ctx context.Context, query string) (song, error) {
-	var songs []song
-	err := c.json(ctx, http.MethodGet, "/search?"+url.Values{"q": {query}, "limit": {"10"}}.Encode(), nil, &songs)
+func (c *client) resolve(ctx context.Context, query string) (resolvedSong, error) {
+	var selected resolvedSong
+	err := c.json(ctx, http.MethodGet, "/resolve_song?"+url.Values{"q": {query}}.Encode(), nil, &selected)
+	if errors.Is(err, httpError(http.StatusNotFound)) {
+		return resolvedSong{}, errNoSong
+	}
 	if err != nil {
-		return song{}, fmt.Errorf("search: %w", err)
+		return resolvedSong{}, fmt.Errorf("resolve: %w", err)
 	}
-	var first song
-	for _, s := range songs {
-		if strings.TrimSpace(s.ID) == "" {
-			continue
-		}
-		if first.ID == "" {
-			first = s
-		}
-		if strings.EqualFold(strings.TrimSpace(s.Name), strings.TrimSpace(query)) {
-			return s, nil
-		}
+	if strings.TrimSpace(selected.Song.ID) == "" {
+		return resolvedSong{}, errNoSong
 	}
-	if first.ID == "" {
-		return song{}, errNoSong
-	}
-	return first, nil
+	return selected, nil
 }
 
-func (c *client) submit(ctx context.Context, songID string) (string, error) {
+func (c *client) submit(ctx context.Context, songID string, lyricQuery string) (string, error) {
 	var task struct {
 		ID string `json:"task_id"`
 	}
 	err := c.json(ctx, http.MethodPost, "/release_task", struct {
-		SongID string   `json:"song_id"`
-		Modes  []string `json:"modes"`
-	}{songID, []string{c.mode}}, &task)
+		SongID     string   `json:"song_id"`
+		Modes      []string `json:"modes"`
+		LyricQuery string   `json:"lyric_query,omitempty"`
+	}{songID, []string{c.mode}, lyricQuery}, &task)
 	if err != nil {
 		return "", fmt.Errorf("submit: %w", err)
 	}

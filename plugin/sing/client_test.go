@@ -24,11 +24,11 @@ func TestClientWorkflow(t *testing.T) {
 					t.Error("missing user agent")
 				}
 				switch r.URL.Path {
-				case "/search":
+				case "/resolve_song":
 					if r.URL.Query().Get("q") != "雨爱 & live" {
 						t.Error("query not preserved")
 					}
-					fmt.Fprint(w, `[{"id":"other","name":"其他版本"},{"id":"chosen","name":"雨爱 & live","artists":["歌手"]}]`)
+					fmt.Fprint(w, `{"song":{"id":"chosen","name":"雨爱 & live","artists":["歌手"]},"match_type":"title"}`)
 				case "/release_task":
 					var body struct {
 						SongID string   `json:"song_id"`
@@ -69,11 +69,11 @@ func TestClientWorkflow(t *testing.T) {
 			c := newClient(server.URL, "secret", mode)
 			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 			defer cancel()
-			s, err := c.search(ctx, "雨爱 & live")
+			s, err := c.resolve(ctx, "雨爱 & live")
 			if err != nil {
 				t.Fatal(err)
 			}
-			id, err := c.submit(ctx, s.ID)
+			id, err := c.submit(ctx, s.Song.ID, s.LyricQuery)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -95,9 +95,9 @@ func TestClientFailures(t *testing.T) {
 		op         string
 		want       error
 	}{
-		{"no songs", `[]`, 200, "search", errNoSong},
-		{"empty song IDs", `[{"name":"x"}]`, 200, "search", errNoSong},
-		{"unauthorized", `secret diagnostic`, 401, "search", httpError(401)},
+		{"no songs", `{}`, 404, "resolve", errNoSong},
+		{"empty song IDs", `{"song":{"name":"x"}}`, 200, "resolve", errNoSong},
+		{"unauthorized", `secret diagnostic`, 401, "resolve", httpError(401)},
 		{"missing task ID", `{}`, 200, "submit", nil},
 		{"failed", `{"status":"failed","error":"sensitive diagnostic"}`, 200, "wait", errGeneration},
 		{"missing score", `{"status":"done","outputs":{"mimic":"/mimic"}}`, 200, "wait", nil},
@@ -119,10 +119,10 @@ func TestClientFailures(t *testing.T) {
 			c := newClient(server.URL, "secret", "score")
 			var err error
 			switch tc.op {
-			case "search":
-				_, err = c.search(context.Background(), "song")
+			case "resolve":
+				_, err = c.resolve(context.Background(), "song")
 			case "submit":
-				_, err = c.submit(context.Background(), "song")
+				_, err = c.submit(context.Background(), "song", "")
 			case "wait":
 				err = c.wait(context.Background(), "task", time.Millisecond)
 			default:
@@ -133,6 +133,61 @@ func TestClientFailures(t *testing.T) {
 			}
 			if strings.Contains(err.Error(), "secret") || strings.Contains(err.Error(), "sensitive") {
 				t.Fatal("error leaked response body")
+			}
+		})
+	}
+}
+
+func TestResolveAndSubmitPreservesIntent(t *testing.T) {
+	for _, tc := range []struct {
+		query, matchType, lyricQuery string
+	}{
+		{"雨爱 杨丞琳", "title_artist", ""},
+		{"Love Story Taylor Swift", "title_artist", ""},
+		{"迎着风，向前走 & hello", "lyric", "迎着风，向前走 & hello"},
+		{"没有命中", "fallback", ""},
+	} {
+		t.Run(tc.query, func(t *testing.T) {
+			submitted := false
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				switch r.URL.Path {
+				case "/resolve_song":
+					if r.URL.Query().Get("q") != tc.query {
+						t.Error("original input not preserved")
+					}
+					json.NewEncoder(w).Encode(resolvedSong{Song: song{ID: "chosen"}, MatchType: tc.matchType, LyricQuery: tc.lyricQuery})
+				case "/release_task":
+					var body map[string]any
+					if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+						t.Fatal(err)
+					}
+					if body["song_id"] != "chosen" {
+						t.Errorf("wrong song: %v", body)
+					}
+					if tc.lyricQuery == "" {
+						if _, ok := body["lyric_query"]; ok {
+							t.Error("title/fallback should not submit a lyric anchor")
+						}
+					} else if body["lyric_query"] != tc.lyricQuery {
+						t.Error("lyric anchor lost")
+					}
+					submitted = true
+					fmt.Fprint(w, `{"task_id":"task"}`)
+				default:
+					t.Errorf("unexpected path: %s", r.URL.Path)
+				}
+			}))
+			defer server.Close()
+			c := newClient(server.URL, "key", "score")
+			selected, err := c.resolve(context.Background(), tc.query)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := c.submit(context.Background(), selected.Song.ID, selected.LyricQuery); err != nil {
+				t.Fatal(err)
+			}
+			if !submitted {
+				t.Fatal("task not submitted")
 			}
 		})
 	}
