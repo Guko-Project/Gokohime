@@ -19,6 +19,14 @@ type Config struct {
 	Repeater RepeaterConfig `yaml:"repeater"`
 	Omoi     OmoiConfig     `yaml:"omoi"`
 	AceStep  AceStepConfig  `yaml:"ace_step"`
+	Sing     SingConfig     `yaml:"sing"`
+}
+
+type SingConfig struct {
+	APIKey          string `yaml:"api_key"`
+	BaseURL         string `yaml:"base_url"`
+	PollIntervalSec int    `yaml:"poll_interval_sec"`
+	PollTimeoutSec  int    `yaml:"poll_timeout_sec"`
 }
 
 type AceStepConfig struct {
@@ -299,6 +307,23 @@ func Load(path string) (*Config, error) {
 	}
 	if cfg.Admin.InitialUsername == "" {
 		cfg.Admin.InitialUsername = "admin"
+	}
+
+	// DiffSinger defaults + env overrides
+	if key := os.Getenv("DSAPI_KEY"); key != "" && cfg.Sing.APIKey == "" {
+		cfg.Sing.APIKey = key
+	}
+	if base := os.Getenv("DSAPI_BASE_URL"); base != "" && cfg.Sing.BaseURL == "" {
+		cfg.Sing.BaseURL = base
+	}
+	if cfg.Sing.BaseURL == "" {
+		cfg.Sing.BaseURL = "https://kirameki-dsapi.colanns.me"
+	}
+	if cfg.Sing.PollIntervalSec <= 0 {
+		cfg.Sing.PollIntervalSec = 3
+	}
+	if cfg.Sing.PollTimeoutSec <= 0 {
+		cfg.Sing.PollTimeoutSec = 1200
 	}
 
 	// AceStep defaults + env overrides

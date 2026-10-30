@@ -197,3 +197,34 @@ ace_step: {}
 		t.Fatalf("deepseek model default = %q, want deepseek-v4-flash", cfg.AceStep.DeepSeekModel)
 	}
 }
+
+func TestSingConfig(t *testing.T) {
+	t.Setenv("DSAPI_KEY", "env-key")
+	t.Setenv("DSAPI_BASE_URL", "")
+	path := filepath.Join(t.TempDir(), "config.yaml")
+	if err := os.WriteFile(path, []byte("sing: {}\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	cfg, err := Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.Sing.APIKey != "env-key" || cfg.Sing.BaseURL != "https://kirameki-dsapi.colanns.me" || cfg.Sing.PollIntervalSec != 3 || cfg.Sing.PollTimeoutSec != 1200 {
+		t.Fatalf("unexpected sing config: %+v", cfg.Sing)
+	}
+	t.Setenv("DSAPI_BASE_URL", "https://env.example")
+	cfg, err = Load(path)
+	if err != nil || cfg.Sing.BaseURL != "https://env.example" {
+		t.Fatal("base URL env not applied")
+	}
+	if err := os.WriteFile(path, []byte("sing:\n  api_key: yaml-key\n  base_url: https://yaml.example\n  poll_interval_sec: 5\n  poll_timeout_sec: 600\n"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	cfg, err = Load(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.Sing.APIKey != "yaml-key" || cfg.Sing.BaseURL != "https://yaml.example" || cfg.Sing.PollIntervalSec != 5 || cfg.Sing.PollTimeoutSec != 600 {
+		t.Fatalf("YAML not preserved: %+v", cfg.Sing)
+	}
+}

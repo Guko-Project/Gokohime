@@ -33,6 +33,7 @@ import (
 	"github.com/colanns/gokohime/plugin/omoi"
 	_ "github.com/colanns/gokohime/plugin/repeater"
 	_ "github.com/colanns/gokohime/plugin/saying"
+	_ "github.com/colanns/gokohime/plugin/sing"
 	_ "github.com/colanns/gokohime/plugin/stickersaver"
 	_ "github.com/colanns/gokohime/plugin/tempban"
 )

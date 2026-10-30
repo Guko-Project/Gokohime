@@ -37,6 +37,7 @@ var (
 		"randpic":    {},
 		"save":       {},
 		"saying":     {},
+		"sing":       {},
 		"unban":      {},
 		"吃什么":        {},
 		"帮助":         {},

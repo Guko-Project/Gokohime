@@ -64,6 +64,13 @@ repeater:
   max_repeat_time: 2
   blacklist: []
 
+sing:
+  # DiffSinger 翻唱；也可通过 DSAPI_KEY / DSAPI_BASE_URL 设置
+  api_key: ""
+  base_url: "https://kirameki-dsapi.colanns.me"
+  poll_interval_sec: 3
+  poll_timeout_sec: 1200
+
 ace_step:
   # ACE-Step 1.5 音乐生成插件配置
   api_key: ""
