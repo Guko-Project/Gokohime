@@ -202,6 +202,7 @@ func TestLiveNetease(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), prepareTimeout)
 	defer cancel()
 	svc := newSongService(t.TempDir(), newNeteaseClient())
+	svc.client.musicBoxURL = "" // This test specifically exercises the direct NetEase source.
 	entry := database.GuessSongCatalog{SongID: 3395708493}
 	started := time.Now()
 	session, err := svc.prepare(ctx, 1, "group_1", "cv", entry)

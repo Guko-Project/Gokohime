@@ -20,14 +20,16 @@ var (
 )
 
 type neteaseClient struct {
-	baseURL string
-	http    *http.Client
+	baseURL     string
+	musicBoxURL string
+	http        *http.Client
 }
 
 func newNeteaseClient() *neteaseClient {
 	return &neteaseClient{
-		baseURL: "https://music.163.com",
-		http:    &http.Client{Timeout: 25 * time.Second},
+		baseURL:     "https://music.163.com",
+		musicBoxURL: "https://fy-musicbox-api.mu-jie.cc",
+		http:        &http.Client{Timeout: 25 * time.Second},
 	}
 }
 

@@ -193,37 +193,66 @@ func (s *songService) cachedAudioLocked(ctx context.Context, songID int64, expec
 	} else if !os.IsNotExist(err) {
 		return "", 0, err
 	}
-	play, err := s.client.resolve(ctx, songID, expectedMS)
-	if err != nil {
-		return "", 0, err
+	type audioSource struct {
+		name    string
+		resolve func(context.Context, int64, int) (*playback, error)
 	}
+	var resolvers []audioSource
+	if s.client.musicBoxURL != "" {
+		resolvers = append(resolvers, audioSource{"musicbox", s.client.resolveMusicBox})
+	}
+	resolvers = append(resolvers, audioSource{"netease", s.client.resolve})
+	var failures []error
+	for _, source := range resolvers {
+		play, err := source.resolve(ctx, songID, expectedMS)
+		if err == nil {
+			var duration float64
+			duration, err = s.downloadAudio(ctx, play, path, expectedMS)
+			if err == nil {
+				return path, duration, nil
+			}
+		}
+		if ctx.Err() != nil {
+			return "", 0, ctx.Err()
+		}
+		// Local filesystem/tool failures cannot be repaired by another source.
+		if !errors.Is(err, errSongUnavailable) && !errors.Is(err, errRateLimited) {
+			return "", 0, err
+		}
+		failures = append(failures, fmt.Errorf("%s: %w", source.name, err))
+	}
+	return "", 0, errors.Join(failures...)
+}
+
+func (s *songService) downloadAudio(ctx context.Context, play *playback, path string, expectedMS int) (float64, error) {
+	dir := filepath.Dir(path)
 	if err := os.MkdirAll(dir, 0o755); err != nil {
-		return "", 0, err
+		return 0, err
 	}
 	f, err := os.CreateTemp(dir, ".download-*.mp3")
 	if err != nil {
-		return "", 0, err
+		return 0, err
 	}
 	tmp := f.Name()
 	defer os.Remove(tmp)
 	if err := s.client.download(ctx, play, f); err != nil {
 		f.Close()
-		return "", 0, err
+		return 0, err
 	}
 	if err := f.Close(); err != nil {
-		return "", 0, err
+		return 0, err
 	}
 	duration, err := probeAudio(ctx, tmp)
 	if err != nil {
-		return "", 0, err
+		return 0, err
 	}
 	if duration < 2*sliceLengthSec || !durationMatches(duration, expectedMS) {
-		return "", 0, fmt.Errorf("%w: downloaded audio duration mismatch", errSongUnavailable)
+		return 0, fmt.Errorf("%w: downloaded audio duration mismatch", errSongUnavailable)
 	}
 	if err := os.Rename(tmp, path); err != nil {
-		return "", 0, err
+		return 0, err
 	}
-	return path, duration, nil
+	return duration, nil
 }
 
 func (c *neteaseClient) download(ctx context.Context, play *playback, dst io.Writer) error {
