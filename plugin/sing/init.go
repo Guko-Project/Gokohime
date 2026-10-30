@@ -119,11 +119,6 @@ func runSing(target destination, query string, cfg config.SingConfig) {
 		fail(fmt.Errorf("task %s: %w", taskID, err))
 		return
 	}
-	title := selected.Name
-	if len(selected.Artists) > 0 {
-		title += " · " + strings.Join(selected.Artists, " / ")
-	}
-	target.send(message.Text(fmt.Sprintf("《%s》\nAI 合成 · 声库：绮萱 · 引擎：DiffSinger", title)))
 	if !target.send(message.Record("base64://" + base64.StdEncoding.EncodeToString(audio))) {
 		log.Warnf("[sing] voice delivery failed: task=%s", taskID)
 		target.send(message.Text("已经唱好了，但语音发送失败了，请稍后再试！"))

@@ -114,10 +114,6 @@ func TestAsynchronousDelivery(t *testing.T) {
 			ctx.Event.GroupID, ctx.Event.UserID = 999, 888
 			ctx.State["args"] = "different song"
 			close(release)
-			attribution := receive(t, c)
-			if !strings.Contains(attribution.segments[0].Data["text"], "绮萱") {
-				t.Fatal("missing attribution")
-			}
 			audio := receive(t, c)
 			wantAction, wantTarget := "send_group_msg", groupID
 			if groupID == 0 {
