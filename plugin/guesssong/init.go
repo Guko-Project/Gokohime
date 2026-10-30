@@ -97,7 +97,7 @@ func startGame(ctx *zero.Ctx, library string) {
 		ctx.SendChain(message.Text("该题库为空，请先导入歌曲；默认中V题库可使用 .cg cstart。"))
 		return
 	}
-	ctx.SendChain(message.Text("正在准备题目，首次抽到的歌曲需要下载，请稍候。"))
+	ctx.SendChain(message.Text("撒，现在请听题！"))
 	prepared, err := songs.prepareCandidates(work, id, guessSessionDir(ctx), library, candidates)
 	if err != nil {
 		log.Warnf("[guesssong] prepare song failed: session=%d library=%s: %v", id, library, err)
