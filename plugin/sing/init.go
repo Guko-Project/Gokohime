@@ -129,6 +129,7 @@ func runSing(target destination, query, mode string, withAccompaniment bool, cfg
 	defer cancel()
 	c := newClient(cfg.BaseURL, cfg.APIKey, mode)
 	c.withAccompaniment = withAccompaniment
+	songName := query
 	fail := func(err error) {
 		log.Warnf("[sing] request failed: %v", err)
 		reply := "这首暂时没能唱出来，请稍后再试试！"
@@ -145,6 +146,9 @@ func runSing(target destination, query, mode string, withAccompaniment bool, cfg
 			reply = "没有找到这首歌，试试歌名加歌手，或者更完整的一句歌词吧！"
 		case errors.Is(err, context.DeadlineExceeded):
 			reply = "这首准备得太久了，等待超时，请稍后再试试！"
+		}
+		if detail, ok := generationReply(err, songName); ok {
+			reply = detail
 		}
 		target.send(message.Text(reply))
 	}
@@ -165,10 +169,16 @@ func runSing(target destination, query, mode string, withAccompaniment bool, cfg
 		return
 	}
 	c.voiceID = chosen.ID
+	songName = query
 	selected, err := c.resolve(ctx, query)
 	if err != nil {
 		fail(err)
 		return
+	}
+	if selected.Song.Name != "" {
+		songName = selected.Song.Name
+	} else {
+		songName = "歌曲 " + selected.Song.ID
 	}
 	// Long explicit excerpts receive a duration-scaled budget, including the
 	// generation and delivery. The configured short-job timeout remains a floor.

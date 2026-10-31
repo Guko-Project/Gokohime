@@ -37,8 +37,12 @@ type resolvedSong struct {
 }
 
 type taskResult struct {
-	Status  string            `json:"status"`
-	Outputs map[string]string `json:"outputs"`
+	Song      song              `json:"song"`
+	Stage     string            `json:"stage"`
+	Error     string            `json:"error"`
+	ErrorInfo *failureInfo      `json:"error_info"`
+	Status    string            `json:"status"`
+	Outputs   map[string]string `json:"outputs"`
 }
 
 type client struct {
@@ -203,7 +207,16 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 				}
 				return nil
 			case "failed":
-				return errGeneration
+				info := result.ErrorInfo
+				if info == nil {
+					legacy := legacyFailure(result.Error, result.Stage)
+					info = &legacy
+				}
+				name := result.Song.Name
+				if name == "" && result.Song.ID != "" {
+					name = "歌曲 " + result.Song.ID
+				}
+				return &generationError{Info: *info, SongName: name}
 			case "queued", "running":
 			default:
 				return fmt.Errorf("unknown DiffSinger task status %q", result.Status)

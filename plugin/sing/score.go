@@ -96,6 +96,9 @@ func handleScore(ctx *zero.Ctx) {
 			case errors.Is(err, context.DeadlineExceeded):
 				reply = "乐谱合成等待超时，请稍后再试！"
 			}
+			if detail, ok := generationReply(err, "自填乐谱"); ok {
+				reply = detail
+			}
 			target.send(message.Text(reply))
 		}
 	}()
