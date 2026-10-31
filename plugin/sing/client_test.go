@@ -25,7 +25,7 @@ func TestClientWorkflow(t *testing.T) {
 				}
 				switch r.URL.Path {
 				case "/resolve_song":
-					if r.URL.Query().Get("q") != "雨爱 & live" {
+					if requestQuery(t, r) != "雨爱 & live" {
 						t.Error("query not preserved")
 					}
 					fmt.Fprint(w, `{"song":{"id":"chosen","name":"雨爱 & live","artists":["歌手"]},"match_type":"title"}`)
@@ -152,7 +152,7 @@ func TestResolveAndSubmitPreservesIntent(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				switch r.URL.Path {
 				case "/resolve_song":
-					if r.URL.Query().Get("q") != tc.query {
+					if requestQuery(t, r) != tc.query {
 						t.Error("original input not preserved")
 					}
 					json.NewEncoder(w).Encode(resolvedSong{Song: song{ID: "chosen"}, MatchType: tc.matchType, LyricQuery: tc.lyricQuery})
@@ -211,4 +211,18 @@ func TestRedirectDoesNotForwardKey(t *testing.T) {
 	if _, err := newClient(source.URL, "key", "score").audio(context.Background(), "task"); !errors.Is(err, httpError(302)) {
 		t.Fatalf("expected redirect rejection: %v", err)
 	}
+}
+
+func requestQuery(t *testing.T, r *http.Request) string {
+	t.Helper()
+	if r.Method != http.MethodPost {
+		t.Error("resolve must use POST")
+	}
+	var body struct {
+		Q string `json:"q"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		t.Error(err)
+	}
+	return body.Q
 }

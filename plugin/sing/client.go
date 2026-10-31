@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 	"time"
 )
@@ -25,6 +26,11 @@ type song struct {
 }
 
 type resolvedSong struct {
+	Match struct {
+		Start     float64 `json:"start"`
+		End       float64 `json:"end"`
+		LineCount int     `json:"line_count"`
+	} `json:"match"`
 	Song       song   `json:"song"`
 	MatchType  string `json:"match_type"`
 	LyricQuery string `json:"lyric_query"`
@@ -39,11 +45,15 @@ type client struct {
 	baseURL string
 	apiKey  string
 	mode    string
+	start   *float64
+	end     *float64
+	voiceID string
+	parts   []string
 	http    *http.Client
 }
 
 func newClient(baseURL, apiKey, mode string) *client {
-	return &client{strings.TrimRight(baseURL, "/"), apiKey, mode, &http.Client{
+	return &client{baseURL: strings.TrimRight(baseURL, "/"), apiKey: apiKey, mode: mode, voiceID: defaultVoiceID, http: &http.Client{
 		Timeout: 60 * time.Second,
 		// Never forward credentials to a redirect destination.
 		CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse },
@@ -103,7 +113,10 @@ func (c *client) json(ctx context.Context, method, path string, body, out any) e
 
 func (c *client) resolve(ctx context.Context, query string) (resolvedSong, error) {
 	var selected resolvedSong
-	err := c.json(ctx, http.MethodGet, "/resolve_song?"+url.Values{"q": {query}}.Encode(), nil, &selected)
+	err := c.json(ctx, http.MethodPost, "/resolve_song", map[string]string{"q": query, "lyric_extent": "auto"}, &selected)
+	if errors.Is(err, httpError(http.StatusUnprocessableEntity)) {
+		return resolvedSong{}, errLyricMatch
+	}
 	if errors.Is(err, httpError(http.StatusNotFound)) {
 		return resolvedSong{}, errNoSong
 	}
@@ -121,10 +134,14 @@ func (c *client) submit(ctx context.Context, songID string, lyricQuery string) (
 		ID string `json:"task_id"`
 	}
 	err := c.json(ctx, http.MethodPost, "/release_task", struct {
-		SongID     string   `json:"song_id"`
-		Modes      []string `json:"modes"`
-		LyricQuery string   `json:"lyric_query,omitempty"`
-	}{songID, []string{c.mode}, lyricQuery}, &task)
+		Start       *float64 `json:"start,omitempty"`
+		End         *float64 `json:"end,omitempty"`
+		SongID      string   `json:"song_id"`
+		Modes       []string `json:"modes"`
+		LyricQuery  string   `json:"lyric_query,omitempty"`
+		VoiceID     string   `json:"voice_id"`
+		LyricExtent string   `json:"lyric_extent"`
+	}{c.start, c.end, songID, []string{c.mode}, lyricQuery, c.voiceID, "auto"}, &task)
 	if err != nil {
 		return "", fmt.Errorf("submit: %w", err)
 	}
@@ -157,6 +174,14 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 			failures = 0
 			switch result.Status {
 			case "done":
+				c.parts = nil
+				for kind := range result.Outputs {
+					suffix, ok := strings.CutPrefix(kind, c.mode+"_part_")
+					if ok && len(suffix) >= 4 && strings.Trim(suffix, "0123456789") == "" {
+						c.parts = append(c.parts, kind)
+					}
+				}
+				sort.Strings(c.parts)
 				if result.Outputs[c.mode] == "" {
 					return fmt.Errorf("DiffSinger task has no %s audio", c.mode)
 				}
@@ -179,8 +204,12 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 }
 
 func (c *client) audio(ctx context.Context, taskID string) ([]byte, error) {
+	return c.audioKind(ctx, taskID, c.mode)
+}
+
+func (c *client) audioKind(ctx context.Context, taskID, kind string) ([]byte, error) {
 	// Build the authenticated URL locally, rather than trusting a returned URL.
-	data, err := c.request(ctx, http.MethodGet, "/v1/audio?"+url.Values{"task_id": {taskID}, "kind": {c.mode}}.Encode(), nil, maxAudioBytes)
+	data, err := c.request(ctx, http.MethodGet, "/v1/audio?"+url.Values{"task_id": {taskID}, "kind": {kind}}.Encode(), nil, maxAudioBytes)
 	if err != nil {
 		return nil, fmt.Errorf("download: %w", err)
 	}

@@ -54,7 +54,7 @@ func receive(t *testing.T, c *caller) delivery {
 }
 
 func TestAsynchronousDelivery(t *testing.T) {
-	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}} {
+	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}, {"song", "score"}} {
 		for _, groupID := range []int64{123, 0} {
 			t.Run(tc.command+fmt.Sprint(groupID), func(t *testing.T) {
 				query, matchType, lyricQuery := "雨爱 杨丞琳", "title_artist", ""
@@ -64,14 +64,18 @@ func TestAsynchronousDelivery(t *testing.T) {
 				release := make(chan struct{})
 				server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 					switch r.URL.Path {
+					case "/voices":
+						fmt.Fprint(w, `{"voices":[{"id":"vocaloid-luotianyi","name":"洛天依","aliases":["洛"],"available":true}]}`)
 					case "/resolve_song":
 						<-release
-						if r.URL.Query().Get("q") != query {
-							t.Errorf("wrong query: %s", r.URL.Query().Get("q"))
+						if requestQuery(t, r) != query {
+							t.Error("wrong query")
 						}
 						json.NewEncoder(w).Encode(resolvedSong{Song: song{ID: "1", Name: "雨爱"}, MatchType: matchType, LyricQuery: lyricQuery})
 					case "/release_task":
 						var body struct {
+							Start      *float64 `json:"start"`
+							End        *float64 `json:"end"`
 							Modes      []string `json:"modes"`
 							LyricQuery string   `json:"lyric_query"`
 						}
@@ -80,6 +84,13 @@ func TestAsynchronousDelivery(t *testing.T) {
 						}
 						if body.LyricQuery != lyricQuery {
 							t.Errorf("wrong lyric query: %q", body.LyricQuery)
+						}
+						if tc.command == "song" {
+							if body.Start == nil || body.End == nil || *body.Start != 0 || *body.End != 120 {
+								t.Errorf("lost range: %+v", body)
+							}
+						} else if body.Start != nil || body.End != nil {
+							t.Error("unexpected range")
 						}
 						fmt.Fprint(w, `{"task_id":"task"}`)
 					case "/query_result":
@@ -110,7 +121,11 @@ func TestAsynchronousDelivery(t *testing.T) {
 				defer zero.APICallers.Delete(987654)
 				ctx := zero.GetBot(987654)
 				ctx.Event = &zero.Event{SelfID: 987654, GroupID: groupID, UserID: 456}
-				ctx.State = zero.State{"command": tc.command, "args": " " + query + " "}
+				args := query
+				if tc.command == "song" {
+					args = "洛 " + query + " 0-120"
+				}
+				ctx.State = zero.State{"command": tc.command, "args": " " + args + " "}
 				returned := make(chan struct{})
 				go func() { handleSing(ctx); close(returned) }()
 				first := receive(t, c)
@@ -137,6 +152,9 @@ func TestAsynchronousDelivery(t *testing.T) {
 				ctx.State["args"] = "different song"
 				ctx.State["command"] = "different command"
 				close(release)
+				if !strings.Contains(receive(t, c).segments[0].Data["text"], "洛天依") {
+					t.Fatal("missing chosen voice")
+				}
 				audio := receive(t, c)
 				wantAction, wantTarget := "send_group_msg", groupID
 				if groupID == 0 {
@@ -167,7 +185,7 @@ func TestAsynchronousDelivery(t *testing.T) {
 }
 
 func TestCommandBoundary(t *testing.T) {
-	for _, command := range []string{"sing", "msing", "ssing"} {
+	for _, command := range []string{"sing", "msing", "ssing", "song", "voices"} {
 		for _, tc := range []struct {
 			suffix string
 			want   bool

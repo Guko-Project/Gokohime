@@ -29,14 +29,42 @@ var pending sync.Map
 type destination struct{ selfID, groupID, userID int64 }
 
 func init() {
-	for _, command := range []string{"sing", "msing", "ssing"} {
+	for _, command := range []string{"sing", "msing", "ssing", "song"} {
 		zero.OnCommand(command, commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
 	}
+	zero.OnCommand("voices", commandBoundary).SetPriority(30).SetBlock(true).Handle(func(ctx *zero.Ctx) {
+		cfg := config.Get()
+		if cfg == nil || cfg.Sing.APIKey == "" {
+			ctx.SendChain(message.Text("唱歌功能还没有配置好，请联系管理员。"))
+			return
+		}
+		target := destination{ctx.Event.SelfID, ctx.Event.GroupID, ctx.Event.UserID}
+		settings := cfg.Sing
+		go func() {
+			request, cancel := context.WithTimeout(context.Background(), time.Minute)
+			defer cancel()
+			catalog, err := newClient(settings.BaseURL, settings.APIKey, "score").voices(request)
+			if err != nil {
+				target.send(message.Text("音源列表暂时无法读取，请稍后再试。"))
+				return
+			}
+			lines := []string{"音源列表（默认洛天依）："}
+			for _, v := range catalog.Voices {
+				status := ""
+				if !v.Available {
+					status = "（暂不可用）"
+				}
+				lines = append(lines, v.Name+status+"："+strings.Join(v.Aliases, " / "))
+			}
+			lines = append(lines, "用法：.sing 洛 歌名或歌词；三句及以上歌词完整匹配后按指定范围演唱。")
+			target.send(message.Text(strings.Join(lines, "\n")))
+		}()
+	})
 }
 
 func commandBoundary(ctx *zero.Ctx) bool {
 	command, _ := ctx.State["command"].(string)
-	if command != "sing" && command != "msing" && command != "ssing" {
+	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" {
 		return false
 	}
 	text := ctx.Event.Message[0].Data["text"]
@@ -57,7 +85,7 @@ func handleSing(ctx *zero.Ctx) {
 	query, _ := ctx.State["args"].(string)
 	query = strings.TrimSpace(query)
 	if query == "" {
-		ctx.SendChain(message.Text("用法：.sing 歌名 [歌手]（默认 score）\n.msing 歌名 [歌手]（mimic）\n.ssing 歌名 [歌手]（score）\n也可直接输入歌词，从命中的歌词句开始唱。\n例如：.sing 雨爱 杨丞琳\n按歌名点歌会翻唱一段连续歌词。"))
+		ctx.SendChain(message.Text(singHelp))
 		return
 	}
 	cfg := config.Get()
@@ -103,6 +131,14 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 		log.Warnf("[sing] request failed: %v", err)
 		reply := "这首暂时没能唱出来，请稍后再试试！"
 		switch {
+		case errors.Is(err, errTimeRange):
+			reply = "时间范围格式为 起始秒-结束秒，须满足 0 ≤ 起始 < 结束，例如：.sing 初 歌名 0-120"
+		case errors.Is(err, errEmptyQuery):
+			reply = "请在音源名后填写歌名或歌词，例如：.sing 洛 雨爱 杨丞琳"
+		case errors.Is(err, errVoiceUnavailable), errors.Is(err, httpError(503)):
+			reply = "所选音源暂不可用，请用 .voices 查看音源列表。"
+		case errors.Is(err, errLyricMatch):
+			reply = "完整歌词未匹配，请检查歌词内容与歌曲版本；不会改唱随机片段。"
 		case errors.Is(err, errNoSong):
 			reply = "没有找到这首歌，试试歌名加歌手，或者更完整的一句歌词吧！"
 		case errors.Is(err, context.DeadlineExceeded):
@@ -110,11 +146,47 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 		}
 		target.send(message.Text(reply))
 	}
+	var err error
+	query, c.start, c.end, err = parseTimeRange(query)
+	if err != nil {
+		fail(err)
+		return
+	}
+	catalog, err := c.voices(ctx)
+	if err != nil {
+		fail(err)
+		return
+	}
+	chosen, query, err := selectVoice(query, catalog)
+	if err != nil {
+		fail(err)
+		return
+	}
+	c.voiceID = chosen.ID
 	selected, err := c.resolve(ctx, query)
 	if err != nil {
 		fail(err)
 		return
 	}
+	// Long explicit excerpts receive a duration-scaled budget, including the
+	// generation and delivery. The configured short-job timeout remains a floor.
+	span := selected.Match.End - selected.Match.Start
+	if c.start != nil {
+		span = *c.end - *c.start
+	}
+	if span > 32 {
+		budget := timeout + time.Duration(span*60)*time.Second
+		cancel()
+		ctx, cancel = context.WithTimeout(context.Background(), budget)
+		defer cancel()
+	}
+	text := "使用" + chosen.Name + "，正在准备。"
+	if c.start != nil {
+		text = fmt.Sprintf("使用%s，按 %g–%g 秒范围内的完整歌词演唱，正在准备。", chosen.Name, *c.start, *c.end)
+	} else if selected.Match.LineCount >= 3 {
+		text = fmt.Sprintf("使用%s，已匹配 %d 行歌词，预计范围 %.0f 秒，正在准备。", chosen.Name, selected.Match.LineCount, span)
+	}
+	target.send(message.Text(text))
 	taskID, err := c.submit(ctx, selected.Song.ID, selected.LyricQuery)
 	if err != nil {
 		fail(err)
@@ -125,13 +197,20 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 		fail(fmt.Errorf("task %s: %w", taskID, err))
 		return
 	}
-	audio, err := c.audio(ctx, taskID)
-	if err != nil {
-		fail(fmt.Errorf("task %s: %w", taskID, err))
-		return
+	kinds := c.parts
+	if len(kinds) == 0 {
+		kinds = []string{c.mode}
 	}
-	if !target.send(message.Record("base64://" + base64.StdEncoding.EncodeToString(audio))) {
-		log.Warnf("[sing] voice delivery failed: task=%s", taskID)
-		target.send(message.Text("已经唱好了，但语音发送失败了，请稍后再试！"))
+	for _, kind := range kinds {
+		audio, err := c.audioKind(ctx, taskID, kind)
+		if err != nil {
+			fail(fmt.Errorf("task %s: %w", taskID, err))
+			return
+		}
+		if !target.send(message.Record("base64://" + base64.StdEncoding.EncodeToString(audio))) {
+			log.Warnf("[sing] voice delivery failed: task=%s", taskID)
+			target.send(message.Text("已经唱好了，但语音发送失败了，请稍后再试！"))
+			return
+		}
 	}
 }
