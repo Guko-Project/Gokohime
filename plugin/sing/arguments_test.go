@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	zero "github.com/wdvxdr1123/ZeroBot"
+	"github.com/wdvxdr1123/ZeroBot/message"
 )
 
 func TestTimeRange(t *testing.T) {
@@ -38,7 +39,7 @@ func TestTimeRange(t *testing.T) {
 }
 
 func TestSongWithoutArgumentsShowsHelp(t *testing.T) {
-	for _, command := range []string{"song", "bsong", "bmsong"} {
+	for _, command := range []string{"sing", "ssing", "msing", "song", "bsong", "bmsong"} {
 		c := &caller{sent: make(chan delivery, 2)}
 		zero.APICallers.Store(987653, c)
 		defer zero.APICallers.Delete(987653)
@@ -46,8 +47,8 @@ func TestSongWithoutArgumentsShowsHelp(t *testing.T) {
 		ctx.Event = &zero.Event{SelfID: 987653, UserID: 456}
 		ctx.State = zero.State{"command": command, "args": " \n "}
 		handleSing(ctx)
-		if got := receive(t, c).segments[0].Data["text"]; got != singHelp {
-			t.Fatalf("wrong help: %s", got)
+		if got := receive(t, c).segments; len(got) != 1 || got[0].Type != "image" || got[0].Data["file"] != message.ImageBytes(singHelpImage).Data["file"] {
+			t.Fatalf("help must be a single embedded image: %v", got[0].Type)
 		}
 		if len(c.sent) != 0 {
 			t.Fatal("help submitted a job")

@@ -88,6 +88,15 @@ func (c *client) request(ctx context.Context, method, path string, body any, lim
 		return nil, err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode == 422 && (path == "/parse_score" || path == "/release_score_task") {
+		data, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
+		var problem struct {
+			Detail scoreValidationError `json:"detail"`
+		}
+		if json.Unmarshal(data, &problem) == nil && problem.Detail.Line > 0 && problem.Detail.Message != "" {
+			return nil, &problem.Detail
+		}
+	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		return nil, httpError(resp.StatusCode)
 	}
@@ -105,7 +114,12 @@ func (c *client) request(ctx context.Context, method, path string, body any, lim
 }
 
 func (c *client) json(ctx context.Context, method, path string, body, out any) error {
-	data, err := c.request(ctx, method, path, body, 1<<20)
+	limit := int64(1 << 20)
+	if path == "/parse_score" {
+		// The normalized notes and pronunciation preview expand the input text.
+		limit = 4 << 20
+	}
+	data, err := c.request(ctx, method, path, body, limit)
 	if err != nil {
 		return err
 	}

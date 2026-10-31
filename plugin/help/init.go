@@ -27,6 +27,7 @@ const helpText = `【鸽子姬 帮助菜单】
 .save (回复表情) - 保存表情
 .cg cstart / .猜歌 - 中V猜歌
 .cg jstart - 日V猜歌
+.score - 自填简谱和歌词（发送命令查看示例）
 .song - 唱歌命令帮助（带参数同 .sing）
 .sing / .ssing [音源] 歌名 [原唱] 或歌词 - score 翻唱（默认洛天依）
 .msing [音源] 歌名 [原唱] 或歌词 - mimic 翻唱（默认洛天依）
@@ -42,7 +43,7 @@ func init() {
 				if abs, err := filepath.Abs(helpImagePath); err == nil {
 					if img, err := imageutil.LocalImageSegment(abs); err == nil {
 						ctx.SendChain(img)
-						ctx.SendChain(message.Text(".song - 唱歌命令帮助（带参数同 .sing）\n.sing / .ssing [音源] 歌名 [原唱] 或歌词 - score 翻唱（默认洛天依）\n.msing [音源] 歌名 [原唱] 或歌词 - mimic 翻唱（默认洛天依）\n.bsong / .bmsong [音源] 歌名或歌词 - 带原曲伴奏翻唱\n.voices - 查看音源和别名（洛 / 初 / 初日 / 心）；末尾可加 0-120 指定秒数范围"))
+						ctx.SendChain(message.Text(".score - 自填简谱和歌词（发送命令查看示例）\n.song - 唱歌命令帮助（带参数同 .sing）\n.sing / .ssing [音源] 歌名 [原唱] 或歌词 - score 翻唱（默认洛天依）\n.msing [音源] 歌名 [原唱] 或歌词 - mimic 翻唱（默认洛天依）\n.bsong / .bmsong [音源] 歌名或歌词 - 带原曲伴奏翻唱\n.voices - 查看音源和别名（洛 / 初 / 初日 / 心）；末尾可加 0-120 指定秒数范围"))
 						return
 					}
 				}

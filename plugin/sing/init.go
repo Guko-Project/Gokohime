@@ -29,6 +29,7 @@ var pending sync.Map
 type destination struct{ selfID, groupID, userID int64 }
 
 func init() {
+	zero.OnCommand("score", commandBoundary).SetPriority(30).SetBlock(true).Handle(handleScore)
 	for _, command := range []string{"sing", "msing", "ssing", "song", "bsong", "bmsong"} {
 		zero.OnCommand(command, commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
 	}
@@ -64,7 +65,7 @@ func init() {
 
 func commandBoundary(ctx *zero.Ctx) bool {
 	command, _ := ctx.State["command"].(string)
-	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" && command != "bsong" && command != "bmsong" {
+	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" && command != "bsong" && command != "bmsong" && command != "score" {
 		return false
 	}
 	text := ctx.Event.Message[0].Data["text"]
@@ -85,7 +86,7 @@ func handleSing(ctx *zero.Ctx) {
 	query, _ := ctx.State["args"].(string)
 	query = strings.TrimSpace(query)
 	if query == "" {
-		ctx.SendChain(message.Text(singHelp))
+		ctx.SendChain(message.ImageBytes(singHelpImage))
 		return
 	}
 	cfg := config.Get()
@@ -187,9 +188,14 @@ func runSing(target destination, query, mode string, withAccompaniment bool, cfg
 		return
 	}
 	log.Infof("[sing] submitted task=%s song_id=%s mode=%s match=%s", taskID, selected.Song.ID, mode, selected.MatchType)
-	if err := c.wait(ctx, taskID, time.Duration(cfg.PollIntervalSec)*time.Second); err != nil {
-		fail(fmt.Errorf("task %s: %w", taskID, err))
-		return
+	if err := deliverSong(ctx, target, c, taskID, time.Duration(cfg.PollIntervalSec)*time.Second); err != nil {
+		fail(err)
+	}
+}
+
+func deliverSong(ctx context.Context, target destination, c *client, taskID string, interval time.Duration) error {
+	if err := c.wait(ctx, taskID, interval); err != nil {
+		return fmt.Errorf("task %s: %w", taskID, err)
 	}
 	kinds := c.parts
 	if len(kinds) == 0 {
@@ -198,13 +204,13 @@ func runSing(target destination, query, mode string, withAccompaniment bool, cfg
 	for _, kind := range kinds {
 		audio, err := c.audioKind(ctx, taskID, kind)
 		if err != nil {
-			fail(fmt.Errorf("task %s: %w", taskID, err))
-			return
+			return fmt.Errorf("task %s: %w", taskID, err)
 		}
 		if !target.send(message.Record("base64://" + base64.StdEncoding.EncodeToString(audio))) {
 			log.Warnf("[sing] voice delivery failed: task=%s", taskID)
 			target.send(message.Text("已经唱好了，但语音发送失败了，请稍后再试！"))
-			return
+			return nil
 		}
 	}
+	return nil
 }
