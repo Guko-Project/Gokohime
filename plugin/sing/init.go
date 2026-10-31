@@ -180,13 +180,6 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 		ctx, cancel = context.WithTimeout(context.Background(), budget)
 		defer cancel()
 	}
-	text := "使用" + chosen.Name + "，正在准备。"
-	if c.start != nil {
-		text = fmt.Sprintf("使用%s，按 %g–%g 秒范围内的完整歌词演唱，正在准备。", chosen.Name, *c.start, *c.end)
-	} else if selected.Match.LineCount >= 3 {
-		text = fmt.Sprintf("使用%s，已匹配 %d 行歌词，预计范围 %.0f 秒，正在准备。", chosen.Name, selected.Match.LineCount, span)
-	}
-	target.send(message.Text(text))
 	taskID, err := c.submit(ctx, selected.Song.ID, selected.LyricQuery)
 	if err != nil {
 		fail(err)

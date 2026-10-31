@@ -152,9 +152,6 @@ func TestAsynchronousDelivery(t *testing.T) {
 				ctx.State["args"] = "different song"
 				ctx.State["command"] = "different command"
 				close(release)
-				if !strings.Contains(receive(t, c).segments[0].Data["text"], "洛天依") {
-					t.Fatal("missing chosen voice")
-				}
 				audio := receive(t, c)
 				wantAction, wantTarget := "send_group_msg", groupID
 				if groupID == 0 {
