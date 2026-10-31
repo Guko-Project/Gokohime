@@ -28,9 +28,18 @@ var pending sync.Map
 
 type destination struct{ selfID, groupID, userID int64 }
 
+// Both spellings share the same generation mode and accompaniment settings.
+var singCommands = map[string]string{
+	"sing": "sing", "song": "sing",
+	"ssing": "sing", "ssong": "sing",
+	"msing": "msing", "msong": "msing",
+	"bsing": "bsong", "bsong": "bsong",
+	"bmsing": "bmsong", "bmsong": "bmsong",
+}
+
 func init() {
 	zero.OnCommand("score", commandBoundary).SetPriority(30).SetBlock(true).Handle(handleScore)
-	for _, command := range []string{"sing", "msing", "ssing", "song", "bsong", "bmsong"} {
+	for command := range singCommands {
 		zero.OnCommand(command, commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
 	}
 	zero.OnCommand("voices", commandBoundary).SetPriority(30).SetBlock(true).Handle(func(ctx *zero.Ctx) {
@@ -65,7 +74,7 @@ func init() {
 
 func commandBoundary(ctx *zero.Ctx) bool {
 	command, _ := ctx.State["command"].(string)
-	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" && command != "bsong" && command != "bmsong" && command != "score" {
+	if _, ok := singCommands[command]; !ok && command != "voices" && command != "score" {
 		return false
 	}
 	text := ctx.Event.Message[0].Data["text"]
@@ -79,6 +88,7 @@ func commandBoundary(ctx *zero.Ctx) bool {
 
 func handleSing(ctx *zero.Ctx) {
 	command, _ := ctx.State["command"].(string)
+	command = singCommands[command]
 	mode := "score"
 	if command == "msing" || command == "bmsong" {
 		mode = "mimic"

@@ -54,10 +54,19 @@ func receive(t *testing.T, c *caller) delivery {
 }
 
 func TestAsynchronousDelivery(t *testing.T) {
-	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}, {"song", "score"}, {"bsong", "score"}, {"bmsong", "mimic"}} {
+	for _, tc := range []struct {
+		command, mode string
+		mixed         bool
+	}{
+		{"sing", "score", false}, {"song", "score", false},
+		{"ssing", "score", false}, {"ssong", "score", false},
+		{"msing", "mimic", false}, {"msong", "mimic", false},
+		{"bsing", "score", true}, {"bsong", "score", true},
+		{"bmsing", "mimic", true}, {"bmsong", "mimic", true},
+	} {
 		for _, groupID := range []int64{123, 0} {
 			t.Run(tc.command+fmt.Sprint(groupID), func(t *testing.T) {
-				mixed := tc.command == "bsong" || tc.command == "bmsong"
+				mixed := tc.mixed
 				kind := tc.mode
 				if mixed {
 					kind += "_mix"
@@ -191,7 +200,7 @@ func TestAsynchronousDelivery(t *testing.T) {
 }
 
 func TestCommandBoundary(t *testing.T) {
-	for _, command := range []string{"sing", "msing", "ssing", "song", "voices", "bsong", "bmsong"} {
+	for _, command := range []string{"sing", "song", "ssing", "ssong", "msing", "msong", "bsing", "bsong", "bmsing", "bmsong", "voices", "score"} {
 		for _, tc := range []struct {
 			suffix string
 			want   bool

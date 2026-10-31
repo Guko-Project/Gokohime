@@ -39,7 +39,7 @@ func TestTimeRange(t *testing.T) {
 }
 
 func TestSongWithoutArgumentsShowsHelp(t *testing.T) {
-	for _, command := range []string{"sing", "ssing", "msing", "song", "bsong", "bmsong"} {
+	for _, command := range []string{"sing", "song", "ssing", "ssong", "msing", "msong", "bsing", "bsong", "bmsing", "bmsong"} {
 		c := &caller{sent: make(chan delivery, 2)}
 		zero.APICallers.Store(987653, c)
 		defer zero.APICallers.Delete(987653)
