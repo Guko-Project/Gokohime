@@ -42,14 +42,15 @@ type taskResult struct {
 }
 
 type client struct {
-	baseURL string
-	apiKey  string
-	mode    string
-	start   *float64
-	end     *float64
-	voiceID string
-	parts   []string
-	http    *http.Client
+	withAccompaniment bool
+	baseURL           string
+	apiKey            string
+	mode              string
+	start             *float64
+	end               *float64
+	voiceID           string
+	parts             []string
+	http              *http.Client
 }
 
 func newClient(baseURL, apiKey, mode string) *client {
@@ -134,14 +135,15 @@ func (c *client) submit(ctx context.Context, songID string, lyricQuery string) (
 		ID string `json:"task_id"`
 	}
 	err := c.json(ctx, http.MethodPost, "/release_task", struct {
-		Start       *float64 `json:"start,omitempty"`
-		End         *float64 `json:"end,omitempty"`
-		SongID      string   `json:"song_id"`
-		Modes       []string `json:"modes"`
-		LyricQuery  string   `json:"lyric_query,omitempty"`
-		VoiceID     string   `json:"voice_id"`
-		LyricExtent string   `json:"lyric_extent"`
-	}{c.start, c.end, songID, []string{c.mode}, lyricQuery, c.voiceID, "auto"}, &task)
+		WithAccompaniment bool     `json:"with_accompaniment,omitempty"`
+		Start             *float64 `json:"start,omitempty"`
+		End               *float64 `json:"end,omitempty"`
+		SongID            string   `json:"song_id"`
+		Modes             []string `json:"modes"`
+		LyricQuery        string   `json:"lyric_query,omitempty"`
+		VoiceID           string   `json:"voice_id"`
+		LyricExtent       string   `json:"lyric_extent"`
+	}{c.withAccompaniment, c.start, c.end, songID, []string{c.mode}, lyricQuery, c.voiceID, "auto"}, &task)
 	if err != nil {
 		return "", fmt.Errorf("submit: %w", err)
 	}
@@ -176,14 +178,14 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 			case "done":
 				c.parts = nil
 				for kind := range result.Outputs {
-					suffix, ok := strings.CutPrefix(kind, c.mode+"_part_")
+					suffix, ok := strings.CutPrefix(kind, c.outputKind()+"_part_")
 					if ok && len(suffix) >= 4 && strings.Trim(suffix, "0123456789") == "" {
 						c.parts = append(c.parts, kind)
 					}
 				}
 				sort.Strings(c.parts)
-				if result.Outputs[c.mode] == "" {
-					return fmt.Errorf("DiffSinger task has no %s audio", c.mode)
+				if result.Outputs[c.outputKind()] == "" {
+					return fmt.Errorf("DiffSinger task has no %s audio", c.outputKind())
 				}
 				return nil
 			case "failed":
@@ -203,8 +205,15 @@ func (c *client) wait(ctx context.Context, taskID string, interval time.Duration
 	}
 }
 
+func (c *client) outputKind() string {
+	if c.withAccompaniment {
+		return c.mode + "_mix"
+	}
+	return c.mode
+}
+
 func (c *client) audio(ctx context.Context, taskID string) ([]byte, error) {
-	return c.audioKind(ctx, taskID, c.mode)
+	return c.audioKind(ctx, taskID, c.outputKind())
 }
 
 func (c *client) audioKind(ctx context.Context, taskID, kind string) ([]byte, error) {

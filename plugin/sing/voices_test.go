@@ -104,3 +104,44 @@ func TestOrderedAudioParts(t *testing.T) {
 		}
 	}
 }
+
+func TestMixedOutputsAndMissingMix(t *testing.T) {
+	for _, mode := range []string{"score", "mimic"} {
+		for _, available := range []bool{true, false} {
+			t.Run(fmt.Sprintf("%s-%v", mode, available), func(t *testing.T) {
+				kind := mode + "_mix"
+				server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+					switch r.URL.Path {
+					case "/query_result":
+						outputs := fmt.Sprintf(`%q:"/dry",%q:"/dry-part"`, mode, mode+"_part_0000")
+						if available {
+							outputs += fmt.Sprintf(`,%q:"/mix",%q:"/1",%q:"/0"`, kind, kind+"_part_0001", kind+"_part_0000")
+						}
+						fmt.Fprintf(w, `{"status":"done","outputs":{%s}}`, outputs)
+					case "/v1/audio":
+						if got := r.URL.Query().Get("kind"); got != kind {
+							t.Errorf("wrong mixed download %s", got)
+						}
+						fmt.Fprint(w, "ID3mixed")
+					}
+				}))
+				defer server.Close()
+				c := newClient(server.URL, "key", mode)
+				c.withAccompaniment = true
+				err := c.wait(context.Background(), "task", time.Millisecond)
+				if !available {
+					if err == nil {
+						t.Fatal("missing mix fell back to dry")
+					}
+					return
+				}
+				if err != nil || len(c.parts) != 2 || c.parts[0] != kind+"_part_0000" || c.parts[1] != kind+"_part_0001" {
+					t.Fatalf("parts=%v err=%v", c.parts, err)
+				}
+				if _, err := c.audio(context.Background(), "task"); err != nil {
+					t.Fatal(err)
+				}
+			})
+		}
+	}
+}

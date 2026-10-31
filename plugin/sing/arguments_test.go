@@ -38,17 +38,19 @@ func TestTimeRange(t *testing.T) {
 }
 
 func TestSongWithoutArgumentsShowsHelp(t *testing.T) {
-	c := &caller{sent: make(chan delivery, 2)}
-	zero.APICallers.Store(987653, c)
-	defer zero.APICallers.Delete(987653)
-	ctx := zero.GetBot(987653)
-	ctx.Event = &zero.Event{SelfID: 987653, UserID: 456}
-	ctx.State = zero.State{"command": "song", "args": " \n "}
-	handleSing(ctx)
-	if got := receive(t, c).segments[0].Data["text"]; got != singHelp {
-		t.Fatalf("wrong help: %s", got)
-	}
-	if len(c.sent) != 0 {
-		t.Fatal("help submitted a job")
+	for _, command := range []string{"song", "bsong", "bmsong"} {
+		c := &caller{sent: make(chan delivery, 2)}
+		zero.APICallers.Store(987653, c)
+		defer zero.APICallers.Delete(987653)
+		ctx := zero.GetBot(987653)
+		ctx.Event = &zero.Event{SelfID: 987653, UserID: 456}
+		ctx.State = zero.State{"command": command, "args": " \n "}
+		handleSing(ctx)
+		if got := receive(t, c).segments[0].Data["text"]; got != singHelp {
+			t.Fatalf("wrong help: %s", got)
+		}
+		if len(c.sent) != 0 {
+			t.Fatal("help submitted a job")
+		}
 	}
 }

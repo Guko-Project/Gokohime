@@ -29,7 +29,7 @@ var pending sync.Map
 type destination struct{ selfID, groupID, userID int64 }
 
 func init() {
-	for _, command := range []string{"sing", "msing", "ssing", "song"} {
+	for _, command := range []string{"sing", "msing", "ssing", "song", "bsong", "bmsong"} {
 		zero.OnCommand(command, commandBoundary).SetPriority(30).SetBlock(true).Handle(handleSing)
 	}
 	zero.OnCommand("voices", commandBoundary).SetPriority(30).SetBlock(true).Handle(func(ctx *zero.Ctx) {
@@ -64,7 +64,7 @@ func init() {
 
 func commandBoundary(ctx *zero.Ctx) bool {
 	command, _ := ctx.State["command"].(string)
-	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" {
+	if command != "sing" && command != "msing" && command != "ssing" && command != "voices" && command != "song" && command != "bsong" && command != "bmsong" {
 		return false
 	}
 	text := ctx.Event.Message[0].Data["text"]
@@ -79,7 +79,7 @@ func commandBoundary(ctx *zero.Ctx) bool {
 func handleSing(ctx *zero.Ctx) {
 	command, _ := ctx.State["command"].(string)
 	mode := "score"
-	if command == "msing" {
+	if command == "msing" || command == "bmsong" {
 		mode = "mimic"
 	}
 	query, _ := ctx.State["args"].(string)
@@ -103,7 +103,7 @@ func handleSing(ctx *zero.Ctx) {
 	settings := cfg.Sing
 	go func() {
 		defer pending.Delete(target)
-		runSing(target, query, mode, settings)
+		runSing(target, query, mode, command == "bsong" || command == "bmsong", settings)
 	}()
 }
 
@@ -119,7 +119,7 @@ func (d destination) send(segments ...message.Segment) bool {
 	return bot.SendPrivateMessage(d.userID, msg) != 0
 }
 
-func runSing(target destination, query, mode string, cfg config.SingConfig) {
+func runSing(target destination, query, mode string, withAccompaniment bool, cfg config.SingConfig) {
 	timeout := time.Duration(cfg.PollTimeoutSec) * time.Second
 	if timeout <= 0 {
 		timeout = 20 * time.Minute
@@ -127,6 +127,7 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	c := newClient(cfg.BaseURL, cfg.APIKey, mode)
+	c.withAccompaniment = withAccompaniment
 	fail := func(err error) {
 		log.Warnf("[sing] request failed: %v", err)
 		reply := "这首暂时没能唱出来，请稍后再试试！"
@@ -192,7 +193,7 @@ func runSing(target destination, query, mode string, cfg config.SingConfig) {
 	}
 	kinds := c.parts
 	if len(kinds) == 0 {
-		kinds = []string{c.mode}
+		kinds = []string{c.outputKind()}
 	}
 	for _, kind := range kinds {
 		audio, err := c.audioKind(ctx, taskID, kind)

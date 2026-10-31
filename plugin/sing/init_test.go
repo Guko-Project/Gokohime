@@ -54,9 +54,14 @@ func receive(t *testing.T, c *caller) delivery {
 }
 
 func TestAsynchronousDelivery(t *testing.T) {
-	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}, {"song", "score"}} {
+	for _, tc := range []struct{ command, mode string }{{"sing", "score"}, {"msing", "mimic"}, {"ssing", "score"}, {"song", "score"}, {"bsong", "score"}, {"bmsong", "mimic"}} {
 		for _, groupID := range []int64{123, 0} {
 			t.Run(tc.command+fmt.Sprint(groupID), func(t *testing.T) {
+				mixed := tc.command == "bsong" || tc.command == "bmsong"
+				kind := tc.mode
+				if mixed {
+					kind += "_mix"
+				}
 				query, matchType, lyricQuery := "雨爱 杨丞琳", "title_artist", ""
 				if groupID == 0 {
 					query, matchType, lyricQuery = "迎着风向前走", "lyric", "迎着风向前走"
@@ -74,18 +79,22 @@ func TestAsynchronousDelivery(t *testing.T) {
 						json.NewEncoder(w).Encode(resolvedSong{Song: song{ID: "1", Name: "雨爱"}, MatchType: matchType, LyricQuery: lyricQuery})
 					case "/release_task":
 						var body struct {
-							Start      *float64 `json:"start"`
-							End        *float64 `json:"end"`
-							Modes      []string `json:"modes"`
-							LyricQuery string   `json:"lyric_query"`
+							WithAccompaniment bool     `json:"with_accompaniment"`
+							Start             *float64 `json:"start"`
+							End               *float64 `json:"end"`
+							Modes             []string `json:"modes"`
+							LyricQuery        string   `json:"lyric_query"`
 						}
 						if err := json.NewDecoder(r.Body).Decode(&body); err != nil || len(body.Modes) != 1 || body.Modes[0] != tc.mode {
 							t.Errorf("wrong generation mode: %+v, %v", body, err)
 						}
+						if body.WithAccompaniment != mixed {
+							t.Errorf("wrong accompaniment flag: %v", body.WithAccompaniment)
+						}
 						if body.LyricQuery != lyricQuery {
 							t.Errorf("wrong lyric query: %q", body.LyricQuery)
 						}
-						if tc.command == "song" {
+						if tc.command == "song" || mixed {
 							if body.Start == nil || body.End == nil || *body.Start != 0 || *body.End != 120 {
 								t.Errorf("lost range: %+v", body)
 							}
@@ -94,9 +103,9 @@ func TestAsynchronousDelivery(t *testing.T) {
 						}
 						fmt.Fprint(w, `{"task_id":"task"}`)
 					case "/query_result":
-						fmt.Fprintf(w, `{"status":"done","outputs":{%q:"/audio"}}`, tc.mode)
+						fmt.Fprintf(w, `{"status":"done","outputs":{%q:"/audio"}}`, kind)
 					case "/v1/audio":
-						if r.URL.Query().Get("kind") != tc.mode {
+						if r.URL.Query().Get("kind") != kind {
 							t.Errorf("wrong audio kind: %s", r.URL.Query().Get("kind"))
 						}
 						fmt.Fprint(w, "ID3voice")
@@ -122,7 +131,7 @@ func TestAsynchronousDelivery(t *testing.T) {
 				ctx := zero.GetBot(987654)
 				ctx.Event = &zero.Event{SelfID: 987654, GroupID: groupID, UserID: 456}
 				args := query
-				if tc.command == "song" {
+				if tc.command == "song" || mixed {
 					args = "洛 " + query + " 0-120"
 				}
 				ctx.State = zero.State{"command": tc.command, "args": " " + args + " "}
@@ -182,7 +191,7 @@ func TestAsynchronousDelivery(t *testing.T) {
 }
 
 func TestCommandBoundary(t *testing.T) {
-	for _, command := range []string{"sing", "msing", "ssing", "song", "voices"} {
+	for _, command := range []string{"sing", "msing", "ssing", "song", "voices", "bsong", "bmsong"} {
 		for _, tc := range []struct {
 			suffix string
 			want   bool
