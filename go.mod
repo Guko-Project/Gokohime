@@ -7,6 +7,7 @@ toolchain go1.27.3
 require (
 	github.com/charmbracelet/log v1.0.0
 	github.com/sirupsen/logrus v1.9.4
+	github.com/tidwall/gjson v1.18.0
 	github.com/wdvxdr1123/ZeroBot v1.8.2
 	golang.org/x/crypto v0.47.0
 	golang.org/x/image v0.38.0
@@ -42,7 +43,6 @@ require (
 	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
-	github.com/tidwall/gjson v1.18.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect

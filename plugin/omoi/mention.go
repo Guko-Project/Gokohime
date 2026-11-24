@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/tidwall/gjson"
 	zero "github.com/wdvxdr1123/ZeroBot"
 )
 
@@ -51,7 +52,46 @@ func messageText(ctx *zero.Ctx) string {
 			} else {
 				fmt.Fprintf(&text, "@%s(%s)", name, qq)
 			}
+		case "json":
+			text.WriteString(cardText(seg.Data["data"]))
 		}
 	}
 	return strings.TrimSpace(text.String())
+}
+
+// cardText flattens a QQ share card (Xiaohongshu, Bilibili, music, mini apps)
+// into one line, so the agent sees what was shared and can open the link.
+func cardText(data string) string {
+	card := gjson.Parse(data)
+	var title, desc, link, tag string
+	card.Get("meta").ForEach(func(_, v gjson.Result) bool {
+		if !v.IsObject() {
+			return true
+		}
+		title, desc, tag = v.Get("title").String(), v.Get("desc").String(), v.Get("tag").String()
+		for _, key := range []string{"jumpUrl", "qqdocurl", "url"} {
+			if u := v.Get(key).String(); strings.HasPrefix(u, "http") {
+				link = u
+				break
+			}
+		}
+		return false
+	})
+	if title == "" && desc == "" && link == "" {
+		title = card.Get("prompt").String()
+	}
+	if title == "" && link == "" {
+		return ""
+	}
+	label := "[分享卡片]"
+	if tag != "" {
+		label = "[分享卡片·" + tag + "]"
+	}
+	parts := []string{label}
+	for _, p := range []string{title, desc, link} {
+		if p = strings.TrimSpace(p); p != "" && p != tag {
+			parts = append(parts, p)
+		}
+	}
+	return " " + strings.Join(parts, " ") + " "
 }

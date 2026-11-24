@@ -56,6 +56,7 @@ func TestMessageTextMentions(t *testing.T) {
 		{"all", message.Message{message.AtAll()}, "@全体成员"},
 		{"bare bot", message.Message{message.At(998), message.Text("  ")}, ""},
 		{"literal and media", message.Message{message.Text("@手打名字"), message.Image("https://example.com/a")}, "@手打名字"},
+		{"share card", message.Message{message.Text("看这个"), {Type: "json", Data: map[string]string{"data": `{"meta":{"news":{"title":"公园","desc":"正好","jumpUrl":"https://www.xiaohongshu.com/a","tag":"小红书"}}}`}}}, "看这个 [分享卡片·小红书] 公园 正好 https://www.xiaohongshu.com/a"},
 		{"invalid", message.Message{message.Segment{Type: "at", Data: map[string]string{"qq": "bad"}}, message.Segment{Type: "at", Data: map[string]string{"qq": "0"}}}, ""},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -73,6 +74,23 @@ func TestMessageTextMentions(t *testing.T) {
 	ctx.Event.GroupID = 0
 	if got := messageText(ctx); got != "@20@20" {
 		t.Fatalf("private fallback: %q", got)
+	}
+}
+
+func TestCardText(t *testing.T) {
+	for _, tc := range []struct{ name, data, want string }{
+		{"xiaohongshu", `{"app":"com.tencent.tuwen.lua","meta":{"news":{"desc":"阳光正好","jumpUrl":"https://www.xiaohongshu.com/discovery/item/1?xsec_token=a%3D","tag":"小红书","title":"三林滨江森林公园"}},"prompt":"[分享]三林滨江森林公园"}`,
+			"[分享卡片·小红书] 三林滨江森林公园 阳光正好 https://www.xiaohongshu.com/discovery/item/1?xsec_token=a%3D"},
+		{"mini app", `{"meta":{"detail_1":{"title":"哔哩哔哩","desc":"视频标题","qqdocurl":"https://b23.tv/x","url":"m.q.qq.com/a"}}}`, "[分享卡片] 哔哩哔哩 视频标题 https://b23.tv/x"},
+		{"prompt only", `{"meta":{},"prompt":"[聊天记录]"}`, "[分享卡片] [聊天记录]"},
+		{"empty", `{}`, ""},
+		{"garbage", `not json`, ""},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if got := strings.TrimSpace(cardText(tc.data)); got != tc.want {
+				t.Fatalf("got %q, want %q", got, tc.want)
+			}
+		})
 	}
 }
 
