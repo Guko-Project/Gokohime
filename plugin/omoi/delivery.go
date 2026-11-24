@@ -26,9 +26,13 @@ type channelContext struct {
 	Proactive bool   `json:"proactive"`
 	JudgeText string `json:"judge_text,omitempty"`
 	TriggerID string `json:"trigger_id,omitempty"`
-	Instance  string `json:"-"`
-	Target    string `json:"-"`
+	// Capabilities tell Omoi this connector can send stickers and images.
+	Capabilities []string `json:"capabilities,omitempty"`
+	Instance     string   `json:"-"`
+	Target       string   `json:"-"`
 }
+
+var connectorCapabilities = []string{"sticker", "image"}
 
 func channelRequest(ctx context.Context, event *zero.Event, proactive bool) context.Context {
 	kind, id := "private", event.UserID
@@ -36,7 +40,7 @@ func channelRequest(ctx context.Context, event *zero.Event, proactive bool) cont
 		kind = "group"
 		id = event.GroupID
 	}
-	return context.WithValue(ctx, channelKey{}, channelContext{ActorID: strconv.FormatInt(event.UserID, 10), Proactive: proactive, Instance: "qq:" + strconv.FormatInt(event.SelfID, 10), Target: kind + ":" + strconv.FormatInt(id, 10)})
+	return context.WithValue(ctx, channelKey{}, channelContext{ActorID: strconv.FormatInt(event.UserID, 10), Proactive: proactive, Capabilities: connectorCapabilities, Instance: "qq:" + strconv.FormatInt(event.SelfID, 10), Target: kind + ":" + strconv.FormatInt(id, 10)})
 }
 
 // withTrigger names the Omoi reply trigger an unsolicited turn asks for.
@@ -78,17 +82,19 @@ func (c *OmoiClient) bindChannel(ctx context.Context, session string) error {
 	if !ok {
 		return nil
 	}
-	return c.deliveryAPI(ctx, http.MethodPut, "/sessions/"+session+"/delivery", map[string]string{"instance": v.Instance, "channel": "qq", "target": v.Target, "reply_instruction": withReplyFormat("", config.Get().Omoi)}, nil)
+	return c.deliveryAPI(ctx, http.MethodPut, "/sessions/"+session+"/delivery", map[string]any{"instance": v.Instance, "channel": "qq", "target": v.Target, "reply_instruction": withReplyFormat("", config.Get().Omoi), "capabilities": v.Capabilities}, nil)
 }
 
 type scheduledDelivery struct {
-	ID         string `json:"id"`
-	SessionID  string `json:"session_id"`
-	Instance   string `json:"instance"`
-	Channel    string `json:"channel"`
-	Target     string `json:"target"`
-	Text       string `json:"text"`
-	LeaseToken string `json:"lease_token"`
+	ID        string `json:"id"`
+	SessionID string `json:"session_id"`
+	Instance  string `json:"instance"`
+	Channel   string `json:"channel"`
+	Target    string `json:"target"`
+	Text      string `json:"text"`
+	// Content is the ordered text and images; absent from text-only deliveries.
+	Content    []ContentBlock `json:"content,omitempty"`
+	LeaseToken string         `json:"lease_token"`
 }
 type deliveryProgress struct {
 	Sent    int            `json:"sent"`
@@ -96,21 +102,26 @@ type deliveryProgress struct {
 	State   string         `json:"state"`
 	Parts   []deliveryPart `json:"parts,omitempty"`
 }
+
+// deliveryPart is one QQ message: text, or an Omoi image when FileID is set.
 type deliveryPart struct {
-	Text  string
-	Delay time.Duration
+	Text   string
+	FileID string `json:",omitempty"`
+	Mime   string `json:",omitempty"`
+	Delay  time.Duration
 }
 
-func deliveryParts(text string, cfg config.OmoiConfig) []deliveryPart {
-	var parts []deliveryPart
-	var delay time.Duration
-	sendSplitReply(text, cfg, func(text string) { parts = append(parts, deliveryPart{Text: text, Delay: delay}); delay = 0 }, func(d time.Duration) { delay += d })
-	return parts
+func deliveryParts(d scheduledDelivery, cfg config.OmoiConfig) []deliveryPart {
+	reply := replyFromBlocks(d.Content)
+	if len(reply) == 0 {
+		reply = textReply(d.Text)
+	}
+	return replyParts(reply, cfg)
 }
 
 // deliverParts persists the uncertain window before each external send. A crash
 // in that window is reported as unknown instead of resending a possibly sent part.
-func deliverParts(parts []deliveryPart, progress deliveryProgress, save func(deliveryProgress) error, check func() error, send func(string) bool, sleep func(time.Duration) error) string {
+func deliverParts(parts []deliveryPart, progress deliveryProgress, save func(deliveryProgress) error, check func() error, send func(deliveryPart) bool, sleep func(time.Duration) error) string {
 	if progress.State != "" {
 		return progress.State
 	}
@@ -131,7 +142,7 @@ func deliverParts(parts []deliveryPart, progress deliveryProgress, save func(del
 		if err := save(progress); err != nil {
 			return "retry"
 		}
-		if !send(parts[i].Text) {
+		if !send(parts[i]) {
 			return "unknown"
 		}
 		progress.Sent = i + 1
@@ -212,17 +223,30 @@ func (c *OmoiClient) deliver(ctx context.Context, bot *zero.Ctx, d scheduledDeli
 		}
 		return nil
 	}
-	send := func(text string) bool {
+	send := func(part deliveryPart) bool {
+		msg := message.Message{message.Text(part.Text)}
+		if part.FileID != "" {
+			image, ok := c.imageMessage(ctx, part)
+			if !ok {
+				// A missing image is dropped; the text around it still goes out.
+				return true
+			}
+			msg = message.Message{image}
+		}
 		var result int64
 		if target[0] == "group" {
-			result = bot.SendGroupMessage(id, message.Text(text))
+			result = bot.SendGroupMessage(id, msg)
 		} else {
-			result = bot.SendPrivateMessage(id, message.Text(text))
+			result = bot.SendPrivateMessage(id, msg)
+		}
+		if result == 0 && part.FileID != "" {
+			log.Warnf("[omoi] stage=sticker_failed delivery=%s file=%s error=send rejected", d.ID, part.FileID)
+			return true
 		}
 		return result != 0
 	}
 	if progress.Parts == nil {
-		progress.Parts = deliveryParts(d.Text, config.Get().Omoi)
+		progress.Parts = deliveryParts(d, config.Get().Omoi)
 		if err := save(progress); err != nil {
 			_ = c.receipt(ctx, d, "retry")
 			return

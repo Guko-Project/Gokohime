@@ -10,6 +10,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/colanns/gokohime/internal/config"
+	log "github.com/colanns/gokohime/internal/log"
 	zero "github.com/wdvxdr1123/ZeroBot"
 	"github.com/wdvxdr1123/ZeroBot/message"
 )
@@ -27,21 +28,29 @@ func withReplyLock(key string, send func()) {
 }
 
 // SendSplitReply sends one QQ message per reply part, with typing delays.
-func SendSplitReply(ctx *zero.Ctx, reply string) {
+// Images are their own messages; the quote of a mention goes on the first text.
+func SendSplitReply(ctx *zero.Ctx, reply Reply) {
 	key := fmt.Sprintf("%d:group:%d", ctx.Event.SelfID, ctx.Event.GroupID)
 	if ctx.Event.GroupID == 0 {
 		key = fmt.Sprintf("%d:private:%d", ctx.Event.SelfID, ctx.Event.UserID)
 	}
 	withReplyLock(key, func() {
-		first := true
-		sendSplitReply(reply, config.Get().Omoi, func(text string) {
-			if first && ctx.Event.GroupID != 0 && ctx.Event.IsToMe && ctx.Event.MessageID != nil {
-				ctx.Send(message.Message{message.Reply(ctx.Event.MessageID), message.Text(text)})
-			} else {
-				ctx.Send(message.Text(text))
+		quoted := false
+		for _, part := range replyParts(reply, config.Get().Omoi) {
+			time.Sleep(part.Delay)
+			if part.FileID != "" {
+				if image, ok := client.imageMessage(requestContext(), part); ok && ctx.Send(message.Message{image}).ID() == 0 {
+					log.Warnf("[omoi] stage=sticker_failed file=%s error=send rejected", part.FileID)
+				}
+				continue
 			}
-			first = false
-		}, time.Sleep)
+			if !quoted && ctx.Event.GroupID != 0 && ctx.Event.IsToMe && ctx.Event.MessageID != nil {
+				ctx.Send(message.Message{message.Reply(ctx.Event.MessageID), message.Text(part.Text)})
+			} else {
+				ctx.Send(message.Text(part.Text))
+			}
+			quoted = true
+		}
 	})
 }
 

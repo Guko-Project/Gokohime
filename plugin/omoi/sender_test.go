@@ -57,9 +57,37 @@ func TestSSEChunkBoundariesDoNotBreakReplySplitting(t *testing.T) {
 		t.Fatal(err)
 	}
 	var sent []string
-	sendSplitReply(reply, config.OmoiConfig{SplitMarker: "<<<SPLIT>>>", MaxMessageLen: 2000}, func(text string) { sent = append(sent, text) }, func(time.Duration) {})
+	sendSplitReply(reply.Text(), config.OmoiConfig{SplitMarker: "<<<SPLIT>>>", MaxMessageLen: 2000}, func(text string) { sent = append(sent, text) }, func(time.Duration) {})
 	if !reflect.DeepEqual(sent, []string{"第一句", "第二句", "第三句"}) {
 		t.Fatalf("sent %q", sent)
+	}
+}
+
+func TestAttachmentsSplitTheReplyInOrder(t *testing.T) {
+	stream := "event: delta\ndata: {\"content\":\"哈哈\"}\n\n" +
+		"event: tool_start\ndata: {\"name\":\"send_sticker\"}\n\n" +
+		"event: attachment\ndata: {\"type\":\"image\",\"file_id\":\"f1\",\"media_type\":\"image/gif\",\"text\":\"狗头\"}\n\n" +
+		"event: unknown_future_event\ndata: {}\n\n" +
+		"event: delta\ndata: {\"content\":\"你说得对\"}\n\n" +
+		"event: done\ndata: {}\n\n"
+	reply, err := (&OmoiClient{}).consumeSSE(strings.NewReader(stream))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := Reply{{Text: "哈哈"}, {FileID: "f1", Mime: "image/gif"}, {Text: "你说得对"}}
+	if !reflect.DeepEqual(reply, want) || reply.Text() != "哈哈你说得对" {
+		t.Fatalf("reply %+v", reply)
+	}
+	cfg := config.OmoiConfig{SplitMarker: "<<<SPLIT>>>", SkipMarker: "[SKIP]", MaxMessageLen: 2000, TypingDelayMs: 10, MaxTypingDelaySec: 1}
+	parts := replyParts(reply, cfg)
+	if len(parts) != 3 || parts[1].FileID != "f1" || parts[1].Delay != imageDelay || parts[2].Delay == 0 {
+		t.Fatalf("parts %+v", parts)
+	}
+	if only := replyParts(Reply{{FileID: "f2"}}, cfg); len(only) != 1 || only[0].Delay != 0 {
+		t.Fatalf("sticker-only reply %+v", only)
+	}
+	if replyParts(Reply{{FileID: "f3"}, {Text: "[SKIP]"}}, cfg) != nil {
+		t.Fatal("[SKIP] reply still sends its image")
 	}
 }
 

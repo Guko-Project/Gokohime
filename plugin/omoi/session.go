@@ -132,14 +132,14 @@ var errNothingToSend = errors.New("no new group messages to send")
 // once. A fresh session receives the whole buffer as a seed; later requests
 // carry only messages the session has not seen. sendMu keeps the
 // pending→send→markSent sequence atomic against concurrent triggers.
-func sendGroupMessage(ctx context.Context, buf *GroupBuffer, groupID int64, groupName string, trigger *BufferedMessage, refs ...MediaReference) (string, error) {
+func sendGroupMessage(ctx context.Context, buf *GroupBuffer, groupID int64, groupName string, trigger *BufferedMessage, refs ...MediaReference) (Reply, error) {
 	buf.sendMu.Lock()
 	defer buf.sendMu.Unlock()
 
 	key := "session:group:" + strconv.FormatInt(groupID, 10)
 	sessionID, created, err := getOrCreateSession(ctx, key, "群:"+groupName)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	reply, err := sendGroupPrompt(ctx, buf, sessionID, groupName, trigger, created, refs)
 	if err == nil || !strings.Contains(err.Error(), "404") {
@@ -147,15 +147,15 @@ func sendGroupMessage(ctx context.Context, buf *GroupBuffer, groupID int64, grou
 	}
 	sessionID, _, err = getOrCreateSessionAfterFailure(ctx, key, "群:"+groupName, sessionID)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	return sendGroupPrompt(ctx, buf, sessionID, groupName, trigger, true, refs)
 }
 
-func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName string, trigger *BufferedMessage, seed bool, refs []MediaReference) (string, error) {
+func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName string, trigger *BufferedMessage, seed bool, refs []MediaReference) (Reply, error) {
 	msgs, omitted := buf.pending(seed)
 	if len(msgs) == 0 {
-		return "", errNothingToSend
+		return nil, errNothingToSend
 	}
 	var prompt string
 	if seed {
@@ -182,7 +182,7 @@ func sendGroupPrompt(ctx context.Context, buf *GroupBuffer, sessionID, groupName
 	}
 	reply, err := client.SendMessage(ctx, sessionID, prompt, selectMedia(refs, msgs)...)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	buf.markSent(msgs[len(msgs)-1].seq)
 	if trigger != nil {

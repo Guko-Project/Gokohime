@@ -16,3 +16,9 @@ go build ./cmd/bot
 ```
 
 Final QQ acceptance after deployment: private image-only; group @ + image; text with multiple images; reply to an image/video; image in recent group history; video overview; a follow-up requesting a readable frame; failed/oversized download; session recreation without losing attachments; text commands and split replies unchanged.
+
+## Outbound images
+
+Requests and delivery bindings declare `capabilities: ["sticker", "image"]`; Omoi only offers `send_sticker` (and later `share_image`) to connectors that declare them. An answer is a `Reply`: text and `attachment` events in stream order. Each image is its own QQ message, sent as `base64://` after fetching `GET /api/files/{id}` (2 MiB limit, 64 files cached in memory). Scheduled deliveries carry the same order in `content`, and their persisted progress records image parts, so a crash never resends one. An image that cannot be fetched or that NapCat rejects is logged as `stage=sticker_failed` and skipped; the text around it is still sent. A `[SKIP]` answer sends nothing, images included.
+
+`.sticker add 名字 用途` in a group, quoting an image, adds it to the agent's sticker library through `POST /api/agents/{id}/stickers/collect`. Omoi accepts only the QQ numbers listed as collectors in the agent's sticker settings; everyone else is ignored without a reply.

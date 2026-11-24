@@ -27,6 +27,8 @@ type ContentBlock struct {
 	Type   string `json:"type"`
 	Text   string `json:"text,omitempty"`
 	FileID string `json:"file_id,omitempty"`
+	// MediaType comes with images Omoi sends back (stickers, shared pictures).
+	MediaType string `json:"media_type,omitempty"`
 }
 type mediaCache struct {
 	mu     sync.Mutex

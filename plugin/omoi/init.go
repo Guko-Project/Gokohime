@@ -34,6 +34,9 @@ func init() {
 
 	// .active [on|off|reset] — this group's unsolicited replies (Omoi policy)
 	zero.OnCommand("active", zero.OnlyGroup).SetBlock(true).Handle(handleActive)
+
+	// .sticker add 名字 用途 — quote an image to add it to the sticker library
+	zero.OnCommand("sticker", zero.OnlyGroup).SetBlock(true).Handle(handleSticker)
 }
 
 // isGroupMention extends ZeroBot's prefix-only nickname matching to the full text.

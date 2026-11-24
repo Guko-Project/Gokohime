@@ -87,20 +87,20 @@ func (c *OmoiClient) CreateSession(ctx context.Context, title string) (string, e
 	return result.ID, nil
 }
 
-// SendMessage sends a message to an Omoi session and returns the full assistant reply.
-// It consumes the SSE stream, concatenating delta events.
-func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, refs ...MediaReference) (string, error) {
+// SendMessage sends a message to an Omoi session and returns the full assistant
+// reply: text deltas and images in the order they were streamed.
+func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, refs ...MediaReference) (Reply, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	if err := c.bindChannel(ctx, sessionID); err != nil {
-		return "", err
+		return nil, err
 	}
 	content := []ContentBlock{{Type: "text", Text: text}}
 	mediaCtx, mediaCancel := context.WithTimeout(ctx, 180*time.Second)
 	attachments, err := c.prepareAttachments(mediaCtx, refs)
 	mediaCancel()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	content = append(content, attachments...)
 	log.Infof("[omoi] trace=%s stage=chat_send attachments=%d blocks=%d", traceID(ctx), len(refs), len(content))
@@ -116,7 +116,7 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	}
 	data, err := json.Marshal(body)
 	if err != nil {
-		return "", fmt.Errorf("marshal: %w", err)
+		return nil, fmt.Errorf("marshal: %w", err)
 	}
 
 	// Queue wait has no total timeout; the backend bounds execution. An idle
@@ -126,7 +126,7 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 	streamClient := &http.Client{}
 	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.baseURL+"/chat/messages", bytes.NewReader(data))
 	if err != nil {
-		return "", fmt.Errorf("new request: %w", err)
+		return nil, fmt.Errorf("new request: %w", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("X-API-Key", c.apiKey)
@@ -134,24 +134,33 @@ func (c *OmoiClient) SendMessage(ctx context.Context, sessionID, text string, re
 
 	resp, err := streamClient.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("http do: %w", err)
+		return nil, fmt.Errorf("http do: %w", err)
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		respBody, _ := io.ReadAll(resp.Body)
-		return "", fmt.Errorf("send message: HTTP %d: %s", resp.StatusCode, string(respBody))
+		return nil, fmt.Errorf("send message: HTTP %d: %s", resp.StatusCode, string(respBody))
 	}
 
 	// Parse SSE stream
 	return c.consumeSSE(&streamActivityReader{Reader: resp.Body, idle: idle, timeout: 90 * time.Second})
 }
 
-// consumeSSE reads SSE events from the response body and accumulates the assistant reply.
-func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
+// consumeSSE reads SSE events from the response body and accumulates the
+// assistant reply; an attachment event ends the current text part.
+func (c *OmoiClient) consumeSSE(r io.Reader) (Reply, error) {
 	scanner := bufio.NewScanner(r)
 	scanner.Buffer(make([]byte, 4096), 1<<20)
-	var reply strings.Builder
+	var reply Reply
+	var text strings.Builder
+	flush := func() Reply {
+		if text.Len() > 0 {
+			reply = append(reply, replyPart{Text: text.String()})
+			text.Reset()
+		}
+		return reply
+	}
 	var currentEvent string
 
 	for scanner.Scan() {
@@ -176,7 +185,14 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 					Content string `json:"content"`
 				}
 				if err := json.Unmarshal([]byte(dataStr), &delta); err == nil {
-					reply.WriteString(delta.Content)
+					text.WriteString(delta.Content)
+				}
+
+			case "attachment":
+				var block ContentBlock
+				if err := json.Unmarshal([]byte(dataStr), &block); err == nil && block.Type == "image" && block.FileID != "" {
+					flush()
+					reply = append(reply, replyPart{FileID: block.FileID, Mime: block.MediaType})
 				}
 
 			case "error":
@@ -184,12 +200,12 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 					Message string `json:"message"`
 				}
 				if err := json.Unmarshal([]byte(dataStr), &errData); err == nil {
-					return reply.String(), fmt.Errorf("omoi error: %s", errData.Message)
+					return flush(), fmt.Errorf("omoi error: %s", errData.Message)
 				}
-				return reply.String(), fmt.Errorf("omoi error: %s", dataStr)
+				return flush(), fmt.Errorf("omoi error: %s", dataStr)
 
 			case "done":
-				return reply.String(), nil
+				return flush(), nil
 
 			case "tool_start", "tool_end":
 				// Ignore tool events
@@ -198,10 +214,10 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (string, error) {
 	}
 
 	if err := scanner.Err(); err != nil {
-		return reply.String(), fmt.Errorf("read SSE: %w", err)
+		return flush(), fmt.Errorf("read SSE: %w", err)
 	}
 
-	return reply.String(), fmt.Errorf("omoi stream ended before done")
+	return flush(), fmt.Errorf("omoi stream ended before done")
 }
 
 // Heartbeats and response bytes both count as activity while queued or running.
