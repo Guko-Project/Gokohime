@@ -27,7 +27,7 @@ func TestQueuedStreamHeartbeatsKeepIdleWatchdogAlive(t *testing.T) {
 	client := &OmoiClient{}
 	reply, err := client.consumeSSE(&streamActivityReader{Reader: reader, idle: idle, timeout: 100 * time.Millisecond})
 	if err != nil || reply.Text() != "finished" || ctx.Err() != nil {
-		t.Fatalf("queued stream: reply=%q err=%v context=%v", reply, err, ctx.Err())
+		t.Fatalf("queued stream: reply=%q err=%v context=%v", reply.Text(), err, ctx.Err())
 	}
 }
 func TestStreamInactivityCancelsRequest(t *testing.T) {
