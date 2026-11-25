@@ -108,7 +108,9 @@ type deliveryPart struct {
 	Text   string
 	FileID string `json:",omitempty"`
 	Mime   string `json:",omitempty"`
-	Delay  time.Duration
+	// Sticker is kept with saved progress so a resumed delivery sends it alike.
+	Sticker bool `json:",omitempty"`
+	Delay   time.Duration
 }
 
 func deliveryParts(d scheduledDelivery, cfg config.OmoiConfig) []deliveryPart {

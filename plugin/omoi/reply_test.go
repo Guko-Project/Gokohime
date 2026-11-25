@@ -7,6 +7,8 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/colanns/gokohime/internal/config"
 )
 
 func TestFetchFileCachesAndBounds(t *testing.T) {
@@ -45,6 +47,25 @@ func TestFetchFileCachesAndBounds(t *testing.T) {
 	}
 	if _, ok := c.imageMessage(context.Background(), deliveryPart{FileID: "missing"}); ok {
 		t.Fatal("failed image not skipped")
+	}
+	sticker, _ := c.imageMessage(context.Background(), deliveryPart{FileID: "small", Sticker: true})
+	picture, _ := c.imageMessage(context.Background(), deliveryPart{FileID: "small"})
+	if sticker.Data["sub_type"] != "1" || sticker.Data["summary"] != "[动画表情]" || picture.Data["sub_type"] != "" {
+		t.Fatalf("sticker %v, picture %v", sticker.Data, picture.Data)
+	}
+}
+
+func TestImagePartKinds(t *testing.T) {
+	r := replyFromBlocks([]ContentBlock{
+		{Type: "image", FileID: "s", Text: "猫猫点头"},
+		{Type: "image", FileID: "p", Text: "配图：新专辑封面"},
+	})
+	if len(r) != 2 || !r[0].Sticker || r[1].Sticker {
+		t.Fatalf("parts %+v", r)
+	}
+	parts := replyParts(r, config.OmoiConfig{})
+	if !parts[0].Sticker || parts[1].Sticker {
+		t.Fatalf("delivery parts %+v", parts)
 	}
 }
 

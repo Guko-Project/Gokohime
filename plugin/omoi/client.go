@@ -192,7 +192,7 @@ func (c *OmoiClient) consumeSSE(r io.Reader) (Reply, error) {
 				var block ContentBlock
 				if err := json.Unmarshal([]byte(dataStr), &block); err == nil && block.Type == "image" && block.FileID != "" {
 					flush()
-					reply = append(reply, replyPart{FileID: block.FileID, Mime: block.MediaType})
+					reply = append(reply, imagePart(block))
 				}
 
 			case "error":

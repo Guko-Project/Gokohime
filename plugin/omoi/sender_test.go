@@ -74,7 +74,7 @@ func TestAttachmentsSplitTheReplyInOrder(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := Reply{{Text: "哈哈"}, {FileID: "f1", Mime: "image/gif"}, {Text: "你说得对"}}
+	want := Reply{{Text: "哈哈"}, {FileID: "f1", Mime: "image/gif", Sticker: true}, {Text: "你说得对"}}
 	if !reflect.DeepEqual(reply, want) || reply.Text() != "哈哈你说得对" {
 		t.Fatalf("reply %+v", reply)
 	}

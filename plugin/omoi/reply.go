@@ -21,6 +21,16 @@ type replyPart struct {
 	Text   string
 	FileID string
 	Mime   string
+	// Sticker sends the image the way QQ users send stickers.
+	Sticker bool
+}
+
+// sharedImagePrefix marks the text of a picture Omoi shares (not a sticker).
+const sharedImagePrefix = "配图："
+
+// imagePart reads an image Omoi sends; anything but a shared picture is a sticker.
+func imagePart(b ContentBlock) replyPart {
+	return replyPart{FileID: b.FileID, Mime: b.MediaType, Sticker: !strings.HasPrefix(b.Text, sharedImagePrefix)}
 }
 
 // Reply is an answer as Omoi streamed it, text and images in order.
@@ -45,7 +55,7 @@ func replyFromBlocks(blocks []ContentBlock) Reply {
 		case b.Type == "text" && b.Text != "":
 			r = append(r, replyPart{Text: b.Text})
 		case b.Type == "image" && b.FileID != "":
-			r = append(r, replyPart{FileID: b.FileID, Mime: b.MediaType})
+			r = append(r, imagePart(b))
 		}
 	}
 	return r
@@ -67,7 +77,7 @@ func replyParts(r Reply, cfg config.OmoiConfig) []deliveryPart {
 			if len(parts) > 0 {
 				delay += imageDelay
 			}
-			parts = append(parts, deliveryPart{FileID: p.FileID, Mime: p.Mime, Delay: delay})
+			parts = append(parts, deliveryPart{FileID: p.FileID, Mime: p.Mime, Sticker: p.Sticker, Delay: delay})
 			delay = 0
 			continue
 		}
@@ -147,5 +157,11 @@ func (c *OmoiClient) imageMessage(ctx context.Context, part deliveryPart) (messa
 		log.Warnf("[omoi] trace=%s stage=sticker_failed file=%s error=%v", traceID(ctx), part.FileID, err)
 		return message.Segment{}, false
 	}
-	return message.Image("base64://" + base64.StdEncoding.EncodeToString(data)), true
+	image := message.Image("base64://" + base64.StdEncoding.EncodeToString(data))
+	if part.Sticker {
+		// QQ shows sub_type 1 as a sticker, like the ones people send.
+		image.Data["sub_type"] = "1"
+		image.Data["summary"] = "[动画表情]"
+	}
+	return image, true
 }
