@@ -99,3 +99,14 @@ func TestCollectStickerOutcomes(t *testing.T) {
 		t.Fatalf("rejected upload: %v", err)
 	}
 }
+
+func TestStickersGoToTheEdges(t *testing.T) {
+	r := Reply{{FileID: "s1", Sticker: true}, {Text: "前"}, {FileID: "s2", Sticker: true}, {FileID: "p", Text: ""}, {Text: "后"}}
+	var order []string
+	for _, p := range r.stickersAtEdges() {
+		order = append(order, p.FileID+p.Text)
+	}
+	if strings.Join(order, ",") != "s1,前,p,后,s2" {
+		t.Fatalf("order %v", order)
+	}
+}

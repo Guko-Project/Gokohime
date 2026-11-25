@@ -80,7 +80,8 @@ func TestAttachmentsSplitTheReplyInOrder(t *testing.T) {
 	}
 	cfg := config.OmoiConfig{SplitMarker: "<<<SPLIT>>>", SkipMarker: "[SKIP]", MaxMessageLen: 2000, TypingDelayMs: 10, MaxTypingDelaySec: 1}
 	parts := replyParts(reply, cfg)
-	if len(parts) != 3 || parts[1].FileID != "f1" || parts[1].Delay != imageDelay || parts[2].Delay == 0 {
+	// The sticker sent mid-answer closes it instead.
+	if len(parts) != 3 || parts[1].Text != "你说得对" || parts[1].Delay == 0 || parts[2].FileID != "f1" || parts[2].Delay != imageDelay {
 		t.Fatalf("parts %+v", parts)
 	}
 	if only := replyParts(Reply{{FileID: "f2"}}, cfg); len(only) != 1 || only[0].Delay != 0 {

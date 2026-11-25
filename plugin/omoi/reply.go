@@ -47,6 +47,23 @@ func (r Reply) Text() string {
 
 func textReply(text string) Reply { return Reply{{Text: text}} }
 
+// stickersAtEdges keeps stickers out of the middle of an answer: those before
+// any text open it, the rest close it. Shared pictures stay where they are.
+func (r Reply) stickersAtEdges() Reply {
+	var out, last Reply
+	texted := false
+	for _, p := range r {
+		switch {
+		case p.Sticker && texted:
+			last = append(last, p)
+		default:
+			texted = texted || strings.TrimSpace(p.Text) != ""
+			out = append(out, p)
+		}
+	}
+	return append(out, last...)
+}
+
 // replyFromBlocks reads a scheduled delivery's ordered content.
 func replyFromBlocks(blocks []ContentBlock) Reply {
 	var r Reply
@@ -72,7 +89,7 @@ func replyParts(r Reply, cfg config.OmoiConfig) []deliveryPart {
 	}
 	var parts []deliveryPart
 	var delay time.Duration
-	for _, p := range r {
+	for _, p := range r.stickersAtEdges() {
 		if p.FileID != "" {
 			if len(parts) > 0 {
 				delay += imageDelay
